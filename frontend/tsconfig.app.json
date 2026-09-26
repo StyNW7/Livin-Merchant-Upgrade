@@ -31,5 +31,16 @@
     }
 
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/components/ui",
+    "src/components/Navbar.tsx",
+    "src/components/theme-provider.tsx",
+    "src/components/theme-toggle.tsx",
+    "src/layouts",
+    "src/lib",
+    "src/utility",
+    "src/pages/Landing",
+    "src/pages/Utility"
+  ]
 }
