@@ -1,23 +1,23 @@
 import { Building2, Store, Wrench } from "lucide-react";
-import type { FinancingProduct } from "@/types";
+import type { FinancingRecommendation } from "@/types";
 
 export const FINANCING_DISCLAIMER =
+  "This is an indicative recommendation. Final eligibility and approval remain subject to Bank Mandiri’s assessment.";
+
+export const FINANCING_DISCLAIMER_FULL =
   "Final eligibility and approval remain subject to Bank Mandiri’s assessment and applicable requirements.";
 
-export const SCORE_DISCLAIMER =
-  "This score supports business development insights and does not guarantee financing approval.";
-
-export const financingProducts: FinancingProduct[] = [
+export const financingProducts: FinancingRecommendation[] = [
   {
     id: "working-capital",
     name: "Working Capital",
     tagline: "For operational expansion",
-    purpose: "Buy raw materials in bulk, manage cash flow in busy seasons and cover day-to-day operations.",
+    purpose: "Buy ingredients in bulk, manage cash flow in busy seasons and cover day-to-day operations.",
     rangeMin: 50_000_000,
     rangeMax: 100_000_000,
     tenor: "12 - 36 months",
     icon: Building2,
-    reason: "Your revenue consistency and transaction history indicate improving business stability.",
+    reason: "Your transaction and revenue history show improving stability.",
     requirements: [
       "Active Mandiri business account",
       "Business identity number (NIB)",
@@ -42,7 +42,7 @@ export const financingProducts: FinancingProduct[] = [
     rangeMax: 75_000_000,
     tenor: "12 - 24 months",
     icon: Wrench,
-    reason: "Peak-hour demand is 21% above your daily average, so extra capacity can serve more customers.",
+    reason: "Lunch-hour demand is above your average, so extra capacity can serve more customers.",
     requirements: [
       "Active Mandiri business account",
       "Quotation from the equipment supplier",
@@ -54,13 +54,13 @@ export const financingProducts: FinancingProduct[] = [
       { label: "Stable monthly revenue", met: true },
       { label: "Supplier quotation", met: false },
     ],
-    recommended: true,
+    recommended: false,
     matchLevel: "Good Match",
   },
   {
     id: "expansion",
-    name: "Business Expansion",
-    tagline: "For outlet expansion",
+    name: "Outlet Expansion",
+    tagline: "For opening a new outlet",
     purpose: "Fund renovation, deposit and initial stock for the planned BSD outlet.",
     rangeMin: 100_000_000,
     rangeMax: 250_000_000,

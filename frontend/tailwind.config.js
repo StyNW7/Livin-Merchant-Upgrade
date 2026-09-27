@@ -51,7 +51,7 @@ export default {
           faint: "#9AA4B2",
         },
         surface: {
-          DEFAULT: "#F5F6F8",
+          DEFAULT: "#F7F8FA",
           warm: "#F8F7F4",
           line: "#E7EAEE",
         },

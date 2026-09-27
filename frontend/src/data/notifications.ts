@@ -1,102 +1,37 @@
-import type { AppNotification, NotificationCategory } from "@/types";
+import type { NotificationCategory } from "@/types";
 
 export const NOTIFICATION_CATEGORIES: NotificationCategory[] = [
+  "Urgent",
   "Growth",
-  "Transaction",
-  "Financing",
-  "Operational",
+  "Finance",
+  "Operations",
   "Campaign",
+  "System",
 ];
 
-export const initialNotifications: AppNotification[] = [
-  {
-    id: "n-1",
-    category: "Growth",
-    title: "Growth Score increased",
-    message: "Your Growth Score increased from 75 to 78.",
-    time: "Today, 08:10",
-    read: false,
-    link: "/growth/score",
-  },
-  {
-    id: "n-2",
-    category: "Growth",
-    title: "Growth Mission almost done",
-    message: "You are 3% away from completing this month’s revenue mission.",
-    time: "Today, 08:05",
-    read: false,
-    link: "/growth/missions",
-  },
-  {
-    id: "n-3",
-    category: "Transaction",
-    title: "Settlement completed",
-    message: "Settlement of {settlement} was completed to Mandiri Business ****7730.",
-    time: "Today, 06:15",
-    read: false,
-    link: "/settlement",
-  },
-  {
-    id: "n-4",
-    category: "Operational",
-    title: "Low stock alert",
-    message: "Croissant stock is below 20 units.",
-    time: "Today, 07:32",
-    read: false,
-    link: "/inventory",
-  },
-  {
-    id: "n-5",
-    category: "Financing",
-    title: "Financing readiness improved",
-    message: "Your financing readiness improved to 82%.",
-    time: "Yesterday, 19:20",
-    read: true,
-    link: "/growth/readiness",
-  },
-  {
-    id: "n-6",
-    category: "Campaign",
-    title: "Lunch Bundle is performing well",
-    message: "Lunch Bundle generated 142 redemptions this month.",
-    time: "Yesterday, 15:02",
-    read: true,
-    link: "/promotions",
-  },
-  {
-    id: "n-7",
-    category: "Transaction",
-    title: "Refund processed",
-    message: "A QRIS refund of Rp 65.000 was processed at Gading Serpong.",
-    time: "Today, 11:52",
-    read: true,
-    link: "/transactions",
-  },
-  {
-    id: "n-8",
-    category: "Campaign",
-    title: "Weekend Coffee Deal starts soon",
-    message: "Your scheduled promotion starts Saturday at 07:00.",
-    time: "2 days ago",
-    read: true,
-    link: "/promotions",
-  },
-  {
-    id: "n-9",
-    category: "Operational",
-    title: "New staff activated",
-    message: "Sari can now process sales at Alam Sutera.",
-    time: "3 days ago",
-    read: true,
-    link: "/employees",
-  },
-  {
-    id: "n-10",
-    category: "Financing",
-    title: "New recommendation available",
-    message: "Working Capital is now a High Match for your business profile.",
-    time: "4 days ago",
-    read: true,
-    link: "/financing",
-  },
+/**
+ * Notification templates. Values in braces are filled from live business data
+ * by useNotifications, so messages always match what the rest of the app shows.
+ */
+export const notificationTemplates: {
+  id: string;
+  category: NotificationCategory;
+  title: string;
+  message: string;
+  time: string;
+  read: boolean;
+  link: string;
+  when?: "milkLow" | "stockLow" | "missionClose" | "always";
+}[] = [
+  { id: "n-milk", category: "Urgent", title: "Fresh milk running low", message: "Fresh milk stock may run out {milkDays}. {milkStock} left.", time: "Today, 07:05", read: false, link: "/inventory?tab=ingredients", when: "milkLow" },
+  { id: "n-croissant", category: "Urgent", title: "Low stock alert", message: "{lowStockNames} {lowStockVerb} below the reorder level.", time: "Today, 07:32", read: false, link: "/inventory?tab=low", when: "stockLow" },
+  { id: "n-score", category: "Growth", title: "Growth Score updated", message: "Your Growth Score changed from {prevScore} to {score}.", time: "Today, 08:10", read: false, link: "/growth/score" },
+  { id: "n-mission", category: "Growth", title: "Growth Mission almost done", message: "You are {revenueGap} away from completing this month’s revenue mission.", time: "Today, 08:05", read: false, link: "/growth/missions", when: "missionClose" },
+  { id: "n-settlement", category: "Operations", title: "Settlement completed", message: "Settlement of {settlement} completed to {account}.", time: "Today, 06:15", read: false, link: "/settlement" },
+  { id: "n-readiness", category: "Finance", title: "Financing readiness", message: "You are approaching financing readiness. Current readiness: {readiness}%.", time: "Yesterday, 19:20", read: true, link: "/growth/readiness" },
+  { id: "n-campaign", category: "Campaign", title: "Lunch Combo performance", message: "Lunch Combo generated Rp 1.2M this week.", time: "Yesterday, 15:02", read: true, link: "/promotions/promo-lunch" },
+  { id: "n-promo-end", category: "Campaign", title: "Promotion ending tomorrow", message: "Payday Treat ends on 27 Sep. Review its performance.", time: "Yesterday, 10:00", read: true, link: "/promotions/promo-payday" },
+  { id: "n-po", category: "Operations", title: "Purchase order sent", message: "PO-0926-001 to PT Rasa Nusantara is waiting for delivery.", time: "Today, 06:50", read: true, link: "/suppliers" },
+  { id: "n-system", category: "System", title: "App updated", message: "Livin Merchant 5.2.0 adds Business Outlook and Order Management.", time: "2 days ago", read: true, link: "/growth/outlook" },
+  { id: "n-security", category: "System", title: "New login", message: "Your account was accessed from Android POS in Gading Serpong.", time: "Today, 06:38", read: true, link: "/security" },
 ];
