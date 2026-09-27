@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/common/EmptyState";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { InfoRow } from "@/components/cards/ListRow";
 import { ProductThumb } from "@/components/cashier/ProductTile";
-import { useData, useSession, useUI } from "@/hooks/useApp";
+import { useData, useUI } from "@/hooks/useApp";
 import { PRODUCT_CATEGORIES, categories } from "@/data/products";
 import { categoryRevenue, completedSales, rangeStart } from "@/data/analytics";
 import { formatRupiah } from "@/utils/format";
@@ -35,7 +35,6 @@ export default function ProductsPage() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const { products, saveProduct, deleteProduct, transactions } = useData();
-  const { isGuest } = useSession();
   const { toast, confirm } = useUI();
   const [view, setView] = useState<"products" | "categories">(params.get("view") === "categories" ? "categories" : "products");
   const [query, setQuery] = useState("");
@@ -93,7 +92,7 @@ export default function ProductsPage() {
     };
     saveProduct(product);
     setForm(null);
-    toast(`${product.name} ${existing ? "updated" : "added"}${isGuest ? " (Explore Mode, not saved)" : ""}`);
+    toast(`${product.name} ${existing ? "updated" : "added"}`);
   };
 
   const formValid = form && form.name.trim().length >= 2 && Number(form.price) >= 1000 && Number(form.costPrice || 0) < Number(form.price);

@@ -29,7 +29,7 @@ export function PageSkeleton() {
   );
 }
 
-/** Error with retry, used when a simulated request fails (for example while offline). */
+/** Error with retry, used when a section cannot load (for example while offline). */
 export function ErrorState({ message, onRetry }: { message: string; onRetry: () => void }) {
   return (
     <div className="card flex flex-col items-center px-6 py-8 text-center" role="alert">

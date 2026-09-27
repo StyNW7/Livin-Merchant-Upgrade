@@ -52,7 +52,7 @@ export function writeStorage<T>(key: string, value: T): void {
   try {
     window.localStorage.setItem(PREFIX + key, JSON.stringify(value));
   } catch {
-    /* storage may be unavailable (private mode); the prototype keeps working in memory */
+    /* storage may be unavailable (private mode); the app keeps working in memory */
   }
 }
 

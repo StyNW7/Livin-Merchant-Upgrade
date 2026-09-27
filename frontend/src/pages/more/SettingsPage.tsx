@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Globe, Info, Printer, Receipt, RotateCcw, Smartphone, Target, Vibrate } from "lucide-react";
+import { CheckCircle2, Download, Globe, Info, Printer, Receipt, RefreshCw, RotateCcw, Smartphone, Target, Vibrate } from "lucide-react";
 import { TopAppBar, PageBody } from "@/components/layout/TopAppBar";
 import { TextField, Toggle } from "@/components/common/Form";
 import { Button } from "@/components/common/Button";
@@ -9,6 +9,9 @@ import { useData, useSession, useUI } from "@/hooks/useApp";
 import { APP_VERSION } from "@/data/merchant";
 import { BottomSheet } from "@/components/common/Overlay";
 import { DEFAULT_SETTINGS } from "@/data/settings";
+import { useInstallApp } from "@/hooks/useInstallApp";
+import { openInstallSheet } from "@/pwa/events";
+import { checkForUpdate } from "@/pwa/serviceWorker";
 import { openDemoControls } from "@/utils/demo";
 import { formatRupiah } from "@/utils/format";
 
@@ -20,6 +23,8 @@ export default function SettingsPage() {
   const [footerDraft, setFooterDraft] = useState(settings.receiptFooter);
   const [goalDraft, setGoalDraft] = useState<string | null>(null);
   const taps = useRef(0);
+  const app = useInstallApp();
+  const [checking, setChecking] = useState(false);
 
   return (
     <>
@@ -88,6 +93,29 @@ export default function SettingsPage() {
           </div>
         </ListGroup>
 
+        <ListGroup title="App">
+          {app.standalone || app.justInstalled ? (
+            <ListRow icon={CheckCircle2} title="Installed on this device" subtitle="Open Livin Merchant from your home screen" chevron={false} />
+          ) : (
+            <ListRow icon={Download} title="Install Livin Merchant" subtitle="Add the app to your home screen" onClick={openInstallSheet} />
+          )}
+          <ListRow
+            icon={RefreshCw}
+            title="Check for updates"
+            subtitle={checking ? "Checking…" : `Version ${APP_VERSION}`}
+            onClick={async () => {
+              if (checking) return;
+              setChecking(true);
+              const result = await checkForUpdate();
+              setChecking(false);
+              toast(
+                result === "updating" ? "Downloading the new version…" : result === "latest" ? "You have the latest version" : "Could not check for updates. Try again when you are online.",
+                result === "unavailable" ? "warning" : "success",
+              );
+            }}
+          />
+        </ListGroup>
+
         <ListGroup title="About">
           <ListRow
             icon={Info}
@@ -108,12 +136,12 @@ export default function SettingsPage() {
             <ListRow
               icon={RotateCcw}
               iconTone="danger"
-              title="Reset demo data"
-              subtitle="Restore all sample data and sign out"
+              title="Reset app data"
+              subtitle="Clear data saved on this device and sign out"
               onClick={() =>
                 confirm({
-                  title: "Reset all demo data?",
-                  message: "Sales, products, expenses and settings you changed will return to the original sample data.",
+                  title: "Reset app data?",
+                  message: "Sales, stock changes, expenses and settings saved on this device will be cleared and you will be signed out.",
                   confirmLabel: "Reset",
                   tone: "danger",
                   onConfirm: resetDemo,

@@ -113,7 +113,7 @@ export const merchantPrograms: MerchantProgram[] = [
   { id: "prog-community", section: "Community", title: "Tangerang F&B Circle", description: "A community space to share tips with nearby merchants.", status: "Active" },
 ];
 
-export const PROGRAM_NOTE = "Concept programs shown for demonstration. Actual programs, schedules and benefits may differ.";
+export const PROGRAM_NOTE = "Schedules and benefits may change. We will let you know in Notifications.";
 
 export const initialEvents: CalendarEvent[] = [
   { id: "ev-supplier-pay", date: "2026-09-26", title: "Supplier Payment", category: "Finance", time: "15:00", note: "UD Kemasan Jaya remaining Rp 575.000", link: "/suppliers/sup-kemasan" },

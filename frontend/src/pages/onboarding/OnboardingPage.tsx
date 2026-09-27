@@ -156,7 +156,7 @@ function FinalScreen({ onLogin, onGuest, onCreate, onBack }: { onLogin: () => vo
             Explore as Guest
           </Button>
         </div>
-        <p className="mt-3 text-center text-[12.5px] text-ink-muted">Explore Livin Merchant with sample data. No account needed.</p>
+        <p className="mt-3 text-center text-[12.5px] text-ink-muted">See how Livin Merchant runs a business before you sign up. No account needed.</p>
         <button type="button" onClick={onCreate} className="mx-auto mt-5 text-[13.5px] font-semibold text-sky-600 hover:underline">
           Create Mandiri Account
         </button>

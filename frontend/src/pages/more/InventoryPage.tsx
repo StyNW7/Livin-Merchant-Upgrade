@@ -29,7 +29,7 @@ export default function InventoryPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { movements, recordMovement, ingredients, suppliers, createPurchaseOrder } = useData();
-  const { outletId, isGuest } = useSession();
+  const { outletId } = useSession();
   const { toast } = useUI();
   const inv = useInventoryAlerts();
   const [tab, setTab] = useState<Tab>((params.get("tab") as Tab) || "products");
@@ -78,7 +78,7 @@ export default function InventoryPage() {
     if (!item) return;
     const quantity = Number(qty);
     recordMovement({ itemId: item.id, itemKind: item.kind, type, quantity, note: note.trim(), targetOutletId: type === "Transfer" ? target : undefined });
-    toast(`${item.name}: ${type} recorded${isGuest ? " (not saved in Explore Mode)" : ""}`);
+    toast(`${item.name}: ${type} recorded`);
     setItem(null);
   };
 

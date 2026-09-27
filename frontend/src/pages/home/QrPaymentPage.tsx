@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Delete, Download, Loader2, QrCode, Smartphone } from "lucide-react";
+import { Delete, Download, Loader2, QrCode, RefreshCw } from "lucide-react";
 import type { Transaction } from "@/types";
 import { TopAppBar } from "@/components/layout/TopAppBar";
 import { Button } from "@/components/common/Button";
@@ -11,6 +11,9 @@ import { formatRupiah } from "@/utils/format";
 import { downloadQrPoster } from "@/utils/qr";
 
 const MAX_AMOUNT = 10_000_000;
+/** Typical time for a customer to scan and confirm in their banking app. */
+const PAYMENT_DETECTED_AFTER = 7;
+const QR_VALID_SECONDS = 300;
 
 export default function QrPaymentPage() {
   const { outletName, merchant } = useSession();
@@ -19,7 +22,7 @@ export default function QrPaymentPage() {
   const [tab, setTab] = useState<"dynamic" | "static">("dynamic");
   const [digits, setDigits] = useState("");
   const [stage, setStage] = useState<"amount" | "waiting" | "paying">("amount");
-  const [seconds, setSeconds] = useState(300);
+  const [seconds, setSeconds] = useState(QR_VALID_SECONDS);
   const [done, setDone] = useState<Transaction | null>(null);
   const [saving, setSaving] = useState(false);
   const amount = Number(digits || 0);
@@ -29,6 +32,17 @@ export default function QrPaymentPage() {
     const timer = window.setInterval(() => setSeconds((s) => (s <= 1 ? 0 : s - 1)), 1000);
     return () => window.clearInterval(timer);
   }, [stage]);
+
+  // The payment notification arrives shortly after the customer scans.
+  useEffect(() => {
+    if (stage === "waiting" && QR_VALID_SECONDS - seconds >= PAYMENT_DETECTED_AFTER) confirmPayment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seconds, stage]);
+
+  const checkStatus = () => {
+    if (QR_VALID_SECONDS - seconds < 3) toast("Waiting for the customer to complete the payment", "info");
+    else confirmPayment();
+  };
 
   useEffect(() => {
     if (stage === "waiting" && seconds === 0) {
@@ -45,7 +59,7 @@ export default function QrPaymentPage() {
     });
   };
 
-  const simulatePayment = () => {
+  const confirmPayment = () => {
     setStage("paying");
     window.setTimeout(() => {
       const sale = recordSale({
@@ -121,7 +135,7 @@ export default function QrPaymentPage() {
           >
             Download QR poster
           </Button>
-          <p className="mt-2 max-w-[260px] text-[11.5px] text-ink-faint">Prototype posters are marked as samples and cannot receive real payments.</p>
+          <p className="mt-2 max-w-[260px] text-[11.5px] text-ink-faint">Print it and place it at your counter or on tables.</p>
         </div>
       ) : stage === "amount" ? (
         <div className="flex flex-col px-5 pb-6 pt-6">
@@ -151,7 +165,7 @@ export default function QrPaymentPage() {
             disabled={amount < 1000}
             leftIcon={<QrCode className="h-5 w-5" />}
             onClick={() => {
-              setSeconds(300);
+              setSeconds(QR_VALID_SECONDS);
               setStage("waiting");
             }}
           >
@@ -177,8 +191,8 @@ export default function QrPaymentPage() {
               </p>
             )}
           </div>
-          <Button className="mt-5" block size="lg" leftIcon={<Smartphone className="h-4 w-4" />} onClick={simulatePayment} disabled={stage === "paying"}>
-            Simulate customer payment
+          <Button className="mt-5" block size="lg" variant="secondary" leftIcon={<RefreshCw className="h-4 w-4" />} onClick={checkStatus} disabled={stage === "paying"}>
+            Check payment status
           </Button>
           <Button className="mt-2.5" block variant="ghost" onClick={() => setStage("amount")} disabled={stage === "paying"}>
             Cancel

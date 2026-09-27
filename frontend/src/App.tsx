@@ -7,6 +7,8 @@ import { UIProvider } from "@/context/UIProvider";
 import { MobileShell } from "@/components/layout/MobileShell";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { DemoControls } from "@/components/layout/DemoControls";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { UpdatePrompt } from "@/components/pwa/UpdatePrompt";
 import { PageSkeleton } from "@/components/common/PageSkeleton";
 import { useSession } from "@/hooks/useApp";
 
@@ -145,6 +147,8 @@ export default function App() {
               <Route path="*" element={<Lazy><NotFoundPage /></Lazy>} />
             </Routes>
             <DemoControls />
+            <InstallPrompt />
+            <UpdatePrompt />
           </DataScope>
         </MobileShell>
       </SessionProvider>

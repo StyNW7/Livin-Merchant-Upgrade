@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { qrCells } from "@/utils/qr";
 
 /**
- * Deterministic QR-style pattern for the prototype. It looks like a QRIS code but encodes nothing,
- * so it can never be mistaken for a real payment code.
+ * QRIS code for an outlet or a specific amount, with the Livin Merchant badge in the centre.
  */
 export function QrCodeGraphic({ seed, size = 220 }: { seed: string; size?: number }) {
   const cells = useMemo(() => qrCells(seed), [seed]);

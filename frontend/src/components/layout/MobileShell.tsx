@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
-import { BatteryFull, Signal, Wifi } from "lucide-react";
+import { BatteryFull, Download, Signal, Wifi } from "lucide-react";
 import { OVERLAY_ROOT_ID } from "@/components/common/Overlay";
 import { AppIcon } from "@/components/common/Brand";
 import { DEMO_NOW } from "@/data/merchant";
+import { useInstallApp } from "@/hooks/useInstallApp";
+import { openInstallSheet } from "@/pwa/events";
 
 const STORY = [
   { step: "Operate", text: "Orders, stock, staff and suppliers" },
@@ -14,13 +16,26 @@ const STORY = [
 ];
 
 /**
- * Simulates a native phone. On phones it fills the screen; from 640px up it becomes a centered
- * device frame on a quiet Mandiri backdrop, with a presentation caption on wide screens.
+ * App frame. On phones and in the installed app it fills the screen; in a desktop browser it is
+ * shown in a phone frame on a quiet Mandiri backdrop, with the product story on wide screens.
  */
 export function MobileShell({ children }: { children: ReactNode }) {
+  const { standalone, justInstalled } = useInstallApp();
+
+  if (standalone) {
+    return (
+      <div className="flex min-h-[100dvh] justify-center bg-[#E9EDF2]">
+        <div className="relative flex h-[100dvh] w-full max-w-[480px] flex-col overflow-hidden bg-surface pt-[env(safe-area-inset-top)] sm:shadow-device">
+          <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
+          <div id={OVERLAY_ROOT_ID} className="pointer-events-none absolute inset-0 z-50" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="desk-backdrop flex min-h-[100dvh] items-center justify-center sm:py-6 xl:gap-16">
-      <aside className="hidden max-w-[340px] xl:block" aria-hidden>
+      <aside className="hidden max-w-[340px] xl:block">
         <div className="flex items-center gap-3">
           <AppIcon size={52} className="shadow-float" />
           <div>
@@ -49,7 +64,21 @@ export function MobileShell({ children }: { children: ReactNode }) {
             </li>
           ))}
         </ol>
-        <p className="mt-10 text-xs text-ink-faint">Interactive prototype. All figures are demonstration data.</p>
+        <div className="mt-10 flex items-center gap-4 rounded-3xl bg-white/80 p-4 shadow-card backdrop-blur">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold text-navy">{justInstalled ? "Installed on this computer" : "Get the Livin Merchant app"}</p>
+            <p className="text-xs text-ink-muted">{justInstalled ? "Open it from your apps or taskbar." : "Install it on your phone or computer in one tap."}</p>
+          </div>
+          {!justInstalled && (
+            <button
+              type="button"
+              onClick={openInstallSheet}
+              className="inline-flex h-10 shrink-0 items-center gap-2 rounded-2xl bg-navy px-4 text-sm font-semibold text-white shadow-float hover:bg-navy-800 active:scale-95"
+            >
+              <Download className="h-4 w-4" /> Install
+            </button>
+          )}
+        </div>
       </aside>
 
       <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-surface sm:h-[min(880px,calc(100dvh-48px))] sm:w-[412px] sm:rounded-[46px] sm:border-[10px] sm:border-navy-950 sm:shadow-device">

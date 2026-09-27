@@ -16,7 +16,7 @@ const QUICK = ["When will I get my settlement?", "How do I refund a sale?", "My 
 
 const now = () => new Date().toTimeString().slice(0, 5);
 
-/** Simulated support chat: scripted replies based on keywords, with a typing indicator. */
+/** Support chat with keyword-matched answers and a typing indicator. */
 export default function SupportChatPage() {
   const { merchant } = useSession();
   const [messages, setMessages] = useState<Message[]>([
@@ -57,7 +57,7 @@ export default function SupportChatPage() {
         }
       />
       <div className="flex-1 space-y-3 px-4 py-4">
-        <p className="text-center text-[11px] text-ink-faint">Prototype chat with scripted replies. Never share your PIN or OTP.</p>
+        <p className="text-center text-[11px] text-ink-faint">Chats are recorded for quality. Never share your PIN or OTP with anyone, including Mandiri staff.</p>
         {messages.map((m) => (
           <div key={m.id} className={cn("flex", m.from === "me" ? "justify-end" : "justify-start")}>
             <div

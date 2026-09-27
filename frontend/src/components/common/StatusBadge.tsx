@@ -62,16 +62,3 @@ export function StatusBadge({ status, tone, icon, className, hideIcon }: StatusB
     </span>
   );
 }
-
-export function DemoTag({ className, label = "Demo Data" }: { className?: string; label?: string }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1 rounded-full border border-dashed border-sky-300 bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700",
-        className,
-      )}
-    >
-      {label}
-    </span>
-  );
-}

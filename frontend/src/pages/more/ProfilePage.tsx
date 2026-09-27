@@ -7,7 +7,7 @@ import { Button } from "@/components/common/Button";
 import { BottomSheet } from "@/components/common/Overlay";
 import { ProgressRing } from "@/components/common/ProgressBar";
 import { SelectField } from "@/components/common/Form";
-import { DemoTag, StatusBadge } from "@/components/common/StatusBadge";
+import { StatusBadge } from "@/components/common/StatusBadge";
 import { InfoRow } from "@/components/cards/ListRow";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { useGrowth, useProfileStrength } from "@/hooks/useBusiness";
@@ -16,7 +16,7 @@ import { cn } from "@/utils/cn";
 const DOC_TYPES = ["Business license (SIUP)", "Shop rental agreement", "Halal certificate", "Latest tax report (SPT)"];
 
 export default function ProfilePage() {
-  const { merchant, isGuest } = useSession();
+  const { merchant } = useSession();
   const { uploadDocument } = useData();
   const { toast, requireAccount } = useUI();
   const profile = useProfileStrength();
@@ -46,7 +46,7 @@ export default function ProfilePage() {
           <div className="min-w-0 flex-1">
             <p className="text-[18px] font-extrabold text-ink">{merchant.name}</p>
             <p className="text-[12.5px] text-ink-muted">Merchant ID {merchant.merchantId}</p>
-            <div className="mt-1.5">{isGuest ? <DemoTag /> : <StatusBadge status="Verified" icon={<BadgeCheck className="h-3 w-3" />} />}</div>
+            <div className="mt-1.5"><StatusBadge status="Verified" icon={<BadgeCheck className="h-3 w-3" />} /></div>
           </div>
         </section>
 
@@ -137,7 +137,6 @@ export default function ProfilePage() {
             label="Choose document"
             hint="Photo or PDF, up to 5 MB"
             accept="image/*,application/pdf"
-            sampleName={`${docType.split(" (")[0].toLowerCase().replace(/\s+/g, "-")}-sample.pdf`}
           />
         </div>
       </BottomSheet>

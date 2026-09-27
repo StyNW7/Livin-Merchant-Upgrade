@@ -66,7 +66,7 @@ export default function DevicesPage() {
             );
           })}
         </div>
-        <p className="text-[12.5px] leading-relaxed text-ink-muted">Tap a device to see details, run troubleshooting or simulate a disconnection.</p>
+        <p className="text-[12.5px] leading-relaxed text-ink-muted">Tap a device to see details, run troubleshooting or disconnect it.</p>
       </PageBody>
 
       <BottomSheet open={!!open} onClose={() => setOpenId(null)} title={open?.name ?? ""} subtitle={open?.detail}>
@@ -75,7 +75,7 @@ export default function DevicesPage() {
             <div className="rounded-2xl bg-surface px-3">
               <Toggle
                 label={open.status === "Disconnected" ? "Disconnected" : "Connected"}
-                description="Simulate a connection issue"
+                description={open.status === "Disconnected" ? "Turn on to reconnect" : "Turn off to disconnect this device"}
                 checked={open.status !== "Disconnected"}
                 onChange={(v) => {
                   updateDevice({ ...open, status: v ? ONLINE[open.type] : "Disconnected", lastSeen: v ? "Just now" : "Lost connection just now" });

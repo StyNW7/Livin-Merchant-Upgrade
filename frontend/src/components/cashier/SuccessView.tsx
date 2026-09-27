@@ -4,7 +4,6 @@ import { Check, ChevronRight, FileText, Plus, Printer, Share2, TrendingUp, UserP
 import type { Transaction } from "@/types";
 import { Button } from "@/components/common/Button";
 import { BottomSheet } from "@/components/common/Overlay";
-import { DemoTag } from "@/components/common/StatusBadge";
 import { ProgressBar } from "@/components/common/ProgressBar";
 import { ReceiptView } from "./Receipt";
 import { useData, useSession, useUI } from "@/hooks/useApp";
@@ -60,7 +59,6 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
           </span>
         </div>
         <h1 className="mt-6 text-[20px] font-extrabold text-ink">Payment successful</h1>
-        {isGuest && <DemoTag className="mt-2" label="Simulation — not recorded" />}
         <p className="tabular mt-3 text-[34px] font-extrabold tracking-tight text-navy">{formatRupiah(t.amount)}</p>
         <p className="mt-1 text-[13px] text-ink-muted">
           {(t.payments ?? [{ method: t.method, amount: t.amount }]).map((p) => METHOD_LABEL[p.method]).join(" + ")} · {t.time}

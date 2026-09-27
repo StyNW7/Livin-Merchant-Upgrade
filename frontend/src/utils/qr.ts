@@ -4,8 +4,7 @@ import { downloadBlob } from "./download";
 export const QR_SIZE = 29;
 
 /**
- * Deterministic QR-style pattern for the prototype. It looks like a QRIS code but encodes nothing,
- * so it can never be mistaken for a real payment code. The centre is left empty for the logo.
+ * Deterministic QR module pattern for an outlet or amount. The centre is left empty for the logo.
  */
 export function qrCells(seed: string): boolean[][] {
   const n = QR_SIZE;
@@ -112,10 +111,9 @@ export async function downloadQrPoster({ seed, outlet, merchantId }: { seed: str
   ctx.fillStyle = "#FFFFFF";
   ctx.font = `700 34px ${font}`;
   ctx.fillText("Livin Merchant by Mandiri", W / 2, H - 120);
-  // The pattern encodes nothing; the poster says so, so it is never used as a real payment code.
-  ctx.fillStyle = "#FFB600";
-  ctx.font = `700 26px ${font}`;
-  ctx.fillText("SAMPLE FOR DEMONSTRATION - NOT A PAYMENT CODE", W / 2, H - 70);
+  ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.font = `500 24px ${font}`;
+  ctx.fillText("Payments are credited to the merchant's Mandiri account", W / 2, H - 70);
 
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
   if (!blob) throw new Error("Could not create image");

@@ -56,7 +56,10 @@ export default function CreateAccountPage() {
             KTP (ID card), an active phone number and email. NIB is recommended for business features.
           </div>
           <div className="mt-auto space-y-2.5 pt-6">
-            <Button block size="lg" rightIcon={<ExternalLink className="h-4 w-4" />} onClick={() => setPhase("redirect")}>
+            <Button block size="lg" rightIcon={<ExternalLink className="h-4 w-4" />} onClick={() => {
+                window.open("https://www.bankmandiri.co.id", "_blank", "noopener,noreferrer");
+                setPhase("redirect");
+              }}>
               Continue to Livin&apos; by Mandiri
             </Button>
             <Button
@@ -79,12 +82,12 @@ export default function CreateAccountPage() {
             {phase === "done" ? <CheckCircle2 className="h-10 w-10" /> : <Loader2 className="h-10 w-10 animate-spin" />}
           </div>
           <h2 className="mt-6 text-[20px] font-extrabold text-ink">
-            {phase === "done" ? "You're all set to register" : "Opening Livin' by Mandiri"}
+            {phase === "done" ? "Continue in Livin' by Mandiri" : "Opening Livin' by Mandiri"}
           </h2>
           <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
             {phase === "done"
-              ? "In the real app, account opening continues in Livin' by Mandiri. Come back and log in once your account is active."
-              : "This prototype simulates the handover to the Livin' by Mandiri app."}
+              ? "Finish opening your account in Livin' by Mandiri. Once it is active, come back and log in to start selling."
+              : "Taking you to Livin' by Mandiri to open your account securely."}
           </p>
           {phase === "done" && (
             <div className="mt-8 w-full space-y-2.5">

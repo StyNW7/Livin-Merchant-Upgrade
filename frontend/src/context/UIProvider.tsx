@@ -133,7 +133,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
           Ready to use this feature for your business?
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-          You are in Explore Mode with sample data. Log in with your Mandiri account to use {gate} with your own business.
+          You are exploring Livin Merchant. Log in with your Mandiri account to use {gate} for your own business.
         </p>
         <div className="mt-6 space-y-2.5">
           <Button block size="lg" onClick={() => leaveGuest("/login")}>

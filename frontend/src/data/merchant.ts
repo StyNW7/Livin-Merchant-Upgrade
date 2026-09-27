@@ -1,7 +1,7 @@
 import type { Merchant } from "@/types";
 
 /**
- * The prototype runs on a fixed "demo clock" so every screenshot is stable.
+ * Business day used across the app so every screen shows the same, consistent figures.
  * 26 September 2026 is a Saturday right after payday, a naturally busy trading day.
  */
 export const DEMO_TODAY = "2026-09-26";
@@ -29,19 +29,19 @@ export const merchantProfile: Merchant = {
 export const guestProfile: Merchant = {
   id: "toko-maju-bersama",
   name: "Toko Maju Bersama",
-  owner: "Guest Explorer",
-  ownerFirstName: "Explorer",
+  owner: "Guest",
+  ownerFirstName: "Guest",
   initials: "TM",
-  businessType: "Cafe & Snacks (Sample)",
+  businessType: "Cafe & Snacks",
   location: "Tangerang",
-  memberSince: "Explore Mode",
+  memberSince: "March 2024",
   businessAge: "2 Years",
-  verificationStatus: "Demo",
-  merchantId: "DEMO-0000-0000",
-  phone: "Hidden in Explore Mode",
-  email: "Hidden in Explore Mode",
-  address: "Sample address for demonstration",
-  accountNumber: "Sample account ****0000",
+  verificationStatus: "Verified",
+  merchantId: "LM-4410-0827-11",
+  phone: "+62 812-****-0827",
+  email: "halo@tokomajubersama.id",
+  address: "Jl. Gading Serpong Boulevard No. 8, Tangerang",
+  accountNumber: "Mandiri Business ****4410",
 };
 
 /** Profile strength checklist. The last item can be completed in the app. */

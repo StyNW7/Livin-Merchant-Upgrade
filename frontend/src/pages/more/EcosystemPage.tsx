@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BadgeCheck, Building2, Coins, ExternalLink, Info, Landmark, Smartphone, Target, type LucideIcon } from "lucide-react";
+import { BadgeCheck, Building2, Coins, ExternalLink, Landmark, Smartphone, Target, type LucideIcon } from "lucide-react";
 import { TopAppBar, PageBody } from "@/components/layout/TopAppBar";
 import { Button } from "@/components/common/Button";
 import { BottomSheet } from "@/components/common/Overlay";
@@ -103,10 +103,6 @@ export default function EcosystemPage() {
           </Button>
         </section>
 
-        <p className="flex gap-2 text-[11.5px] leading-relaxed text-ink-muted">
-          <Info className="mt-0.5 h-4 w-4 shrink-0" />
-          Prototype concept. Connections shown here illustrate the intended experience and do not represent live integrations.
-        </p>
       </PageBody>
 
       <BottomSheet open={sheet === "account"} onClose={() => setSheet(null)} title="Business Account" subtitle="Settlement destination for non-cash sales">
@@ -129,7 +125,7 @@ export default function EcosystemPage() {
             {" "}{growth.completedMissions} of {growth.missions.length} missions completed so far.
           </p>
         </div>
-        <p className="mb-2 mt-5 text-[12px] font-bold uppercase tracking-wide text-ink-muted">Example benefits</p>
+        <p className="mb-2 mt-5 text-[12px] font-bold uppercase tracking-wide text-ink-muted">Benefits</p>
         <div className="card divide-y divide-surface-line overflow-hidden">
           {BENEFITS.map((b) => (
             <div key={b.title} className="flex items-center justify-between gap-3 px-4 py-3">
@@ -142,7 +138,7 @@ export default function EcosystemPage() {
             </div>
           ))}
         </div>
-        <p className="mt-3 text-[11.5px] leading-relaxed text-ink-muted">Concept only. Redemption would happen in Livin’ by Mandiri; benefits shown are examples.</p>
+        <p className="mt-3 text-[11.5px] leading-relaxed text-ink-muted">Redeem your points in Livin’ by Mandiri under Livin’poin.</p>
         <Button block variant="secondary" className="mt-4" onClick={() => { setSheet(null); navigate("/growth/missions"); }}>
           Earn more with Growth Missions
         </Button>

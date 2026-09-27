@@ -3,14 +3,13 @@ import type { Promotion } from "@/types";
 import { BottomSheet } from "@/components/common/Overlay";
 import { Button } from "@/components/common/Button";
 import { SelectField, TextField, Toggle } from "@/components/common/Form";
-import { useData, useSession, useUI } from "@/hooks/useApp";
+import { useData, useUI } from "@/hooks/useApp";
 
 const GOALS = ["Increase Lunch Sales", "Increase Repeat Visits", "Boost Slow Days", "Promote New Product"];
 
 /** Create or edit a promotion. A draft with an id edits, without an id creates. */
 export function PromotionForm({ draft, onClose }: { draft: Partial<Promotion> | null; onClose: () => void }) {
   const { savePromotion } = useData();
-  const { isGuest } = useSession();
   const { toast } = useUI();
   const [form, setForm] = useState<Partial<Promotion>>({});
   const [startNow, setStartNow] = useState(true);
@@ -29,7 +28,7 @@ export function PromotionForm({ draft, onClose }: { draft: Partial<Promotion> | 
       open={!!draft}
       onClose={onClose}
       title={form.id ? "Edit promotion" : "Create promotion"}
-      subtitle="Simulated campaign setup"
+      subtitle="Set the offer, schedule and products"
       footer={
         <Button
           block
@@ -52,7 +51,7 @@ export function PromotionForm({ draft, onClose }: { draft: Partial<Promotion> | 
               endsOn: form.endsOn,
             };
             savePromotion(promo);
-            toast(`${promo.name} ${form.id ? "updated" : startNow ? "is now live" : "scheduled"}${isGuest ? " (Explore Mode)" : ""}`);
+            toast(`${promo.name} ${form.id ? "updated" : startNow ? "is now live" : "scheduled"}`);
             onClose();
           }}
         >

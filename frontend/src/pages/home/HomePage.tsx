@@ -25,7 +25,7 @@ import { Avatar } from "@/components/common/Brand";
 import { BottomSheet } from "@/components/common/Overlay";
 import { ProgressBar } from "@/components/common/ProgressBar";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { DemoTag, StatusBadge } from "@/components/common/StatusBadge";
+import { StatusBadge } from "@/components/common/StatusBadge";
 import { QuickAction } from "@/components/cards/QuickAction";
 import { TransactionItem } from "@/components/cards/TransactionItem";
 import { Sparkline } from "@/components/charts/Charts";
@@ -46,7 +46,7 @@ const toneClass = {
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { merchant, outletId, setOutletId, isGuest } = useSession();
+  const { merchant, outletId, setOutletId } = useSession();
   const { openAssistant, toast } = useUI();
   const { transactions } = useData();
   const today = useTodayStats();
@@ -110,7 +110,6 @@ export default function HomePage() {
                 {formatPercent(today.change, 1, true)} vs yesterday
               </p>
             </div>
-            {isGuest && <DemoTag className="border-white/30 bg-white/10 text-white" />}
           </div>
           <div className="-mx-1 mt-3">
             <Sparkline data={today.curve} color="#FFB600" height={62} />

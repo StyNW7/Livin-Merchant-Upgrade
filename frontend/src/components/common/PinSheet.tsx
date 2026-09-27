@@ -60,7 +60,7 @@ export function PinSheet({ open, title, subtitle, onClose, onSubmit, hint }: Pin
           ))}
         </div>
         <p className={cn("mb-4 h-4 text-xs", error ? "text-danger" : "text-ink-muted")}>
-          {error ? "Incorrect PIN. Please try again." : hint ?? `Demo PIN: ${DEFAULT_PIN}`}
+          {error ? "Incorrect PIN. Please try again." : hint ?? "Enter your 6-digit transaction PIN"}
         </p>
         <div className="grid w-full max-w-[300px] grid-cols-3 gap-2">
           {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((d) => (

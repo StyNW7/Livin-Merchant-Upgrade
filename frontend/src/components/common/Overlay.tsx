@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 
 export const OVERLAY_ROOT_ID = "shell-overlay";
 
-/** Portals overlays into the phone frame so they never escape the simulated device. */
+/** Portals overlays into the app frame so sheets and dialogs stay inside the app window. */
 function OverlayPortal({ children }: { children: ReactNode }) {
   const [root, setRoot] = useState<HTMLElement | null>(null);
   useEffect(() => setRoot(document.getElementById(OVERLAY_ROOT_ID) ?? document.body), []);

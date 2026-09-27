@@ -3,7 +3,7 @@ import { CalendarDays, Info } from "lucide-react";
 import type { MerchantProgram } from "@/types";
 import { TopAppBar, PageBody } from "@/components/layout/TopAppBar";
 import { Button } from "@/components/common/Button";
-import { DemoTag, StatusBadge } from "@/components/common/StatusBadge";
+import { StatusBadge } from "@/components/common/StatusBadge";
 import { useData, useUI } from "@/hooks/useApp";
 import { PROGRAM_NOTE, merchantPrograms } from "@/data/learning";
 
@@ -16,7 +16,7 @@ export default function ProgramsPage() {
 
   return (
     <>
-      <TopAppBar title="Program Center" subtitle="Livin’ Merchant programs" right={<DemoTag label="Concept" />} />
+      <TopAppBar title="Program Center" subtitle="Livin’ Merchant programs" />
       <PageBody>
         <p className="flex gap-2 rounded-2xl bg-navy-50 px-4 py-3 text-[12px] leading-relaxed text-ink-soft">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-navy" />

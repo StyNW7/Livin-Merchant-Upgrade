@@ -11,7 +11,7 @@ export function GuestBanner() {
     <div className="z-30 flex shrink-0 items-center gap-2 bg-navy px-4 py-2 text-white">
       <Compass className="h-4 w-4 shrink-0 text-gold" />
       <p className="min-w-0 flex-1 truncate text-[12px] font-semibold">
-        Explore Mode <span className="font-normal text-white/70">— Demo Data</span>
+        Explore Mode
       </p>
       <button
         type="button"

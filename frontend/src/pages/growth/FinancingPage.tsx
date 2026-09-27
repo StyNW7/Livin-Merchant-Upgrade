@@ -5,22 +5,19 @@ import { CoachMark } from "@/components/layout/Banners";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { EmptyState } from "@/components/common/EmptyState";
 import { ProgressBar } from "@/components/common/ProgressBar";
-import { DemoTag } from "@/components/common/StatusBadge";
 import { FinancingCard } from "@/components/growth/FinancingCard";
 import { useGrowth } from "@/hooks/useBusiness";
-import { useSession } from "@/hooks/useApp";
 import { FINANCING_DISCLAIMER, financingProducts } from "@/data/financing";
 
 export default function FinancingPage() {
   const growth = useGrowth();
-  const { isGuest } = useSession();
   const eligible = growth.readiness >= 70;
   const recommended = financingProducts.filter((p) => p.recommended);
   const others = financingProducts.filter((p) => !p.recommended);
 
   return (
     <>
-      <TopAppBar title="Financing Center" subtitle="Discover options as your business grows" backTo="/growth" right={isGuest ? <DemoTag /> : undefined} />
+      <TopAppBar title="Financing Center" subtitle="Discover options as your business grows" backTo="/growth" />
       <PageBody>
         <CoachMark id="financing" text="Financing recommendations depend on recorded business activity." />
 

@@ -29,7 +29,7 @@ const METHODS: Expense["method"][] = ["Cash", "Transfer", "Debit", "Livin' by Ma
 export default function ExpensesPage() {
   const [params, setParams] = useSearchParams();
   const { expenses, addExpense, deleteExpense } = useData();
-  const { outletId, outletName, isGuest } = useSession();
+  const { outletId, outletName } = useSession();
   const { toast, confirm } = useUI();
   const [filter, setFilter] = useState<"All" | ExpenseCategory>("All");
   const [formOpen, setFormOpen] = useState(params.get("new") === "1");
@@ -142,7 +142,7 @@ export default function ExpensesPage() {
                 note: form.note.trim() || undefined,
                 attachment: form.attachment || undefined,
               });
-              toast(`Expense of ${formatRupiah(Number(form.amount))} recorded${isGuest ? " (Explore Mode)" : ""}`);
+              toast(`Expense of ${formatRupiah(Number(form.amount))} recorded`);
               setForm({ category: "Ingredients", title: "", amount: "", method: "Cash", date: DEMO_TODAY, note: "", attachment: "", attachmentSize: 0 });
               close();
             }}

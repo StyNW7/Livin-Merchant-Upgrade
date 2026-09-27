@@ -4,14 +4,13 @@ import { ChevronLeft, Eye, EyeOff, Fingerprint, Lock, ShieldCheck, User } from "
 import { Button } from "@/components/common/Button";
 import { AppIcon } from "@/components/common/Brand";
 import { BottomSheet } from "@/components/common/Overlay";
-import { useSession, useUI } from "@/hooks/useApp";
+import { useSession } from "@/hooks/useApp";
 import { cn } from "@/utils/cn";
 import { readStorage } from "@/utils/storage";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const { loginAsMerchant, exploreAsGuest, setInsightConsent } = useSession();
-  const { toast } = useUI();
   const [userId, setUserId] = useState("andi.pratama");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -19,6 +18,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
+  const [resetId, setResetId] = useState("");
+  const [resetSent, setResetSent] = useState(false);
   // Follows the Biometric login switch in Security Center.
   const [biometricEnabled] = useState(() => readStorage<boolean>("biometric", true));
 
@@ -82,7 +84,7 @@ export default function LoginPage() {
               type={show ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Any 6+ characters for this demo"
+              placeholder="Enter your password"
               autoComplete="current-password"
               className="h-full flex-1 bg-transparent text-[15px] placeholder:text-ink-faint"
             />
@@ -91,7 +93,11 @@ export default function LoginPage() {
             </button>
           </div>
         </label>
-        <button type="button" onClick={() => toast("A reset link would be sent through Livin' by Mandiri.", "info")} className="mt-2 self-end text-[12.5px] font-semibold text-sky-600">
+        <button type="button" onClick={() => {
+            setResetId(userId);
+            setResetSent(false);
+            setResetOpen(true);
+          }} className="mt-2 self-end text-[12.5px] font-semibold text-sky-600">
           Forgot password?
         </button>
 
@@ -145,6 +151,42 @@ export default function LoginPage() {
           </button>
         </div>
       </form>
+
+      <BottomSheet
+        open={resetOpen}
+        onClose={() => setResetOpen(false)}
+        title={resetSent ? "Check your phone" : "Reset password"}
+        subtitle={resetSent ? undefined : "We will send a reset link to the phone number registered with Mandiri"}
+      >
+        {resetSent ? (
+          <>
+            <div className="flex items-start gap-3 rounded-2xl bg-success-soft p-4">
+              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-success-dark" />
+              <p className="text-[13.5px] leading-relaxed text-success-dark">
+                A reset link for <span className="font-bold">{resetId}</span> has been sent by SMS. It is valid for 15 minutes.
+              </p>
+            </div>
+            <Button block className="mt-5" onClick={() => setResetOpen(false)}>
+              Back to login
+            </Button>
+          </>
+        ) : (
+          <>
+            <label className="block">
+              <span className="mb-1.5 block text-[13px] font-semibold text-ink">Mandiri user ID</span>
+              <input
+                value={resetId}
+                onChange={(e) => setResetId(e.target.value)}
+                autoComplete="username"
+                className="h-12 w-full rounded-2xl border border-surface-line bg-white px-4 text-[15px] focus:border-navy"
+              />
+            </label>
+            <Button block className="mt-5" disabled={resetId.trim().length < 3} onClick={() => setResetSent(true)}>
+              Send reset link
+            </Button>
+          </>
+        )}
+      </BottomSheet>
 
       <BottomSheet open={privacyOpen} onClose={() => setPrivacyOpen(false)} title="How Livin Merchant uses your data">
         <ul className="space-y-3 text-[13.5px] leading-relaxed text-ink-soft">

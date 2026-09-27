@@ -7,7 +7,7 @@ import { TextField, Toggle } from "@/components/common/Form";
 import { QrCodeGraphic } from "@/components/common/QrCode";
 import { methodIcon } from "@/components/icons";
 import { METHOD_LABEL, PAYMENT_METHODS } from "@/data/analytics";
-import { useCart, useSession } from "@/hooks/useApp";
+import { useCart } from "@/hooks/useApp";
 import { formatRupiah } from "@/utils/format";
 import { cn } from "@/utils/cn";
 
@@ -21,7 +21,6 @@ interface Props {
 /** Payment selection (single or split), cash calculator and final confirmation. */
 export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
   const cart = useCart();
-  const { isGuest } = useSession();
   const [step, setStep] = useState<"pay" | "confirm">("pay");
   const [method, setMethod] = useState<PaymentMethod>("QRIS");
   const [split, setSplit] = useState(false);
@@ -141,7 +140,6 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
           <div className="rounded-2xl bg-navy p-4 text-white">
             <p className="text-[12px] text-white/70">Amount to charge</p>
             <p className="tabular text-[28px] font-extrabold">{formatRupiah(total)}</p>
-            {isGuest && <p className="mt-1 text-[11.5px] text-gold">Explore Mode: this payment is simulated and not recorded.</p>}
           </div>
           {qrisAmount > 0 && (
             <div className="flex flex-col items-center rounded-3xl border border-surface-line bg-white p-4 text-center">
@@ -157,7 +155,6 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
                 </span>
                 {processing ? "Payment received, confirming" : "Show this code to the customer to scan"}
               </p>
-              {isGuest && <p className="mt-1 text-[11px] text-ink-faint">Sample code for demonstration only</p>}
             </div>
           )}
           <div className="card divide-y divide-surface-line text-[13.5px]">

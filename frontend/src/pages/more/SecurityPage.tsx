@@ -154,7 +154,7 @@ export default function SecurityPage() {
         open={step === "current"}
         title="Change PIN"
         subtitle="Enter your current PIN"
-        hint={`Current demo PIN: ${pin}`}
+        hint="Enter the PIN you use to confirm transactions"
         onClose={() => setStep(null)}
         onSubmit={(value) => {
           if (value !== pin) return false;

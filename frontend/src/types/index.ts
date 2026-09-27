@@ -19,7 +19,7 @@ export interface Merchant {
   location: string;
   memberSince: string;
   businessAge: string;
-  verificationStatus: "Verified" | "Pending" | "Demo";
+  verificationStatus: "Verified" | "Pending";
   merchantId: string;
   phone: string;
   email: string;

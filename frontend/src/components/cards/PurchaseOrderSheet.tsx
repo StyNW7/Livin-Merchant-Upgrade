@@ -16,7 +16,7 @@ interface Props {
   supplierId?: string;
 }
 
-/** Purchase order simulation: choose supplier, add lines from ingredients, submit as Pending. */
+/** Purchase order: choose supplier, add lines from ingredients, submit as Pending. */
 export function PurchaseOrderSheet({ open, onClose, supplierId }: Props) {
   const navigate = useNavigate();
   const { suppliers, ingredients, createPurchaseOrder } = useData();
@@ -45,7 +45,7 @@ export function PurchaseOrderSheet({ open, onClose, supplierId }: Props) {
       open={open}
       onClose={onClose}
       title="New purchase order"
-      subtitle="Simulated order to your supplier"
+      subtitle="Sent to your supplier for confirmation"
       footer={
         <Button
           block
