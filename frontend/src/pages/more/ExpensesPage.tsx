@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  Camera,
-  Paperclip,
   Plus,
   Trash2,
   Wallet,
@@ -24,6 +22,7 @@ import { rangeStart } from "@/data/analytics";
 import { formatCompactRupiah, formatDate, formatRupiah, formatShortDate } from "@/utils/format";
 import { cn } from "@/utils/cn";
 import { expenseIcons } from "@/components/icons";
+import { FilePicker } from "@/components/common/FilePicker";
 
 const METHODS: Expense["method"][] = ["Cash", "Transfer", "Debit", "Livin' by Mandiri"];
 
@@ -35,7 +34,7 @@ export default function ExpensesPage() {
   const [filter, setFilter] = useState<"All" | ExpenseCategory>("All");
   const [formOpen, setFormOpen] = useState(params.get("new") === "1");
   const [detail, setDetail] = useState<Expense | null>(null);
-  const [form, setForm] = useState({ category: "Ingredients" as ExpenseCategory, title: "", amount: "", method: "Cash" as Expense["method"], date: DEMO_TODAY, note: "", attachment: "" });
+  const [form, setForm] = useState({ category: "Ingredients" as ExpenseCategory, title: "", amount: "", method: "Cash" as Expense["method"], date: DEMO_TODAY, note: "", attachment: "", attachmentSize: 0 });
 
   useEffect(() => {
     if (params.get("new") === "1") setFormOpen(true);
@@ -144,7 +143,7 @@ export default function ExpensesPage() {
                 attachment: form.attachment || undefined,
               });
               toast(`Expense of ${formatRupiah(Number(form.amount))} recorded${isGuest ? " (Explore Mode)" : ""}`);
-              setForm({ category: "Ingredients", title: "", amount: "", method: "Cash", date: DEMO_TODAY, note: "", attachment: "" });
+              setForm({ category: "Ingredients", title: "", amount: "", method: "Cash", date: DEMO_TODAY, note: "", attachment: "", attachmentSize: 0 });
               close();
             }}
           >
@@ -181,14 +180,14 @@ export default function ExpensesPage() {
             <TextField label="Date" type="date" min={monthStart} max={DEMO_TODAY} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value || DEMO_TODAY })} />
           </div>
           <TextField label="Note" placeholder="Optional" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} maxLength={80} />
-          <button
-            type="button"
-            onClick={() => setForm({ ...form, attachment: form.attachment ? "" : `receipt-${Date.now().toString().slice(-5)}.jpg` })}
-            className={cn("flex w-full items-center gap-3 rounded-2xl border border-dashed px-4 py-3 text-left", form.attachment ? "border-success bg-success-soft" : "border-navy-200")}
-          >
-            {form.attachment ? <Paperclip className="h-5 w-5 text-success-dark" /> : <Camera className="h-5 w-5 text-navy" />}
-            <span className="text-[13px] font-semibold text-ink">{form.attachment ? `Attached ${form.attachment} (tap to remove)` : "Attach receipt photo"}</span>
-          </button>
+          <FilePicker
+            value={form.attachment ? { name: form.attachment, size: form.attachmentSize } : null}
+            onChange={(f) => setForm({ ...form, attachment: f?.name ?? "", attachmentSize: f?.size ?? 0 })}
+            label="Attach receipt"
+            hint="Photo or PDF of the bill, up to 5 MB"
+            accept="image/*,application/pdf"
+            camera
+          />
         </div>
       </BottomSheet>
 

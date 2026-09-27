@@ -1,12 +1,13 @@
 import type { Transaction } from "@/types";
 import { METHOD_LABEL } from "@/data/analytics";
 import { outletArea } from "@/data/outlets";
-import { useSession } from "@/hooks/useApp";
+import { useData, useSession } from "@/hooks/useApp";
 import { formatDate, formatRupiah } from "@/utils/format";
 
 /** Printable receipt preview, laid out like a 58mm thermal receipt. */
 export function ReceiptView({ transaction: t }: { transaction: Transaction }) {
   const { merchant } = useSession();
+  const { settings } = useData();
   const subtotal = t.subtotal ?? t.items.reduce((s, i) => s + i.price * i.qty, 0);
   return (
     <div className="mx-auto w-full max-w-[300px] rounded-2xl border border-dashed border-navy-200 bg-white px-5 py-5 font-mono text-[11.5px] leading-relaxed text-ink">
@@ -47,7 +48,7 @@ export function ReceiptView({ transaction: t }: { transaction: Transaction }) {
       ) : null}
       {t.refundedAmount ? <Row label="Refunded" value={`-${formatRupiah(t.refundedAmount)}`} /> : null}
       <div className="my-3 border-t border-dashed border-navy-200" />
-      <p className="text-center text-ink-muted">Thank you for your visit</p>
+      <p className="text-center text-ink-muted">{settings.receiptFooter}</p>
     </div>
   );
 }

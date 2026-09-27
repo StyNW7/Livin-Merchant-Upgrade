@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/common/StatusBadge";
 import { InfoRow } from "@/components/cards/ListRow";
 import { methodIcon } from "@/components/icons";
 import { ReceiptView } from "@/components/cashier/Receipt";
+import { useReceiptActions } from "@/hooks/useReceiptActions";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { METHOD_LABEL, shiftDate } from "@/data/analytics";
 import { DEMO_TODAY } from "@/data/merchant";
@@ -30,7 +31,7 @@ export default function TransactionDetailPage() {
   const [refundOpen, setRefundOpen] = useState(false);
   const [selected, setSelected] = useState<Record<number, number>>({});
   const [reason, setReason] = useState(REASONS[0]);
-  const [printing, setPrinting] = useState(false);
+  const { print, printing, share } = useReceiptActions();
 
   const preferred = (location.state as { outletId?: string } | null)?.outletId;
   const t = useMemo(() => {
@@ -73,19 +74,6 @@ export default function TransactionDetailPage() {
           : t.date === DEMO_TODAY
             ? { label: "Scheduled", detail: `Tomorrow at ${SETTLEMENT_TIME} to ${merchant.accountNumber}` }
             : { label: "Settled", detail: `${formatShortDate(shiftDate(t.date, 1))} at ${SETTLEMENT_TIME} to ${merchant.accountNumber}` };
-
-  const share = async () => {
-    const text = `Receipt ${t.id} - ${formatRupiah(t.amount)} (${METHOD_LABEL[t.method]})`;
-    try {
-      if (navigator.share) await navigator.share({ title: t.id, text });
-      else {
-        await navigator.clipboard.writeText(text);
-        toast("Receipt copied to clipboard");
-      }
-    } catch {
-      toast("Receipt ready to share", "info");
-    }
-  };
 
   const confirmRefund = () => {
     const items = Object.entries(selected)
@@ -214,20 +202,14 @@ export default function TransactionDetailPage() {
             <Button variant="secondary" leftIcon={<FileText className="h-4 w-4" />} onClick={() => setReceiptOpen(true)}>
               Receipt
             </Button>
-            <Button variant="secondary" leftIcon={<Share2 className="h-4 w-4" />} onClick={share}>
+            <Button variant="secondary" leftIcon={<Share2 className="h-4 w-4" />} onClick={() => share(t)}>
               Share
             </Button>
             <Button
               variant="secondary"
               loading={printing}
               leftIcon={<Printer className="h-4 w-4" />}
-              onClick={() => {
-                setPrinting(true);
-                window.setTimeout(() => {
-                  setPrinting(false);
-                  toast("Receipt sent to printer");
-                }, 1100);
-              }}
+              onClick={() => print(t.id, t.outletId)}
             >
               Print
             </Button>

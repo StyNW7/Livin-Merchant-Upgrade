@@ -6,7 +6,7 @@ import { Button } from "@/components/common/Button";
 import { PinSheet, DEFAULT_PIN } from "@/components/common/PinSheet";
 import { BusinessAssistant } from "@/components/assistant/BusinessAssistant";
 import { MissionCelebration, type Celebration } from "@/components/growth/MissionCelebration";
-import { useSession } from "@/hooks/useApp";
+import { useData, useSession } from "@/hooks/useApp";
 import { readStorage } from "@/utils/storage";
 import { cn } from "@/utils/cn";
 import { UIContext, type ConfirmOptions, type ToastTone, type UIState } from "./contexts";
@@ -34,6 +34,7 @@ const toastTones = {
 export function UIProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const { isGuest, logout } = useSession();
+  const { settings } = useData();
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const [gate, setGate] = useState<string | null>(null);
   const [confirmState, setConfirmState] = useState<ConfirmOptions | null>(null);
@@ -60,7 +61,24 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const confirm = useCallback((options: ConfirmOptions) => setConfirmState(options), []);
   const requirePin = useCallback((title: string, onSuccess: () => void) => setPinRequest({ title, onSuccess }), []);
   const openAssistant = useCallback(() => setAssistantOpen(true), []);
-  const celebrate = useCallback((c: Celebration) => setCelebration(c), []);
+  const haptic = useCallback(
+    (pattern: number | number[] = 12) => {
+      if (!settings.haptics) return;
+      try {
+        navigator.vibrate?.(pattern);
+      } catch {
+        /* vibration is optional */
+      }
+    },
+    [settings.haptics],
+  );
+  const celebrate = useCallback(
+    (c: Celebration) => {
+      haptic([20, 60, 30]);
+      setCelebration(c);
+    },
+    [haptic],
+  );
 
   const submitPin = useCallback(
     (pin: string) => {
@@ -75,8 +93,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<UIState>(
-    () => ({ toast, requireAccount, confirm, requirePin, openAssistant, celebrate }),
-    [toast, requireAccount, confirm, requirePin, openAssistant, celebrate],
+    () => ({ toast, requireAccount, confirm, requirePin, openAssistant, celebrate, haptic }),
+    [toast, requireAccount, confirm, requirePin, openAssistant, celebrate, haptic],
   );
 
   const leaveGuest = (to: string) => {

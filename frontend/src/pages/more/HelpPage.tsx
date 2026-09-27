@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   AlertTriangle,
   BookOpen,
+  Check,
   ChevronRight,
   CreditCard,
   Headphones,
@@ -24,7 +25,9 @@ import { BottomSheet } from "@/components/common/Overlay";
 import { Button } from "@/components/common/Button";
 import { EmptyState } from "@/components/common/EmptyState";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { useUI } from "@/hooks/useApp";
+import { useData, useUI } from "@/hooks/useApp";
+import { StatusBadge } from "@/components/common/StatusBadge";
+import { formatShortDate } from "@/utils/format";
 import { HELP_CATEGORIES, helpArticles, type HelpCategory } from "@/data/support";
 
 const categoryIcon: Record<HelpCategory, LucideIcon> = {
@@ -43,6 +46,7 @@ export default function HelpPage() {
   const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const { toast } = useUI();
+  const { tickets, createTicket, helpfulArticles, markArticleHelpful } = useData();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<HelpCategory | null>(null);
   const [articleId, setArticleId] = useState<string | null>(params.get("article"));
@@ -138,6 +142,28 @@ export default function HelpPage() {
             <ChevronRight className="h-5 w-5 text-ink-faint" />
           </button>
         </section>
+
+        {tickets.length > 0 && (
+          <section>
+            <SectionHeader title="Your reports" subtitle="We will update you through Notifications" />
+            <div className="card divide-y divide-surface-line overflow-hidden">
+              {tickets.map((t) => (
+                <div key={t.id} className="flex items-start gap-3 px-4 py-3">
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[13.5px] font-semibold text-ink">
+                      {t.id} · {t.topic}
+                    </span>
+                    <span className="block truncate text-[12px] text-ink-muted">{t.detail}</span>
+                    <span className="block text-[11.5px] text-ink-faint">
+                      Sent {formatShortDate(t.createdAt.slice(0, 10))}, {t.createdAt.slice(11)}
+                    </span>
+                  </span>
+                  <StatusBadge status={t.status} tone="info" />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </PageBody>
 
       <BottomSheet
@@ -160,11 +186,17 @@ export default function HelpPage() {
               ))}
             </ol>
             <div className="mt-5 flex items-center justify-between rounded-2xl bg-surface px-4 py-3">
-              <span className="text-[13px] text-ink-soft">Was this helpful?</span>
+              <span className="text-[13px] text-ink-soft">{helpfulArticles.includes(article.id) ? "You found this helpful" : "Was this helpful?"}</span>
               <span className="flex gap-2">
-                <Button size="sm" variant="secondary" onClick={() => toast("Thanks for your feedback")}>
-                  Yes
-                </Button>
+                {helpfulArticles.includes(article.id) ? (
+                  <span className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-success-soft px-3 text-[13px] font-semibold text-success-dark">
+                    <Check className="h-4 w-4" /> Thanks
+                  </span>
+                ) : (
+                  <Button size="sm" variant="secondary" onClick={() => markArticleHelpful(article.id)}>
+                    Yes
+                  </Button>
+                )}
                 <Button size="sm" variant="secondary" onClick={() => { setArticleId(null); navigate("/support-chat"); }}>
                   No, chat
                 </Button>
@@ -184,9 +216,10 @@ export default function HelpPage() {
             size="lg"
             disabled={report.detail.trim().length < 10}
             onClick={() => {
+              const ticket = createTicket(report.topic, report.detail.trim());
               setReportOpen(false);
               setReport({ topic: "Payments", detail: "" });
-              toast(`Ticket LM-${Date.now().toString().slice(-6)} created. We will update you by notification.`);
+              toast(`Report ${ticket.id} received. You can follow it under Your reports.`);
             }}
           >
             Submit report

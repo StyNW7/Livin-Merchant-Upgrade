@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { CalendarDays, Info } from "lucide-react";
 import type { MerchantProgram } from "@/types";
 import { TopAppBar, PageBody } from "@/components/layout/TopAppBar";
@@ -9,7 +10,8 @@ import { PROGRAM_NOTE, merchantPrograms } from "@/data/learning";
 const SECTIONS: MerchantProgram["section"][] = ["Merchant Programs", "Growth Challenges", "Livin'poin", "Business Events", "Education", "Community"];
 
 export default function ProgramsPage() {
-  const { joinedPrograms, toggleProgram } = useData();
+  const navigate = useNavigate();
+  const { joinedPrograms, toggleProgram, addEvent, removeEvent } = useData();
   const { toast } = useUI();
 
   return (
@@ -42,6 +44,11 @@ export default function ProgramsPage() {
                           <CalendarDays className="h-3.5 w-3.5" /> {p.date}
                         </p>
                       )}
+                      {p.section === "Livin'poin" && (
+                        <Button block size="sm" variant="soft" className="mt-3" onClick={() => navigate("/ecosystem#livinpoin")}>
+                          View my points
+                        </Button>
+                      )}
                       {joinable && (
                         <Button
                           block
@@ -50,7 +57,16 @@ export default function ProgramsPage() {
                           className="mt-3"
                           onClick={() => {
                             toggleProgram(p.id);
-                            toast(joined ? `You left ${p.title}` : `You joined ${p.title}`);
+                            const eventId = `ev-${p.id}`;
+                            if (joined) {
+                              removeEvent(eventId);
+                              toast(`You left ${p.title}`);
+                            } else if (p.startsOn) {
+                              addEvent({ id: eventId, date: p.startsOn, time: p.time, title: p.title, category: "Growth", note: "Program Center", link: "/programs" });
+                              toast(`${p.title} added to your Business Calendar`);
+                            } else {
+                              toast(`You joined ${p.title}`);
+                            }
                           }}
                         >
                           {joined ? "Leave" : p.status === "Registration Open" ? "Register" : p.status === "Upcoming" ? "Remind me" : "Join"}

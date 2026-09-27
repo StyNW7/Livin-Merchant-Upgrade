@@ -38,6 +38,7 @@ export const helpArticles: HelpArticle[] = [
   { id: "h-profile", category: "Account", title: "How do I complete my business profile?", body: ["Open More, then Business Profile.", "Upload the missing document. Your profile strength and Growth Score update right away."] },
   { id: "h-staff", category: "Account", title: "How do I add staff?", body: ["Open More, then Staff.", "Tap Add Staff, choose the outlet and role. Permissions follow the role and can be adjusted."] },
   { id: "h-pin", category: "Security", title: "How do I change my transaction PIN?", body: ["Open Security Center and tap Transaction PIN.", "Enter your current PIN, then set and confirm a new 6-digit PIN."] },
+  { id: "h-privacy", category: "Security", title: "How does Livin Merchant use my data?", body: ["Livin Merchant uses your recorded sales, stock, expenses and profile to show reports, insights and your Growth Score.", "Customers are identified only by anonymous codes. Card numbers and customer bank details are never shown.", "You can turn business insights off at any time in Security Center under Privacy consent.", "Financing Readiness is indicative. Nothing is shared with a financing team unless you choose to continue a recommendation."] },
   { id: "h-device", category: "Security", title: "I lost my phone. What should I do?", body: ["Log in from another device and open Security Center.", "Log out the lost device from Device Management, then change your PIN.", "Call Mandiri Call 14000 if you notice anything unusual."] },
 ];
 
@@ -73,4 +74,38 @@ export const searchReports = [
   { id: "r-outlets", title: "Outlet comparison", to: "/outlets" },
   { id: "r-growth", title: "Growth Score report", to: "/growth/score" },
   { id: "r-outlook", title: "Business Outlook", to: "/growth/outlook" },
+];
+
+/** Every screen a merchant can jump to from search, with the words people usually type. */
+export const searchFeatures = [
+  { id: "f-cashier", title: "Cashier", section: "Sell", to: "/cashier", keywords: "pos sale kasir checkout" },
+  { id: "f-qr", title: "QR Payment", section: "Sell", to: "/qr-payment", keywords: "qris scan poster" },
+  { id: "f-orders", title: "Orders", section: "Operate", to: "/orders", keywords: "kitchen pesanan order" },
+  { id: "f-products", title: "Products", section: "Operate", to: "/products", keywords: "menu catalog item category" },
+  { id: "f-inventory", title: "Inventory", section: "Operate", to: "/inventory", keywords: "stock stok restock low" },
+  { id: "f-suppliers", title: "Suppliers", section: "Operate", to: "/suppliers", keywords: "supplier purchase order po" },
+  { id: "f-staff", title: "Staff", section: "Operate", to: "/employees", keywords: "employee karyawan shift attendance permission" },
+  { id: "f-outlets", title: "Outlets", section: "Operate", to: "/outlets", keywords: "branch cabang compare" },
+  { id: "f-calendar", title: "Business Calendar", section: "Operate", to: "/calendar", keywords: "agenda schedule jadwal" },
+  { id: "f-devices", title: "Devices", section: "Operate", to: "/devices", keywords: "printer drawer device troubleshoot" },
+  { id: "f-settlement", title: "Settlements", section: "Finance", to: "/settlement", keywords: "settlement pencairan dana" },
+  { id: "f-expenses", title: "Expenses", section: "Finance", to: "/expenses", keywords: "expense biaya pengeluaran" },
+  { id: "f-finance", title: "Business Finance", section: "Finance", to: "/finance", keywords: "cashflow profit bookkeeping laporan" },
+  { id: "f-financing", title: "Financing Center", section: "Finance", to: "/financing", keywords: "loan pinjaman kredit modal" },
+  { id: "f-analytics", title: "Business Analytics", section: "Grow", to: "/reports", keywords: "analytics report chart" },
+  { id: "f-growth", title: "Growth Score", section: "Grow", to: "/growth", keywords: "growth score stage" },
+  { id: "f-missions", title: "Growth Missions", section: "Grow", to: "/growth/missions", keywords: "mission target" },
+  { id: "f-insights", title: "Business Insights", section: "Grow", to: "/growth/insights", keywords: "insight recommendation" },
+  { id: "f-outlook", title: "Business Outlook", section: "Grow", to: "/growth/outlook", keywords: "forecast projection" },
+  { id: "f-readiness", title: "Financing Readiness", section: "Grow", to: "/growth/readiness", keywords: "readiness" },
+  { id: "f-promotions", title: "Promotions", section: "Grow", to: "/promotions", keywords: "promo discount campaign" },
+  { id: "f-customers", title: "Customers", section: "Grow", to: "/customers", keywords: "crm pelanggan voucher" },
+  { id: "f-loyalty", title: "Customer Loyalty", section: "Grow", to: "/loyalty", keywords: "loyalty reward member" },
+  { id: "f-learn", title: "Learn", section: "Grow", to: "/learn", keywords: "learning course tutorial" },
+  { id: "f-ecosystem", title: "Livin’ Ecosystem", section: "Mandiri", to: "/ecosystem", keywords: "livin mandiri account livinpoin poin" },
+  { id: "f-programs", title: "Program Center", section: "Mandiri", to: "/programs", keywords: "program event class community" },
+  { id: "f-profile", title: "Business Profile", section: "Account", to: "/profile", keywords: "profile document verification" },
+  { id: "f-security", title: "Security Center", section: "Account", to: "/security", keywords: "pin password device privacy" },
+  { id: "f-settings", title: "Settings", section: "Account", to: "/settings", keywords: "receipt footer print haptic" },
+  { id: "f-help", title: "Help Center", section: "Account", to: "/help", keywords: "help support chat report" },
 ];

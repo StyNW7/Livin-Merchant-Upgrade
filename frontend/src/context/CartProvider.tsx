@@ -14,6 +14,8 @@ interface StoredCart {
   channel: SalesChannel;
   orderRef: string;
   customerId?: string;
+  /** Active promotion whose discount is applied to this cart. */
+  promotionId?: string;
 }
 
 const EMPTY_CART: StoredCart = {
@@ -31,7 +33,7 @@ const lineKey = (input: AddLineInput) =>
   [input.productId, input.variant ?? "", [...(input.addons ?? [])].sort().join("+"), input.note ?? "", input.unitPrice].join("|");
 
 export function CartProvider({ children, persist }: { children: ReactNode; persist: boolean }) {
-  const { products } = useData();
+  const { products, vouchers } = useData();
   const [cart, setCart] = usePersistentState<StoredCart>(STORAGE_KEYS.cart, EMPTY_CART, persist);
 
   const addLine = useCallback(
@@ -105,7 +107,14 @@ export function CartProvider({ children, persist }: { children: ReactNode; persi
     [setCart],
   );
 
-  const setDiscountPercent = useMemo(() => patch("discountPercent"), [patch]);
+  const setDiscountPercent = useCallback(
+    (value: number) => setCart((prev) => ({ ...prev, discountPercent: value, promotionId: undefined })),
+    [setCart],
+  );
+  const applyPromotion = useCallback(
+    (promotionId: string, percent: number) => setCart((prev) => ({ ...prev, discountPercent: percent, promotionId })),
+    [setCart],
+  );
   const setNote = useMemo(() => patch("note"), [patch]);
   const setApplyTax = useMemo(() => patch("applyTax"), [patch]);
   const setApplyService = useMemo(() => patch("applyService"), [patch]);
@@ -116,7 +125,9 @@ export function CartProvider({ children, persist }: { children: ReactNode; persi
   const value = useMemo<CartState>(() => {
     const subtotal = cart.lines.reduce((sum, l) => sum + l.qty * l.unitPrice, 0);
     const discount = Math.round((subtotal * cart.discountPercent) / 100);
-    const base = subtotal - discount;
+    const activeVoucher = cart.customerId ? vouchers.find((v) => v.customerId === cart.customerId && !v.usedOn) : undefined;
+    const voucher = activeVoucher ? Math.min(activeVoucher.amount, subtotal - discount) : 0;
+    const base = subtotal - discount - voucher;
     const service = cart.applyService ? Math.round(base * SERVICE_RATE) : 0;
     const tax = cart.applyTax ? Math.round((base + service) * TAX_RATE) : 0;
     return {
@@ -129,6 +140,7 @@ export function CartProvider({ children, persist }: { children: ReactNode; persi
       clear,
       loadLines,
       setDiscountPercent,
+      applyPromotion,
       setNote,
       setApplyTax,
       setApplyService,
@@ -138,12 +150,14 @@ export function CartProvider({ children, persist }: { children: ReactNode; persi
       count: cart.lines.reduce((sum, l) => sum + l.qty, 0),
       subtotal,
       discount,
+      voucher,
       tax,
       service,
       total: base + service + tax,
     };
   }, [
     cart,
+    vouchers,
     addLine,
     quickAdd,
     setQty,
@@ -152,6 +166,7 @@ export function CartProvider({ children, persist }: { children: ReactNode; persi
     clear,
     loadLines,
     setDiscountPercent,
+    applyPromotion,
     setNote,
     setApplyTax,
     setApplyService,

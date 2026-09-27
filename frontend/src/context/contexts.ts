@@ -2,6 +2,9 @@ import { createContext } from "react";
 import type { Celebration } from "@/components/growth/MissionCelebration";
 import type {
   AppMode,
+  AppSettings,
+  CustomerVoucher,
+  SupportTicket,
   CalendarEvent,
   CartLine,
   Customer,
@@ -70,6 +73,10 @@ export interface NewSaleInput {
   note?: string;
   /** Kitchen order for Orders; false for direct QR payments. */
   createOrder?: boolean;
+  /** Customer voucher value deducted in this sale (marks the voucher as used). */
+  voucher?: number;
+  /** Promotion applied at checkout; its performance is updated with this sale. */
+  promotionId?: string;
 }
 
 export interface MovementInput {
@@ -145,12 +152,23 @@ export interface DataState {
 
   /* operations */
   events: CalendarEvent[];
-  addEvent: (event: Omit<CalendarEvent, "id">) => void;
+  addEvent: (event: Omit<CalendarEvent, "id"> & { id?: string }) => void;
+  removeEvent: (id: string) => void;
   toggleEvent: (id: string) => void;
   devices: Device[];
   updateDevice: (device: Device) => void;
   sessions: { id: string; name: string; location: string; lastActive: string; current: boolean }[];
   logoutSession: (id: string) => void;
+
+  /* preferences & support */
+  settings: AppSettings;
+  updateSettings: (patch: Partial<AppSettings>) => void;
+  tickets: SupportTicket[];
+  createTicket: (topic: string, detail: string) => SupportTicket;
+  helpfulArticles: string[];
+  markArticleHelpful: (id: string) => void;
+  vouchers: CustomerVoucher[];
+  sendVoucher: (customerId: string, reason: CustomerVoucher["reason"]) => CustomerVoucher;
 
   /* notifications */
   readNotifications: string[];
@@ -188,6 +206,7 @@ export interface CartState {
   channel: SalesChannel;
   orderRef: string;
   customerId?: string;
+  promotionId?: string;
   addLine: (input: AddLineInput) => void;
   quickAdd: (productId: string) => void;
   setQty: (key: string, qty: number) => void;
@@ -196,6 +215,7 @@ export interface CartState {
   clear: () => void;
   loadLines: (lines: CartLine[], meta?: { channel?: SalesChannel; orderRef?: string; customerId?: string }) => void;
   setDiscountPercent: (value: number) => void;
+  applyPromotion: (promotionId: string, percent: number) => void;
   setNote: (value: string) => void;
   setApplyTax: (value: boolean) => void;
   setApplyService: (value: boolean) => void;
@@ -205,6 +225,8 @@ export interface CartState {
   count: number;
   subtotal: number;
   discount: number;
+  /** Customer voucher deducted after the percentage discount. */
+  voucher: number;
   tax: number;
   service: number;
   total: number;
@@ -233,6 +255,8 @@ export interface UIState {
   /** Asks for the 6-digit transaction PIN before a sensitive action. */
   requirePin: (title: string, onSuccess: () => void) => void;
   openAssistant: () => void;
+  /** Short vibration on supported devices when haptic feedback is on. */
+  haptic: (pattern?: number | number[]) => void;
   /** Celebrates a claimed Growth Mission with the score moving from `from` to `to`. */
   celebrate: (celebration: Celebration) => void;
 }

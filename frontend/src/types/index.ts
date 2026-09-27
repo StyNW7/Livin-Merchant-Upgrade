@@ -499,6 +499,9 @@ export interface MerchantProgram {
   description: string;
   status: "Active" | "Upcoming" | "Registration Open" | "Joined";
   date?: string;
+  /** ISO start date; joining adds the program to the Business Calendar. */
+  startsOn?: string;
+  time?: string;
 }
 
 /* =========================================================
@@ -531,4 +534,40 @@ export interface HeldOrder {
   heldAt: string;
   customerId?: string;
   channel: SalesChannel;
+}
+
+/* =========================================================
+ * Preferences
+ * ======================================================= */
+
+export interface AppSettings {
+  /** Print the receipt as soon as a payment succeeds. */
+  autoPrint: boolean;
+  /** Last line printed on every receipt. */
+  receiptFooter: string;
+  /** Vibrate on key cashier moments (devices that support it). */
+  haptics: boolean;
+  /** Show stock alerts in the notification center. */
+  lowStockAlerts: boolean;
+  /** Add yesterday's sales summary to the notification center. */
+  dailySummary: boolean;
+  /** Daily revenue goal per outlet shown on Home. */
+  dailyGoal: number;
+}
+
+export interface SupportTicket {
+  id: string;
+  topic: string;
+  detail: string;
+  createdAt: string;
+  status: "Received" | "In Review" | "Resolved";
+}
+
+export interface CustomerVoucher {
+  customerId: string;
+  amount: number;
+  sentAt: string;
+  reason: "Thank-you" | "Come-back";
+  /** Invoice where the voucher was redeemed. */
+  usedOn?: string;
 }

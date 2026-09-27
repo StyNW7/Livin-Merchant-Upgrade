@@ -8,6 +8,7 @@ import { QrCodeGraphic } from "@/components/common/QrCode";
 import { SuccessView } from "@/components/cashier/SuccessView";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { formatRupiah } from "@/utils/format";
+import { downloadQrPoster } from "@/utils/qr";
 
 const MAX_AMOUNT = 10_000_000;
 
@@ -20,6 +21,7 @@ export default function QrPaymentPage() {
   const [stage, setStage] = useState<"amount" | "waiting" | "paying">("amount");
   const [seconds, setSeconds] = useState(300);
   const [done, setDone] = useState<Transaction | null>(null);
+  const [saving, setSaving] = useState(false);
   const amount = Number(digits || 0);
 
   useEffect(() => {
@@ -100,9 +102,26 @@ export default function QrPaymentPage() {
             <QrCodeGraphic seed={`static-${outletName}`} size={220} />
             <p className="mt-4 max-w-[240px] text-[12.5px] text-ink-muted">Customers scan and type the amount themselves. Payments appear in Transactions.</p>
           </div>
-          <Button className="mt-5" variant="secondary" leftIcon={<Download className="h-4 w-4" />} onClick={() => toast("QR poster saved to your gallery")}>
-            Save QR poster
+          <Button
+            className="mt-5"
+            variant="secondary"
+            loading={saving}
+            leftIcon={<Download className="h-4 w-4" />}
+            onClick={async () => {
+              setSaving(true);
+              try {
+                await downloadQrPoster({ seed: `static-${outletName}`, outlet: outletName, merchantId: merchant.merchantId });
+                toast("QR poster downloaded as PNG. Print it for your counter.");
+              } catch {
+                toast("Could not create the poster on this browser", "error");
+              } finally {
+                setSaving(false);
+              }
+            }}
+          >
+            Download QR poster
           </Button>
+          <p className="mt-2 max-w-[260px] text-[11.5px] text-ink-faint">Prototype posters are marked as samples and cannot receive real payments.</p>
         </div>
       ) : stage === "amount" ? (
         <div className="flex flex-col px-5 pb-6 pt-6">

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BarChart3, ChevronLeft, CircleHelp, Clock, Landmark, Package, ReceiptText, SearchX, Store, UserRound, Users, type LucideIcon } from "lucide-react";
-import { useData } from "@/hooks/useApp";
+import { BarChart3, ChevronLeft, CircleHelp, Clock, LayoutGrid, Landmark, Package, ReceiptText, SearchX, Store, UserRound, Users, type LucideIcon } from "lucide-react";
+import { useData, useSession } from "@/hooks/useApp";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { EmptyState } from "@/components/common/EmptyState";
 import { SearchInput } from "@/components/common/Form";
 import { financingProducts } from "@/data/financing";
-import { helpArticles, searchReports } from "@/data/support";
+import { helpArticles, searchFeatures, searchReports } from "@/data/support";
 import { outlets } from "@/data/outlets";
 import { METHOD_LABEL } from "@/data/analytics";
 import { formatRupiah } from "@/utils/format";
@@ -24,7 +24,8 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const { transactions, products, customers, employees } = useData();
   const [query, setQuery] = useState("");
-  const [recent, setRecent] = usePersistentState<string[]>("recent-searches", []);
+  const { isGuest } = useSession();
+  const [recent, setRecent] = usePersistentState<string[]>("recent-searches", [], !isGuest);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,6 +38,15 @@ export default function SearchPage() {
     const digits = q.replace(/[^\d]/g, "");
     const match = (...fields: string[]) => fields.some((f) => f.toLowerCase().includes(q));
     const g: { key: string; label: string; icon: LucideIcon; items: Result[] }[] = [
+      {
+        key: "features",
+        label: "Features",
+        icon: LayoutGrid,
+        items: searchFeatures
+          .filter((f) => match(f.title, f.keywords))
+          .slice(0, 4)
+          .map((f) => ({ id: f.id, title: f.title, subtitle: f.section, to: f.to })),
+      },
       {
         key: "tx",
         label: "Transactions",

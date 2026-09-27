@@ -1,6 +1,9 @@
 import { useCallback, useMemo, type ReactNode } from "react";
 import type {
+  AppSettings,
   CalendarEvent,
+  CustomerVoucher,
+  SupportTicket,
   Customer,
   Device,
   Employee,
@@ -25,6 +28,7 @@ import { initialDevices, initialExpenses, initialMovements, initialOrders, initi
 import { initialEvents } from "@/data/learning";
 import { initialSessions } from "@/data/support";
 import { scenarios } from "@/data/scenarios";
+import { DEFAULT_SETTINGS, VOUCHER_AMOUNT } from "@/data/settings";
 import { getSeedTransactions, invoiceId, minutesToTime, timeToMinutes, timestampOf } from "@/data/transactions";
 import { ACTIVE_OUTLET_IDS, outletArea } from "@/data/outlets";
 import { DEMO_NOW, DEMO_TODAY } from "@/data/merchant";
@@ -87,8 +91,18 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
   const [joinedPrograms, setJoinedPrograms] = usePersistentState<string[]>(ns(STORAGE_KEYS.programs), [], persist);
   const [uploadedDocs, setUploadedDocs] = usePersistentState<string[]>(ns(STORAGE_KEYS.profileDocs), [], persist);
   const [events, setEvents] = usePersistentState<CalendarEvent[]>(ns(STORAGE_KEYS.events), initialEvents, persist);
-  const [devices, setDevices] = usePersistentState<Device[]>(ns(STORAGE_KEYS.devices), initialDevices, persist);
+  const [storedDevices, setDevices] = usePersistentState<Device[]>(ns(STORAGE_KEYS.devices), initialDevices, persist);
+  // Devices added to the seed later still appear for merchants with saved data.
+  const devices = useMemo(
+    () => [...storedDevices, ...initialDevices.filter((d) => !storedDevices.some((s) => s.id === d.id))],
+    [storedDevices],
+  );
   const [sessions, setSessions] = usePersistentState(ns(STORAGE_KEYS.sessions), initialSessions, persist);
+  const [storedSettings, setSettings] = usePersistentState<AppSettings>(STORAGE_KEYS.settings, DEFAULT_SETTINGS, persist);
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, ...storedSettings }), [storedSettings]);
+  const [tickets, setTickets] = usePersistentState<SupportTicket[]>(STORAGE_KEYS.tickets, [], persist);
+  const [helpfulArticles, setHelpfulArticles] = usePersistentState<string[]>(STORAGE_KEYS.helpful, [], persist);
+  const [vouchers, setVouchers] = usePersistentState<CustomerVoucher[]>(ns(STORAGE_KEYS.vouchers), [], persist);
   const [readNotifications, setReadNotifications] = usePersistentState<string[]>(ns(STORAGE_KEYS.notificationsRead), [], persist);
   const [clearedNotifications, setClearedNotifications] = usePersistentState<string[]>(
     ns(STORAGE_KEYS.clearedNotifications),
@@ -180,6 +194,20 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
       };
 
       setSessionTx((prev) => [sale, ...prev]);
+      if (input.promotionId) {
+        const promotionId = input.promotionId;
+        setPromotions((prev) =>
+          prev.map((p) =>
+            p.id === promotionId
+              ? { ...p, revenue: p.revenue + input.total, transactions: p.transactions + 1, redemptions: p.redemptions + 1 }
+              : p,
+          ),
+        );
+      }
+      if (input.voucher && input.customerId) {
+        const customerId = input.customerId;
+        setVouchers((prev) => prev.map((v) => (v.customerId === customerId && !v.usedOn ? { ...v, usedOn: sale.id } : v)));
+      }
 
       const soldQty = new Map<string, number>();
       input.lines.forEach((l) => soldQty.set(l.productId, (soldQty.get(l.productId) ?? 0) + l.qty));
@@ -219,7 +247,7 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
 
       return sale;
     },
-    [transactionsFor, outletId, employees, merchant.ownerFirstName, setSessionTx, setProducts, logMovement, products, setOrders],
+    [transactionsFor, outletId, employees, merchant.ownerFirstName, setSessionTx, setPromotions, setVouchers, setProducts, logMovement, products, setOrders],
   );
 
   const refundTransaction = useCallback(
@@ -454,14 +482,29 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
     [setEmployees],
   );
 
-  const customers = useMemo(() => [...addedCustomers, ...seedCustomers], [addedCustomers]);
+  // Sales recorded in the app add to each customer's visits and spending.
+  const customers = useMemo(() => {
+    const activity = new Map<string, { visits: number; spend: number }>();
+    sessionSales.forEach((t) => {
+      if (!t.customerId || t.status === "Refunded") return;
+      const a = activity.get(t.customerId) ?? { visits: 0, spend: 0 };
+      activity.set(t.customerId, { visits: a.visits + 1, spend: a.spend + t.amount - (t.refundedAmount ?? 0) });
+    });
+    return [...addedCustomers, ...seedCustomers].map((c) => {
+      const a = activity.get(c.id);
+      if (!a) return c;
+      const visits = c.visits + a.visits;
+      const totalSpending = c.totalSpending + a.spend;
+      return { ...c, visits, totalSpending, averageSpend: Math.round(totalSpending / visits), lastVisit: "Today" };
+    });
+  }, [addedCustomers, sessionSales]);
   const addCustomer = useCallback(() => {
     const code = `F-${800 + addedCustomers.length + 1}`;
     const customer: Customer = {
       id: code,
       label: `Customer ${code}`,
       segment: "New",
-      visits: 1,
+      visits: 0,
       totalSpending: 0,
       lastVisit: "Today",
       favorite: "-",
@@ -511,18 +554,57 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
   /* ------------------------------------------------------------------ operations */
 
   const addEvent = useCallback(
-    (event: Omit<CalendarEvent, "id">) => setEvents((prev) => [...prev, { ...event, id: `ev-${Date.now()}` }]),
+    (event: Omit<CalendarEvent, "id"> & { id?: string }) =>
+      setEvents((prev) => {
+        const id = event.id ?? `ev-${Date.now()}`;
+        return prev.some((e) => e.id === id) ? prev : [...prev, { ...event, id }];
+      }),
     [setEvents],
   );
+  const removeEvent = useCallback((id: string) => setEvents((prev) => prev.filter((e) => e.id !== id)), [setEvents]);
   const toggleEvent = useCallback(
     (id: string) => setEvents((prev) => prev.map((e) => (e.id === id ? { ...e, done: !e.done } : e))),
     [setEvents],
   );
   const updateDevice = useCallback(
-    (device: Device) => setDevices((prev) => prev.map((d) => (d.id === device.id ? device : d))),
+    (device: Device) =>
+      setDevices((prev) => (prev.some((d) => d.id === device.id) ? prev.map((d) => (d.id === device.id ? device : d)) : [...prev, device])),
     [setDevices],
   );
   const logoutSession = useCallback((id: string) => setSessions((prev) => prev.filter((s) => s.id !== id)), [setSessions]);
+
+  /* ------------------------------------------------------------------ preferences & support */
+
+  const updateSettings = useCallback(
+    (patch: Partial<AppSettings>) => setSettings((prev) => ({ ...DEFAULT_SETTINGS, ...prev, ...patch })),
+    [setSettings],
+  );
+  const createTicket = useCallback(
+    (topic: string, detail: string) => {
+      const ticket: SupportTicket = {
+        id: `LM-${Date.now().toString().slice(-6)}`,
+        topic,
+        detail,
+        createdAt: `${DEMO_TODAY} ${nextTime()}`,
+        status: "Received",
+      };
+      setTickets((prev) => [ticket, ...prev]);
+      return ticket;
+    },
+    [setTickets],
+  );
+  const markArticleHelpful = useCallback(
+    (id: string) => setHelpfulArticles((prev) => (prev.includes(id) ? prev : [...prev, id])),
+    [setHelpfulArticles],
+  );
+  const sendVoucher = useCallback(
+    (customerId: string, reason: CustomerVoucher["reason"]) => {
+      const voucher: CustomerVoucher = { customerId, amount: VOUCHER_AMOUNT, sentAt: `${DEMO_TODAY} ${nextTime()}`, reason };
+      setVouchers((prev) => [voucher, ...prev.filter((v) => v.customerId !== customerId)]);
+      return voucher;
+    },
+    [setVouchers],
+  );
 
   /* ------------------------------------------------------------------ notifications */
 
@@ -590,11 +672,20 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
       uploadDocument,
       events,
       addEvent,
+      removeEvent,
       toggleEvent,
       devices,
       updateDevice,
       sessions,
       logoutSession,
+      settings,
+      updateSettings,
+      tickets,
+      createTicket,
+      helpfulArticles,
+      markArticleHelpful,
+      vouchers,
+      sendVoucher,
       readNotifications,
       clearedNotifications,
       markNotificationRead,
@@ -651,11 +742,20 @@ export function DataProvider({ children, persist }: { children: ReactNode; persi
       uploadDocument,
       events,
       addEvent,
+      removeEvent,
       toggleEvent,
       devices,
       updateDevice,
       sessions,
       logoutSession,
+      settings,
+      updateSettings,
+      tickets,
+      createTicket,
+      helpfulArticles,
+      markArticleHelpful,
+      vouchers,
+      sendVoucher,
       readNotifications,
       clearedNotifications,
       markNotificationRead,

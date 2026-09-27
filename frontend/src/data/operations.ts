@@ -280,6 +280,9 @@ export const initialDevices: Device[] = [
   { id: "dev-drawer", name: "Cash Drawer", type: "drawer", status: "Connected", detail: "Opens with printer kick signal", outletId: "gading-serpong", lastSeen: "Just now" },
   { id: "dev-qr", name: "QR Display", type: "qr", status: "Active", detail: "Customer-facing QRIS stand", outletId: "gading-serpong", lastSeen: "2 min ago" },
   { id: "dev-pos", name: "POS Device", type: "pos", status: "Online", detail: "Android POS, app version 5.2.0", outletId: "gading-serpong", lastSeen: "Just now" },
+  { id: "dev-as-printer", name: "Receipt Printer", type: "printer", status: "Connected", detail: "Bluetooth thermal printer 58mm", outletId: "alam-sutera", lastSeen: "Just now" },
+  { id: "dev-as-qr", name: "QR Display", type: "qr", status: "Active", detail: "Customer-facing QRIS stand", outletId: "alam-sutera", lastSeen: "5 min ago" },
+  { id: "dev-as-pos", name: "POS Device", type: "pos", status: "Online", detail: "Android tablet, app version 5.2.0", outletId: "alam-sutera", lastSeen: "Just now" },
 ];
 
 export const troubleshootingSteps: Record<Device["type"], string[]> = {

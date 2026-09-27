@@ -6,7 +6,8 @@ import { Button } from "@/components/common/Button";
 import { BottomSheet } from "@/components/common/Overlay";
 import { Toggle } from "@/components/common/Form";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { useData, useUI } from "@/hooks/useApp";
+import { useData, useSession, useUI } from "@/hooks/useApp";
+import { outletArea } from "@/data/outlets";
 import { troubleshootingSteps } from "@/data/operations";
 import { cn } from "@/utils/cn";
 
@@ -14,7 +15,9 @@ const ICONS: Record<Device["type"], LucideIcon> = { printer: Printer, drawer: Va
 const ONLINE: Record<Device["type"], Device["status"]> = { printer: "Connected", drawer: "Connected", qr: "Active", pos: "Online" };
 
 export default function DevicesPage() {
-  const { devices, updateDevice } = useData();
+  const { devices: allDevices, updateDevice } = useData();
+  const { outletId } = useSession();
+  const devices = allDevices.filter((d) => d.outletId === outletId);
   const { toast } = useUI();
   const [openId, setOpenId] = useState<string | null>(null);
   const [step, setStep] = useState(-1);
@@ -37,7 +40,7 @@ export default function DevicesPage() {
 
   return (
     <>
-      <TopAppBar title="Devices & Operations" subtitle={`${online} of ${devices.length} devices ready`} />
+      <TopAppBar title="Devices & Operations" subtitle={`${outletArea(outletId)} · ${online} of ${devices.length} devices ready`} />
       <PageBody>
         <div className="grid grid-cols-2 gap-3">
           {devices.map((d) => {

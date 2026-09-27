@@ -23,7 +23,16 @@ interface Props {
 
 export function CartSheet({ open, onClose, onCharge, onHold }: Props) {
   const cart = useCart();
-  const { customers } = useData();
+  const { customers, products, promotions } = useData();
+  const promoOptions = promotions
+    .filter((p) => p.status === "Active" && p.type === "Percentage")
+    .map((p) => ({ id: p.id, name: p.name, hours: p.hours, percent: Number(/(\d+)%/.exec(p.benefit)?.[1] ?? 0) }))
+    .filter((p) => p.percent > 0);
+  const stockLeft = (productId: string, key: string) => {
+    const product = products.find((p) => p.id === productId);
+    if (!product) return undefined;
+    return product.stock - cart.lines.filter((l) => l.productId === productId && l.key !== key).reduce((s, l) => s + l.qty, 0);
+  };
   const [customDiscount, setCustomDiscount] = useState("");
 
   return (
@@ -77,7 +86,7 @@ export function CartSheet({ open, onClose, onCharge, onHold }: Props) {
                     </div>
                     <div className="mt-2 flex items-center justify-between">
                       <span className="tabular text-[13.5px] font-extrabold text-navy">{formatRupiah(line.unitPrice * line.qty)}</span>
-                      <Stepper value={line.qty} onChange={(v) => cart.setQty(line.key, v)} label={line.name} />
+                      <Stepper value={line.qty} onChange={(v) => cart.setQty(line.key, v)} max={stockLeft(line.productId, line.key)} label={line.name} />
                     </div>
                   </div>
                 </div>
@@ -127,10 +136,27 @@ export function CartSheet({ open, onClose, onCharge, onHold }: Props) {
                   }}
                   className={cn(
                     "h-9 rounded-full border px-3.5 text-[13px] font-semibold",
-                    cart.discountPercent === d && !customDiscount ? "border-navy bg-navy text-white" : "border-surface-line text-ink-soft",
+                    cart.discountPercent === d && !customDiscount && !cart.promotionId ? "border-navy bg-navy text-white" : "border-surface-line text-ink-soft",
                   )}
                 >
                   {d ? `${d}%` : "None"}
+                </button>
+              ))}
+              {promoOptions.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    cart.applyPromotion(p.id, p.percent);
+                    setCustomDiscount("");
+                  }}
+                  title={`Valid ${p.hours}`}
+                  className={cn(
+                    "h-9 rounded-full border px-3.5 text-[13px] font-semibold",
+                    cart.promotionId === p.id ? "border-gold-600 bg-gold text-navy-900" : "border-gold-300 bg-gold-50 text-gold-800",
+                  )}
+                >
+                  {p.name} {p.percent}%
                 </button>
               ))}
               <input
@@ -155,7 +181,13 @@ export function CartSheet({ open, onClose, onCharge, onHold }: Props) {
 
           <section className="space-y-1.5 text-[13.5px]">
             <Row label="Subtotal" value={formatRupiah(cart.subtotal)} />
-            {cart.discount > 0 && <Row label={`Discount ${cart.discountPercent}%`} value={`-${formatRupiah(cart.discount)}`} />}
+            {cart.discount > 0 && (
+              <Row
+                label={`${promoOptions.find((p) => p.id === cart.promotionId)?.name ?? "Discount"} ${cart.discountPercent}%`}
+                value={`-${formatRupiah(cart.discount)}`}
+              />
+            )}
+            {cart.voucher > 0 && <Row label="Customer voucher" value={`-${formatRupiah(cart.voucher)}`} />}
             {cart.service > 0 && <Row label="Service 5%" value={formatRupiah(cart.service)} />}
             {cart.tax > 0 && <Row label="PB1 tax 10%" value={formatRupiah(cart.tax)} />}
             {cart.customerId && (

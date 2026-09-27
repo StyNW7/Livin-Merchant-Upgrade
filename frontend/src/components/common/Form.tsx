@@ -139,13 +139,17 @@ export function Stepper({
   value,
   onChange,
   min = 0,
+  max,
   label,
 }: {
   value: number;
   onChange: (value: number) => void;
   min?: number;
+  /** Upper limit, e.g. the stock available. The plus button is disabled at the limit. */
+  max?: number;
   label: string;
 }) {
+  const atMax = max !== undefined && value >= max;
   return (
     <div className="flex items-center gap-1 rounded-xl bg-navy-50 p-1" role="group" aria-label={label}>
       <button
@@ -160,7 +164,8 @@ export function Stepper({
       <button
         type="button"
         onClick={() => onChange(value + 1)}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy text-lg font-bold text-white active:scale-90"
+        disabled={atMax}
+        className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy text-lg font-bold text-white active:scale-90 disabled:bg-navy-200"
         aria-label={`Increase ${label}`}
       >
         <Plus className="h-4 w-4" />

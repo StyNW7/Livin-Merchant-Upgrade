@@ -6,6 +6,7 @@ import { AppIcon } from "@/components/common/Brand";
 import { BottomSheet } from "@/components/common/Overlay";
 import { useSession, useUI } from "@/hooks/useApp";
 import { cn } from "@/utils/cn";
+import { readStorage } from "@/utils/storage";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  // Follows the Biometric login switch in Security Center.
+  const [biometricEnabled] = useState(() => readStorage<boolean>("biometric", true));
 
   const submit = (biometric = false) => {
     if (!biometric && (userId.trim().length < 3 || password.length < 6)) {
@@ -111,9 +114,11 @@ export default function LoginPage() {
         <Button type="submit" block size="lg" loading={loading} className="mt-5">
           {loading ? "Verifying securely" : "Login"}
         </Button>
-        <Button block size="lg" variant="secondary" className="mt-2.5" leftIcon={<Fingerprint className="h-5 w-5" />} onClick={() => submit(true)} disabled={loading}>
-          Login with biometrics
-        </Button>
+        {biometricEnabled && (
+          <Button block size="lg" variant="secondary" className="mt-2.5" leftIcon={<Fingerprint className="h-5 w-5" />} onClick={() => submit(true)} disabled={loading}>
+            Login with biometrics
+          </Button>
+        )}
 
         <div className={cn("mt-6 flex items-start gap-2.5 rounded-2xl border border-success/20 bg-success-soft/60 p-3.5")}>
           <ShieldCheck className="h-5 w-5 shrink-0 text-success-dark" />

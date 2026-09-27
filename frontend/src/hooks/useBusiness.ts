@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import {
   CheckCircle2,
   Clock3,
+  MonitorX,
   Megaphone,
   PackageOpen,
   Target,
@@ -19,7 +20,7 @@ import type {
   Transaction,
 } from "@/types";
 import { useData, useSession } from "./useApp";
-import { DAILY_REVENUE_GOAL, DEMO_NOW, DEMO_TODAY, MONTHLY_REVENUE_TARGET, PROFILE_ITEMS } from "@/data/merchant";
+import { DEMO_NOW, DEMO_TODAY, MONTHLY_REVENUE_TARGET, PROFILE_ITEMS } from "@/data/merchant";
 import { scenarios } from "@/data/scenarios";
 import {
   RETURNING_TARGET,
@@ -32,6 +33,7 @@ import {
 import { customerGrowth } from "@/data/customers";
 import { productById } from "@/data/products";
 import { notificationTemplates } from "@/data/notifications";
+import { lunchComboWeekly } from "@/data/promotions";
 import { learningModules } from "@/data/learning";
 import { ACTIVE_OUTLET_IDS, outletArea } from "@/data/outlets";
 import { buildDailySeries, buildSettlements, timeToMinutes } from "@/data/transactions";
@@ -53,10 +55,11 @@ import { dayName, formatCompactRupiah, formatRupiah, formatShortDate } from "@/u
  * =================================================================== */
 
 export function useTodayStats(outletOverride?: string) {
-  const { transactions, allTransactions, expenses } = useData();
+  const { transactions, allTransactions, expenses, settings } = useData();
   const { outletId } = useSession();
   const id = outletOverride ?? outletId;
   const list = useMemo(() => (outletOverride ? allTransactions[outletOverride] ?? [] : transactions), [outletOverride, allTransactions, transactions]);
+  const goal = settings.dailyGoal;
 
   return useMemo(() => {
     const today = completedSales(list, DEMO_TODAY);
@@ -88,11 +91,11 @@ export function useTodayStats(outletOverride?: string) {
       moneyIn: revenue,
       moneyOut,
       net: revenue - moneyOut,
-      goal: DAILY_REVENUE_GOAL,
-      goalProgress: (revenue / DAILY_REVENUE_GOAL) * 100,
+      goal,
+      goalProgress: (revenue / goal) * 100,
       recent: list.filter((t) => t.type === "sale" && t.date === DEMO_TODAY).slice(0, 5),
     };
-  }, [list, expenses, id]);
+  }, [list, expenses, id, goal]);
 }
 
 function latestTime(sales: Transaction[]) {
@@ -723,7 +726,7 @@ export interface AttentionItem {
 }
 
 export function useAttention(): AttentionItem[] {
-  const { employees, promotions } = useData();
+  const { employees, promotions, devices } = useData();
   const { outletId } = useSession();
   const inventory = useInventoryAlerts();
   const growth = useGrowth();
@@ -731,6 +734,18 @@ export function useAttention(): AttentionItem[] {
 
   return useMemo(() => {
     const items: AttentionItem[] = [];
+    devices
+      .filter((d) => d.outletId === outletId && d.status === "Disconnected")
+      .forEach((d) =>
+        items.push({
+          id: `att-device-${d.id}`,
+          title: `${d.name} disconnected`,
+          detail: "Run troubleshooting to reconnect it",
+          icon: MonitorX,
+          tone: "danger",
+          to: "/devices",
+        }),
+      );
     inventory.low.slice(0, 2).forEach((i) =>
       items.push({
         id: `att-${i.id}`,
@@ -792,7 +807,7 @@ export function useAttention(): AttentionItem[] {
         }),
       );
     return items;
-  }, [inventory.low, settlements, growth.missions, employees, outletId, promotions]);
+  }, [inventory.low, settlements, growth.missions, employees, outletId, promotions, devices]);
 }
 
 export function formatStock(value: number) {
@@ -800,7 +815,7 @@ export function formatStock(value: number) {
 }
 
 export function useNotifications(): AppNotification[] {
-  const { readNotifications, clearedNotifications } = useData();
+  const { readNotifications, clearedNotifications, settings, transactions, promotions } = useData();
   const { merchant } = useSession();
   const inventory = useInventoryAlerts();
   const growth = useGrowth();
@@ -827,9 +842,21 @@ export function useNotifications(): AppNotification[] {
       readiness: String(growth.readiness),
     };
 
+    const yesterdayISO = shiftDate(DEMO_TODAY, -1);
+    const yesterdaySales = completedSales(transactions, yesterdayISO, yesterdayISO);
+    const yesterdayRevenue = sumAmount(yesterdaySales);
+    const lunch = promotions.find((p) => p.id === "promo-lunch");
+    const closedWeeks = lunchComboWeekly.slice(0, -1).reduce((sum, w) => sum + w.revenue, 0);
+    values.lunchWeek = formatCompactRupiah(Math.max(0, (lunch?.revenue ?? 0) - closedWeeks));
+    values.yesterdayRevenue = formatRupiah(yesterdayRevenue);
+    values.yesterdayCount = String(yesterdaySales.length);
+    values.yesterdayAverage = formatRupiah(Math.round(yesterdaySales.length ? yesterdayRevenue / yesterdaySales.length : 0));
+
     return notificationTemplates
       .filter((n) => {
         if (clearedNotifications.includes(n.id)) return false;
+        if (!settings.lowStockAlerts && (n.when === "milkLow" || n.when === "stockLow")) return false;
+        if (!settings.dailySummary && n.when === "dailySummary") return false;
         if (n.when === "milkLow") return !!milk && milk.stock <= milk.dailyUsage * 2;
         if (n.when === "stockLow") return lowNames.length > 0;
         if (n.when === "missionClose") return revenueMission.status !== "Completed" && revenueMission.progress >= 90;
@@ -844,6 +871,6 @@ export function useNotifications(): AppNotification[] {
         read: n.read || readNotifications.includes(n.id),
         message: n.message.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? ""),
       }));
-  }, [inventory, growth, settlements, month.revenue, merchant.accountNumber, readNotifications, clearedNotifications]);
+  }, [inventory, growth, settlements, month.revenue, merchant.accountNumber, readNotifications, clearedNotifications, settings, transactions, promotions]);
 }
 

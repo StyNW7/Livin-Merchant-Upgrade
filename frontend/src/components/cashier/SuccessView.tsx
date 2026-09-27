@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Check, ChevronRight, FileText, Plus, Printer, Share2, TrendingUp, UserPlus, Users } from "lucide-react";
 import type { Transaction } from "@/types";
@@ -9,6 +9,7 @@ import { ProgressBar } from "@/components/common/ProgressBar";
 import { ReceiptView } from "./Receipt";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { useGrowth, useTodayStats } from "@/hooks/useBusiness";
+import { useReceiptActions } from "@/hooks/useReceiptActions";
 import { METHOD_LABEL } from "@/data/analytics";
 import { TRANSACTION_MISSION } from "@/data/growth";
 import { formatCompactRupiah, formatRupiah } from "@/utils/format";
@@ -17,38 +18,28 @@ import { formatCompactRupiah, formatRupiah } from "@/utils/format";
 export function SuccessView({ transaction: t, onNew }: { transaction: Transaction; onNew: () => void }) {
   const navigate = useNavigate();
   const { isGuest } = useSession();
-  const { customers, attachCustomer, addCustomer } = useData();
-  const { toast } = useUI();
+  const { customers, attachCustomer, addCustomer, settings } = useData();
+  const { toast, haptic } = useUI();
+  const { print: printReceipt, printing, share: shareReceipt } = useReceiptActions();
   const [receiptOpen, setReceiptOpen] = useState(false);
   const [customerOpen, setCustomerOpen] = useState(false);
-  const [printing, setPrinting] = useState(false);
   const [customerId, setCustomerId] = useState(t.customerId);
   const today = useTodayStats(t.outletId);
   const growth = useGrowth();
   const goalBefore = Math.max(0, ((today.revenue - t.amount) / today.goal) * 100);
   const goalAfter = today.goalProgress;
 
-  const share = async () => {
-    const text = `Receipt ${t.id} - ${formatRupiah(t.amount)} paid by ${METHOD_LABEL[t.method]}. Thank you!`;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: `Receipt ${t.id}`, text });
-        return;
-      }
-      await navigator.clipboard.writeText(text);
-      toast("Receipt link copied to clipboard");
-    } catch {
-      toast("Receipt ready to share via WhatsApp or email", "info");
-    }
-  };
+  const share = () => shareReceipt(t);
+  const print = () => printReceipt(t.id, t.outletId);
 
-  const print = () => {
-    setPrinting(true);
-    window.setTimeout(() => {
-      setPrinting(false);
-      toast("Receipt sent to printer");
-    }, 1200);
-  };
+  // Payment feedback and optional auto-print run once when the screen opens.
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    haptic([15, 40, 25]);
+    if (settings.autoPrint) printReceipt(t.id, t.outletId);
+  }, [haptic, settings.autoPrint, printReceipt, t.id, t.outletId]);
 
   const chooseCustomer = (id: string) => {
     attachCustomer(t.id, id);

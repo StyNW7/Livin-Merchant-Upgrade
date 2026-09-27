@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Gift, Lock, UserRound, Users } from "lucide-react";
+import { Check, Gift, Lock, UserRound, Users } from "lucide-react";
 import type { Customer } from "@/types";
 import { TopAppBar } from "@/components/layout/TopAppBar";
 import { ChipRow, FilterChip } from "@/components/common/FilterChip";
@@ -14,13 +14,14 @@ import { MetricCard } from "@/components/cards/MetricCard";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { customerSummary } from "@/data/customers";
 import { scenarios } from "@/data/scenarios";
-import { formatCount, formatRupiah } from "@/utils/format";
+import { formatCount, formatRupiah, formatShortDate } from "@/utils/format";
+import { VOUCHER_AMOUNT } from "@/data/settings";
 
 const segmentTone = { Loyal: "gold", Regular: "info", New: "success", "At Risk": "warning" } as const;
 
 export default function CustomersPage() {
   const [params] = useSearchParams();
-  const { customers } = useData();
+  const { customers, vouchers, sendVoucher } = useData();
   const { scenario } = useSession();
   const { toast } = useUI();
   const [segment, setSegment] = useState<"All" | Customer["segment"]>("All");
@@ -40,6 +41,7 @@ export default function CustomersPage() {
     [customers, segment, query],
   );
   const open = customers.find((c) => c.id === openId) ?? null;
+  const openVoucher = open ? vouchers.find((v) => v.customerId === open.id) : undefined;
 
   return (
     <>
@@ -80,7 +82,12 @@ export default function CustomersPage() {
                 </span>
                 <span className="text-right">
                   <span className="tabular block text-[13.5px] font-bold text-ink">{formatRupiah(c.totalSpending)}</span>
-                  <StatusBadge status={c.segment} tone={segmentTone[c.segment]} hideIcon />
+                  <span className="mt-0.5 flex items-center justify-end gap-1">
+                    {vouchers.some((v) => v.customerId === c.id && !v.usedOn) && (
+                      <Gift className="h-3.5 w-3.5 text-gold-600" aria-label="Voucher sent" />
+                    )}
+                    <StatusBadge status={c.segment} tone={segmentTone[c.segment]} hideIcon />
+                  </span>
                 </span>
               </button>
             ))}
@@ -104,17 +111,34 @@ export default function CustomersPage() {
               <InfoRow label="Average spend" value={formatRupiah(open.averageSpend)} />
               <InfoRow label="Usually visits" value={open.preferredTime} />
             </div>
-            <Button
-              block
-              className="mt-4"
-              leftIcon={<Gift className="h-4 w-4" />}
-              onClick={() => {
-                toast(`A Rp 10.000 voucher will be applied on ${open.label}'s next QRIS payment`);
-                setOpenId(null);
-              }}
-            >
-              {open.segment === "At Risk" ? "Send come-back voucher" : "Send thank-you voucher"}
-            </Button>
+            {openVoucher && !openVoucher.usedOn ? (
+              <div className="mt-4 flex items-start gap-3 rounded-2xl bg-success-soft px-4 py-3">
+                <Check className="mt-0.5 h-5 w-5 shrink-0 text-success-dark" />
+                <p className="text-[13px] leading-relaxed text-success-dark">
+                  <span className="font-bold">{openVoucher.reason} voucher sent</span> on {formatShortDate(openVoucher.sentAt.slice(0, 10))}.{" "}
+                  {formatRupiah(openVoucher.amount)} is deducted automatically when you select this customer at checkout.
+                </p>
+              </div>
+            ) : (
+              <>
+                {openVoucher?.usedOn && (
+                  <p className="mt-4 rounded-2xl bg-surface px-4 py-3 text-[12.5px] text-ink-soft">
+                    Last voucher was used on <span className="font-semibold text-ink">{openVoucher.usedOn}</span>.
+                  </p>
+                )}
+                <Button
+                  block
+                  className="mt-4"
+                  leftIcon={<Gift className="h-4 w-4" />}
+                  onClick={() => {
+                    sendVoucher(open.id, open.segment === "At Risk" ? "Come-back" : "Thank-you");
+                    toast(`${formatRupiah(VOUCHER_AMOUNT)} voucher sent to ${open.label}`);
+                  }}
+                >
+                  {open.segment === "At Risk" ? "Send come-back voucher" : "Send thank-you voucher"} · {formatRupiah(VOUCHER_AMOUNT)}
+                </Button>
+              </>
+            )}
           </>
         )}
       </BottomSheet>

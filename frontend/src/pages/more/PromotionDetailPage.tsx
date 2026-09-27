@@ -24,6 +24,18 @@ export default function PromotionDetailPage() {
 
   const avgOrder = p.transactions ? p.revenue / p.transactions : 0;
   const redemptionRate = p.transactions ? (p.redemptions / p.transactions) * 100 : 0;
+  // Earlier weeks are closed; the current week is whatever the campaign total adds beyond them,
+  // so checkout sales that use the promotion show up here immediately.
+  const closedWeeks = lunchComboWeekly.slice(0, -1);
+  const weekly = [
+    ...closedWeeks,
+    {
+      ...lunchComboWeekly[lunchComboWeekly.length - 1],
+      revenue: p.revenue - closedWeeks.reduce((sum, w) => sum + w.revenue, 0),
+      redemptions: p.redemptions - closedWeeks.reduce((sum, w) => sum + w.redemptions, 0),
+    },
+  ];
+  const thisWeek = weekly[weekly.length - 1];
   const setStatus = (status: Promotion["status"], message: string) => {
     savePromotion({ ...p, status });
     toast(message);
@@ -57,8 +69,8 @@ export default function PromotionDetailPage() {
         </section>
 
         {p.id === "promo-lunch" ? (
-          <ChartCard question="Is the campaign still working?" title="Weekly revenue from Lunch Combo" insight="Lunch Combo generated Rp 1.2M so far this week, on track to match last week.">
-            <SimpleBars data={lunchComboWeekly.map((w, i, arr) => ({ ...w, highlight: i === arr.length - 1 }))} xKey="week" yKey="revenue" format={formatRupiah} highlightKey="highlight" height={160} />
+          <ChartCard question="Is the campaign still working?" title="Weekly revenue from Lunch Combo" insight={`Lunch Combo generated ${formatCompactRupiah(thisWeek.revenue)} this week (Monday to today) from ${thisWeek.redemptions} redemptions. Sunday, one of your busiest days, is still ahead.`}>
+            <SimpleBars data={weekly.map((w, i, arr) => ({ ...w, highlight: i === arr.length - 1 }))} xKey="week" yKey="revenue" format={formatRupiah} highlightKey="highlight" height={160} />
           </ChartCard>
         ) : p.transactions > 0 ? (
           <section className="card p-4 text-[13px] leading-relaxed text-ink-soft">

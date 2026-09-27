@@ -8,10 +8,11 @@ import { GroupedBars, RankBars } from "@/components/charts/Charts";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { useMonthStats, useSettlements, useTodayStats } from "@/hooks/useBusiness";
 import { EXPENSE_CATEGORIES, previousExpenses } from "@/data/operations";
-import { CHART_COLORS, completedSales, shiftDate, sumAmount } from "@/data/analytics";
+import { CHART_COLORS, completedSales, rangeStart, shiftDate, sumAmount } from "@/data/analytics";
 import { DEMO_TODAY } from "@/data/merchant";
 import { formatCompactRupiah, formatPercent, formatRupiah } from "@/utils/format";
 import { cn } from "@/utils/cn";
+import { downloadCsv } from "@/utils/download";
 
 export default function FinancePage() {
   const navigate = useNavigate();
@@ -37,6 +38,34 @@ export default function FinancePage() {
   const byCategory = EXPENSE_CATEGORIES.map((c) => ({ name: c, value: month.expenseList.filter((e) => e.category === c).reduce((s, e) => s + e.amount, 0) }))
     .filter((x) => x.value > 0)
     .sort((a, b) => b.value - a.value);
+
+  const downloadReport = () => {
+    const from = rangeStart(30);
+    const rows: (string | number)[][] = [
+      ["Livin Merchant - Monthly business summary"],
+      ["Outlet", outletName],
+      ["Period", `${from} to ${DEMO_TODAY}`],
+      [],
+      ["Item", "Amount (Rp)"],
+      ["Revenue", month.revenue],
+      ["Transactions", month.count],
+      ["Expenses", month.expenses],
+      ["Estimated gross profit", month.profit],
+      ["Profit margin (%)", Math.round(margin * 10) / 10],
+      ["Non-cash sales waiting for settlement", pending],
+      ["Net cashflow estimate", netCashflow],
+      [],
+      ["Expenses by category", "Amount (Rp)"],
+      ...byCategory.map((c) => [c.name, c.value]),
+      [],
+      ["Date", "Category", "Description", "Payment method", "Amount (Rp)"],
+      ...month.expenseList.map((e) => [e.date, e.category, e.title, e.method, e.amount]),
+      [],
+      ["Based on recorded sales and expenses. Not a formal accounting statement."],
+    ];
+    downloadCsv(`livin-merchant-summary-${outletId}-${DEMO_TODAY}.csv`, rows);
+    toast("Monthly summary downloaded (CSV). Open it in Excel or Google Sheets.");
+  };
 
   return (
     <>
@@ -104,8 +133,8 @@ export default function FinancePage() {
             Settlements
           </Button>
         </div>
-        <Button block leftIcon={<Download className="h-4 w-4" />} onClick={() => toast("Monthly report PDF prepared and saved to Downloads")}>
-          Download monthly report
+        <Button block leftIcon={<Download className="h-4 w-4" />} onClick={downloadReport}>
+          Download monthly summary (CSV)
         </Button>
 
         <p className="flex gap-2 rounded-2xl bg-white px-4 py-3 text-[11.5px] leading-relaxed text-ink-muted ring-1 ring-surface-line">

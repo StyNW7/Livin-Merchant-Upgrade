@@ -5,7 +5,7 @@ export const initialPromotions: Promotion[] = [
   {
     id: "promo-lunch",
     name: "Lunch Combo",
-    period: "12 Sep – 5 Oct",
+    period: "7 Sep – 5 Oct",
     hours: "11:00–14:00",
     benefit: "10% off",
     status: "Active",
@@ -64,10 +64,11 @@ export const initialPromotions: Promotion[] = [
   },
 ];
 
+/** Weekly split of the Lunch Combo totals above (Mon-Sun weeks; the current week runs to today). */
 export const lunchComboWeekly = [
-  { week: "12-18 Sep", revenue: 1_380_000, redemptions: 26 },
-  { week: "19-25 Sep", revenue: 1_620_000, redemptions: 31 },
-  { week: "This week", revenue: 1_200_000, redemptions: 25 },
+  { week: "7-13 Sep", revenue: 1_350_000, redemptions: 26 },
+  { week: "14-20 Sep", revenue: 1_650_000, redemptions: 31 },
+  { week: "21-26 Sep", revenue: 1_200_000, redemptions: 25 },
 ];
 
 export const promotionTemplates: PromotionTemplate[] = [

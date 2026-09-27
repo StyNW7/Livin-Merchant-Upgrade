@@ -106,10 +106,10 @@ export const learningModules: LearningModule[] = [
 
 export const merchantPrograms: MerchantProgram[] = [
   { id: "prog-growth-challenge", section: "Growth Challenges", title: "Merchant Growth Challenge", description: "Complete three Growth Missions this quarter to earn a merchant badge.", status: "Active", date: "Until 31 Dec 2026" },
-  { id: "prog-qris-week", section: "Merchant Programs", title: "QRIS Transaction Week", description: "Encourage customers to pay with QRIS during a featured week.", status: "Upcoming", date: "12 - 18 Oct 2026" },
+  { id: "prog-qris-week", section: "Merchant Programs", title: "QRIS Transaction Week", description: "Encourage customers to pay with QRIS during a featured week.", status: "Upcoming", date: "12 - 18 Oct 2026", startsOn: "2026-10-12" },
   { id: "prog-poin", section: "Livin'poin", title: "Livin'poin for Merchants", description: "View eligible loyalty benefits linked to your business account activity.", status: "Active" },
-  { id: "prog-class", section: "Education", title: "UMKM Business Class", description: "A practical class on cashflow and pricing for small business owners.", status: "Upcoming", date: "10 Oct 2026, 13:00" },
-  { id: "prog-networking", section: "Business Events", title: "Merchant Networking Day", description: "Meet other F&B merchants and suppliers in Tangerang.", status: "Registration Open", date: "24 Oct 2026" },
+  { id: "prog-class", section: "Education", title: "UMKM Business Class", description: "A practical class on cashflow and pricing for small business owners.", status: "Upcoming", date: "10 Oct 2026, 13:00", startsOn: "2026-10-10", time: "13:00" },
+  { id: "prog-networking", section: "Business Events", title: "Merchant Networking Day", description: "Meet other F&B merchants and suppliers in Tangerang.", status: "Registration Open", date: "24 Oct 2026", startsOn: "2026-10-24", time: "09:00" },
   { id: "prog-community", section: "Community", title: "Tangerang F&B Circle", description: "A community space to share tips with nearby merchants.", status: "Active" },
 ];
 

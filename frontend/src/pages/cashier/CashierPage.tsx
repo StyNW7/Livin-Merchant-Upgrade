@@ -24,7 +24,7 @@ export default function CashierPage() {
   const cart = useCart();
   const { products, favorites, toggleFavorite, transactions, heldOrders, holdOrder, removeHeldOrder, recordSale } = useData();
   const { outletName } = useSession();
-  const { toast, confirm } = useUI();
+  const { toast, confirm, haptic } = useUI();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("All");
   const [optionsFor, setOptionsFor] = useState<Product | null>(null);
@@ -60,9 +60,14 @@ export default function CashierPage() {
   const qtyFor = (id: string) => cart.lines.filter((l) => l.productId === id).reduce((s, l) => s + l.qty, 0);
 
   const add = (p: Product) => {
+    if (qtyFor(p.id) >= p.stock) {
+      toast(`Only ${p.stock} ${p.name} in stock. Restock it in Inventory.`, "warning");
+      return;
+    }
     if (p.hasVariants || p.hasAddons) setOptionsFor(p);
     else {
       cart.quickAdd(p.id);
+      haptic();
       toast(`${p.name} added`, "info");
     }
   };
@@ -94,7 +99,9 @@ export default function CashierPage() {
         orderRef: cart.orderRef,
         customerId: cart.customerId,
         subtotal: cart.subtotal,
-        discount: cart.discount,
+        discount: cart.discount + cart.voucher,
+        voucher: cart.voucher,
+        promotionId: cart.promotionId,
         tax: cart.tax,
         service: cart.service,
         total: cart.total,
@@ -196,8 +203,10 @@ export default function CashierPage() {
       <ProductOptionsSheet
         product={optionsFor}
         onClose={() => setOptionsFor(null)}
+        available={optionsFor ? optionsFor.stock - qtyFor(optionsFor.id) : undefined}
         onAdd={(line) => {
           cart.addLine(line);
+          haptic();
           toast(`${line.qty ?? 1}x ${line.name} added`, "info");
         }}
       />

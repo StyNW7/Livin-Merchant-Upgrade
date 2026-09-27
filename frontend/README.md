@@ -46,3 +46,21 @@ Demo transaction PIN: `123456` (changeable in Security Center).
   Settlement always reconcile.
 - New sales, refunds, stock movements, expenses, purchase orders and settings persist in localStorage
   (merchant mode only; Explore Mode changes stay in memory).
+
+## What is connected
+
+Every action changes real app state (localStorage in merchant mode, memory in Explore Mode):
+
+- **Cashier** respects stock (cannot sell more than is on hand), applies active percentage
+  promotions (their revenue, transactions and redemptions update) and deducts customer vouchers.
+- **Customers**: vouchers sent from a customer's page are redeemed when that customer is selected at
+  checkout; visits and spending grow with recorded sales.
+- **Settings**: receipt footer prints on receipts, auto-print runs after payment, haptics vibrate on
+  supported phones, stock alerts and the daily summary control Notifications, and the daily goal
+  drives Home and the payment success screen.
+- **Devices**: printing uses the outlet's receipt printer; a disconnected printer blocks printing
+  and appears in Home → Needs Your Attention.
+- **Downloads**: Outlet QR → *Download QR poster* saves a PNG (always marked as a sample);
+  Business Finance → *Download monthly summary* saves a CSV built from the figures on screen.
+- **Programs** with a date are added to the Business Calendar; **Help** problem reports are listed
+  under *Your reports*.

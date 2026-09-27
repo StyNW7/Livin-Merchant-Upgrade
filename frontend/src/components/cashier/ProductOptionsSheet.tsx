@@ -14,10 +14,12 @@ interface Props {
   product: Product | null;
   onClose: () => void;
   onAdd: (line: AddLineInput) => void;
+  /** Units still available after what is already in the cart. */
+  available?: number;
 }
 
 /** Variant, add-on, quantity, note and manual price selection for a product. */
-export function ProductOptionsSheet({ product, onClose, onAdd }: Props) {
+export function ProductOptionsSheet({ product, onClose, onAdd, available }: Props) {
   const [variant, setVariant] = useState("regular");
   const [addons, setAddons] = useState<string[]>([]);
   const [qty, setQty] = useState(1);
@@ -126,7 +128,7 @@ export function ProductOptionsSheet({ product, onClose, onAdd }: Props) {
 
       <section className="mb-4 flex items-center justify-between">
         <p className="text-[13px] font-bold text-ink">Quantity</p>
-        <Stepper value={qty} onChange={(v) => setQty(Math.max(1, v))} min={1} label="quantity" />
+        <Stepper value={qty} onChange={(v) => setQty(Math.max(1, v))} min={1} max={available} label="quantity" />
       </section>
 
       <TextField label="Note for kitchen" placeholder="e.g. less ice, warm up" value={note} onChange={(e) => setNote(e.target.value)} maxLength={60} />

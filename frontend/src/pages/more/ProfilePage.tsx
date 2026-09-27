@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BadgeCheck, CheckCircle2, CircleDashed, FileUp, Loader2, ShieldCheck, Store } from "lucide-react";
+import { FilePicker, type PickedFile } from "@/components/common/FilePicker";
+import { BadgeCheck, CheckCircle2, CircleDashed, FileUp, ShieldCheck, Store } from "lucide-react";
 import { TopAppBar, PageBody } from "@/components/layout/TopAppBar";
 import { Avatar } from "@/components/common/Brand";
 import { Button } from "@/components/common/Button";
@@ -23,6 +24,7 @@ export default function ProfilePage() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [docType, setDocType] = useState(DOC_TYPES[0]);
   const [uploading, setUploading] = useState(false);
+  const [file, setFile] = useState<PickedFile | null>(null);
 
   const upload = () => {
     setUploading(true);
@@ -30,7 +32,8 @@ export default function ProfilePage() {
       uploadDocument("additional-document");
       setUploading(false);
       setUploadOpen(false);
-      toast("Document verified. Profile is now 100% complete.");
+      setFile(null);
+      toast(`${file?.name ?? "Document"} received. Profile is now 100% complete.`);
     }, 1500);
   };
 
@@ -121,16 +124,21 @@ export default function ProfilePage() {
         title="Upload business document"
         subtitle="Photo or PDF, up to 5 MB"
         footer={
-          <Button block size="lg" onClick={upload} loading={uploading}>
+          <Button block size="lg" onClick={upload} loading={uploading} disabled={!file}>
             {uploading ? "Verifying document" : "Upload and verify"}
           </Button>
         }
       >
         <SelectField label="Document type" value={docType} onChange={(e) => setDocType(e.target.value)} options={DOC_TYPES.map((d) => ({ value: d, label: d }))} />
-        <div className="mt-4 flex flex-col items-center rounded-2xl border-2 border-dashed border-navy-200 px-4 py-8 text-center">
-          {uploading ? <Loader2 className="h-8 w-8 animate-spin text-navy" /> : <FileUp className="h-8 w-8 text-navy" />}
-          <p className="mt-2 text-[13.5px] font-semibold text-ink">{docType.split(" (")[0].toLowerCase().replace(/^./, (c) => c.toUpperCase())}.pdf</p>
-          <p className="text-[12px] text-ink-muted">Sample file selected for this demo</p>
+        <div className="mt-4">
+          <FilePicker
+            value={file}
+            onChange={setFile}
+            label="Choose document"
+            hint="Photo or PDF, up to 5 MB"
+            accept="image/*,application/pdf"
+            sampleName={`${docType.split(" (")[0].toLowerCase().replace(/\s+/g, "-")}-sample.pdf`}
+          />
         </div>
       </BottomSheet>
     </>

@@ -57,7 +57,7 @@ export default function SupportChatPage() {
         }
       />
       <div className="flex-1 space-y-3 px-4 py-4">
-        <p className="text-center text-[11px] text-ink-faint">Chats are recorded for quality. Never share your PIN or OTP.</p>
+        <p className="text-center text-[11px] text-ink-faint">Prototype chat with scripted replies. Never share your PIN or OTP.</p>
         {messages.map((m) => (
           <div key={m.id} className={cn("flex", m.from === "me" ? "justify-end" : "justify-start")}>
             <div
