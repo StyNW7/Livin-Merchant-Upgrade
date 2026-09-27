@@ -9,7 +9,7 @@ import { InfoRow } from "@/components/cards/ListRow";
 import { useSession, useUI } from "@/hooks/useApp";
 import { useGrowth } from "@/hooks/useBusiness";
 import { usePersistentState } from "@/hooks/usePersistentState";
-import { FINANCING_DISCLAIMER_FULL, financingProducts } from "@/data/financing";
+import { FINANCING_DISCLAIMER, FINANCING_DISCLAIMER_FULL, financingProducts } from "@/data/financing";
 import { formatCompactRupiah } from "@/utils/format";
 
 export default function FinancingDetailPage() {
@@ -119,7 +119,7 @@ export default function FinancingDetailPage() {
 
         <p className="flex gap-2 text-[11.5px] leading-relaxed text-ink-muted">
           <Info className="mt-0.5 h-4 w-4 shrink-0" />
-          {FINANCING_DISCLAIMER_FULL}
+          {FINANCING_DISCLAIMER}
         </p>
       </PageBody>
 

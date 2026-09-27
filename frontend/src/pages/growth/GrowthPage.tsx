@@ -11,7 +11,7 @@ import { SectionHeader } from "@/components/common/SectionHeader";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { ScoreGauge, GrowthStageStepper } from "@/components/growth/GrowthVisuals";
 import { MissionCard } from "@/components/growth/MissionCard";
-import { insightIcons } from "@/components/growth/InsightCard";
+import { insightIcons } from "@/components/icons";
 import { useData, useUI } from "@/hooks/useApp";
 import { useGrowth, useInsights, useNextActions, useOutlook } from "@/hooks/useBusiness";
 import { growthStages, SCORE_DISCLAIMER } from "@/data/growth";
@@ -31,7 +31,7 @@ export default function GrowthPage() {
   const insights = useInsights();
   const outlook = useOutlook();
   const { claimedMissions, claimMission } = useData();
-  const { toast, openAssistant } = useUI();
+  const { openAssistant, celebrate } = useUI();
   const [stage, setStage] = useState<GrowthStage | null>(null);
   const delta = growth.score - growth.previous;
 
@@ -141,8 +141,8 @@ export default function GrowthPage() {
                 mission={m}
                 claimed={claimedMissions.includes(m.id)}
                 onClaim={() => {
+                  celebrate({ missionTitle: m.title, points: m.impactPoints, from: growth.score, to: Math.min(100, growth.score + m.impactPoints) });
                   claimMission(m.id);
-                  toast(`+${m.impactPoints} added to your Growth Score`);
                 }}
               />
             ))}
@@ -196,10 +196,12 @@ export default function GrowthPage() {
             ))}
           </ul>
           <div className="mt-4 grid grid-cols-2 gap-2">
-            <Button variant="secondary" onClick={() => navigate("/growth/readiness")}>
+            <Button variant="secondary" onClick={() => navigate("/growth/readiness")} className="whitespace-nowrap px-3">
               View Readiness
             </Button>
-            <Button onClick={() => navigate("/financing")}>Explore Financing</Button>
+            <Button onClick={() => navigate("/financing")} className="whitespace-nowrap px-3">
+              Explore Financing
+            </Button>
           </div>
         </section>
 

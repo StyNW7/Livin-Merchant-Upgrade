@@ -6,19 +6,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: [
-      'dist',
-      // Legacy template files kept outside the app build
-      'src/components/ui',
-      'src/components/Navbar.tsx',
-      'src/components/theme-provider.tsx',
-      'src/components/theme-toggle.tsx',
-      'src/layouts',
-      'src/lib',
-      'src/utility',
-      'src/pages/Landing',
-      'src/pages/Utility',
-    ],
+    ignores: ['dist'],
   },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],

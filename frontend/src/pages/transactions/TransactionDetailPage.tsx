@@ -8,7 +8,7 @@ import { EmptyState } from "@/components/common/EmptyState";
 import { Stepper } from "@/components/common/Form";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { InfoRow } from "@/components/cards/ListRow";
-import { methodIcon } from "@/components/cards/TransactionItem";
+import { methodIcon } from "@/components/icons";
 import { ReceiptView } from "@/components/cashier/Receipt";
 import { useData, useSession, useUI } from "@/hooks/useApp";
 import { METHOD_LABEL, shiftDate } from "@/data/analytics";

@@ -21,10 +21,10 @@ export function QuickAction({ icon: Icon, label, to, onClick, highlight }: Quick
       >
         <Icon className="h-[22px] w-[22px]" strokeWidth={2.1} />
       </span>
-      <span className="text-center text-[12px] font-semibold leading-tight text-ink-soft">{label}</span>
+      <span className="w-full text-center text-[12px] font-semibold leading-tight tracking-tight text-ink-soft">{label}</span>
     </>
   );
-  const className = "group flex flex-col items-center gap-1.5 rounded-2xl py-1 outline-none";
+  const className = "group flex min-w-0 flex-col items-center gap-1.5 rounded-2xl py-1 outline-none";
   return to ? (
     <Link to={to} className={className}>
       {inner}

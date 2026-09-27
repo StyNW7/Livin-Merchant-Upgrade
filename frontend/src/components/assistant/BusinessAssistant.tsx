@@ -38,11 +38,12 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
   const inventory = useInventoryAlerts();
   const actions = useNextActions();
   const [thread, setThread] = useState<{ q: string; a: Answer }[]>([]);
+  const [thinking, setThinking] = useState<string | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [thread]);
+  }, [thread, thinking]);
 
   const answers = useMemo<Record<(typeof QUESTIONS)[number], Answer>>(() => {
     const top = productPerformance(completedSales(transactions, rangeStart(30)), (id) => products.find((p) => p.id === id)?.costPrice)[0];
@@ -92,7 +93,18 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
     };
   }, [transactions, products, today, month, growth, inventory.low, actions]);
 
-  const ask = (q: (typeof QUESTIONS)[number]) => setThread((prev) => [...prev, { q, a: answers[q] }]);
+  useEffect(() => {
+    if (!thinking) return;
+    const timer = window.setTimeout(() => {
+      setThread((prev) => [...prev, { q: thinking, a: answers[thinking as (typeof QUESTIONS)[number]] }]);
+      setThinking(null);
+    }, 650);
+    return () => window.clearTimeout(timer);
+  }, [thinking, answers]);
+
+  const ask = (q: (typeof QUESTIONS)[number]) => {
+    if (!thinking) setThinking(q);
+  };
 
   return (
     <BottomSheet open onClose={onClose} title="Business Assistant" subtitle="Quick answers from your recorded business data">
@@ -113,7 +125,7 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
             <div className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-navy px-3.5 py-2.5 text-[13px] font-medium text-white">
               {item.q}
             </div>
-            <div className="max-w-[92%] rounded-2xl rounded-bl-md border border-surface-line bg-white px-3.5 py-3 text-[13px] leading-relaxed text-ink-soft shadow-card">
+            <div className="max-w-[92%] animate-fade-in rounded-2xl rounded-bl-md border border-surface-line bg-white px-3.5 py-3 text-[13px] leading-relaxed text-ink-soft shadow-card">
               {item.a.text.map((line, k) => (
                 <p key={k} className={k ? "mt-1.5" : ""}>
                   {line}
@@ -135,6 +147,18 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
             </div>
           </div>
         ))}
+        {thinking && (
+          <div className="space-y-2">
+            <div className="ml-auto w-fit max-w-[85%] animate-pop-in rounded-2xl rounded-br-md bg-navy px-3.5 py-2.5 text-[13px] font-medium text-white">
+              {thinking}
+            </div>
+            <div className="flex w-fit items-center gap-1 rounded-2xl rounded-bl-md border border-surface-line bg-white px-4 py-3.5 shadow-card" aria-label="Checking your data">
+              {[0, 150, 300].map((d) => (
+                <span key={d} className="h-1.5 w-1.5 animate-bounce rounded-full bg-navy-300" style={{ animationDelay: `${d}ms` }} />
+              ))}
+            </div>
+          </div>
+        )}
         <div ref={endRef} />
       </div>
 
@@ -146,7 +170,8 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
               key={q}
               type="button"
               onClick={() => ask(q)}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-navy-100 bg-white px-3.5 text-left text-[13px] font-semibold text-navy transition hover:border-navy-300 hover:bg-navy-50 active:scale-[0.98]"
+              disabled={thinking !== null}
+              className="disabled:opacity-60 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-navy-100 bg-white px-3.5 text-left text-[13px] font-semibold text-navy transition hover:border-navy-300 hover:bg-navy-50 active:scale-[0.98]"
             >
               <MessageSquareText className="h-3.5 w-3.5 shrink-0 text-sky-600" />
               {q}

@@ -1,21 +1,12 @@
 import { Link } from "react-router-dom";
-import { Banknote, CreditCard, Landmark, QrCode, RotateCcw, Wallet, ArrowDownToLine, type LucideIcon } from "lucide-react";
+import { RotateCcw, Wallet, ArrowDownToLine } from "lucide-react";
 import type { Transaction } from "@/types";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { METHOD_LABEL } from "@/data/analytics";
 import { formatRupiah, formatShortDate } from "@/utils/format";
 import { DEMO_TODAY } from "@/data/merchant";
 import { cn } from "@/utils/cn";
-
-export const methodIcon: Record<string, LucideIcon> = {
-  QRIS: QrCode,
-  Debit: CreditCard,
-  Credit: CreditCard,
-  Cash: Banknote,
-  Transfer: Landmark,
-  Other: Wallet,
-  "Bank Transfer": Landmark,
-};
+import { methodIcon } from "@/components/icons";
 
 export function TransactionItem({ transaction: t, compact, showDate }: { transaction: Transaction; compact?: boolean; showDate?: boolean }) {
   const Icon = t.type === "refund" ? RotateCcw : t.type === "settlement" ? ArrowDownToLine : methodIcon[t.method] ?? Wallet;

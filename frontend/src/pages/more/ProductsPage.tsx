@@ -44,6 +44,10 @@ export default function ProductsPage() {
   const [form, setForm] = useState<FormState | null>(null);
 
   useEffect(() => {
+    if (params.get("view") === "categories") setView("categories");
+  }, [params]);
+
+  useEffect(() => {
     const id = params.get("id");
     if (id) setDetailId(id);
   }, [params]);

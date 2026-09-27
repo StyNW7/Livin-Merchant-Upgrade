@@ -4,7 +4,8 @@ import type { PaymentMethod, PaymentSplit } from "@/types";
 import { BottomSheet } from "@/components/common/Overlay";
 import { Button } from "@/components/common/Button";
 import { TextField, Toggle } from "@/components/common/Form";
-import { methodIcon } from "@/components/cards/TransactionItem";
+import { QrCodeGraphic } from "@/components/common/QrCode";
+import { methodIcon } from "@/components/icons";
 import { METHOD_LABEL, PAYMENT_METHODS } from "@/data/analytics";
 import { useCart, useSession } from "@/hooks/useApp";
 import { formatRupiah } from "@/utils/format";
@@ -47,6 +48,7 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
     ];
   }, [split, method, secondMethod, firstAmount, total]);
 
+  const qrisAmount = payments.filter((p) => p.method === "QRIS").reduce((s, p) => s + p.amount, 0);
   const cashDue = payments.filter((p) => p.method === "Cash").reduce((s, p) => s + p.amount, 0);
   const received = Number(cashReceived || 0);
   const change = received - cashDue;
@@ -141,6 +143,23 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
             <p className="tabular text-[28px] font-extrabold">{formatRupiah(total)}</p>
             {isGuest && <p className="mt-1 text-[11.5px] text-gold">Explore Mode: this payment is simulated and not recorded.</p>}
           </div>
+          {qrisAmount > 0 && (
+            <div className="flex flex-col items-center rounded-3xl border border-surface-line bg-white p-4 text-center">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-navy">QRIS</p>
+              <div className="mt-2 rounded-2xl border border-surface-line p-2">
+                <QrCodeGraphic seed={`checkout-${total}-${qrisAmount}`} size={168} />
+              </div>
+              <p className="tabular mt-3 text-[18px] font-extrabold text-ink">{formatRupiah(qrisAmount)}</p>
+              <p className="mt-1 inline-flex items-center gap-2 text-[12px] font-semibold text-ink-muted">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+                </span>
+                {processing ? "Payment received, confirming" : "Show this code to the customer to scan"}
+              </p>
+              {isGuest && <p className="mt-1 text-[11px] text-ink-faint">Sample code for demonstration only</p>}
+            </div>
+          )}
           <div className="card divide-y divide-surface-line text-[13.5px]">
             {payments.map((p, i) => (
               <div key={i} className="flex justify-between px-4 py-3">
@@ -172,9 +191,6 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
               </span>
             </div>
           </div>
-          {payments.some((p) => p.method === "QRIS") && (
-            <p className="text-center text-[12px] text-ink-muted">Ask the customer to scan the QRIS code on the counter stand.</p>
-          )}
         </div>
       )}
     </BottomSheet>

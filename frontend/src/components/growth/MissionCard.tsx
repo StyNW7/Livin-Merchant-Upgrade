@@ -1,34 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  BookOpen,
   CalendarDays,
   ChevronDown,
-  CircleDollarSign,
-  PackageCheck,
-  Receipt,
   Sparkles,
-  Store,
   Trophy,
-  Users,
-  type LucideIcon,
 } from "lucide-react";
-import type { GrowthMission, MissionCategory } from "@/types";
+import type { GrowthMission } from "@/types";
 import { ProgressBar } from "@/components/common/ProgressBar";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { Button } from "@/components/common/Button";
 import { missionCategoryMeta } from "@/data/growth";
 import { cn } from "@/utils/cn";
 import { formatProgress } from "@/utils/format";
-
-export const missionIcons: Record<MissionCategory, LucideIcon> = {
-  Transaction: Receipt,
-  Revenue: CircleDollarSign,
-  Profile: Store,
-  Customer: Users,
-  Operations: PackageCheck,
-  Learning: BookOpen,
-};
+import { missionIcons } from "@/components/icons";
 
 interface MissionCardProps {
   mission: GrowthMission;

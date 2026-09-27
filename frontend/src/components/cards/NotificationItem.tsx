@@ -1,15 +1,7 @@
-import { AlertOctagon, Bell, Megaphone, Settings2, TrendingUp, Wallet, Wrench, type LucideIcon } from "lucide-react";
-import type { AppNotification, NotificationCategory } from "@/types";
+import { Bell } from "lucide-react";
+import type { AppNotification } from "@/types";
 import { cn } from "@/utils/cn";
-
-export const notificationMeta: Record<NotificationCategory, { icon: LucideIcon; tone: string }> = {
-  Urgent: { icon: AlertOctagon, tone: "bg-danger-soft text-danger-dark" },
-  Growth: { icon: TrendingUp, tone: "bg-gold-50 text-gold-700" },
-  Finance: { icon: Wallet, tone: "bg-sky-50 text-sky-700" },
-  Operations: { icon: Wrench, tone: "bg-navy-50 text-navy" },
-  Campaign: { icon: Megaphone, tone: "bg-[#F1EDFD] text-[#6D4FC9]" },
-  System: { icon: Settings2, tone: "bg-surface text-ink-soft" },
-};
+import { notificationMeta } from "@/components/icons";
 
 export function NotificationItem({ notification: n, onClick }: { notification: AppNotification; onClick: () => void }) {
   const meta = notificationMeta[n.category] ?? { icon: Bell, tone: "bg-surface text-ink" };

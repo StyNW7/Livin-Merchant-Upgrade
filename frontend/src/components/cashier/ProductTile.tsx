@@ -1,15 +1,9 @@
-import { Coffee, CupSoda, Cookie, Sandwich, Star, type LucideIcon } from "lucide-react";
-import type { Product, ProductCategory } from "@/types";
+import { Star } from "lucide-react";
+import type { Product } from "@/types";
 import { categoryTone } from "@/data/products";
 import { formatRupiah } from "@/utils/format";
 import { cn } from "@/utils/cn";
-
-export const categoryIcon: Record<ProductCategory, LucideIcon> = {
-  Coffee: Coffee,
-  "Non-Coffee": CupSoda,
-  Food: Sandwich,
-  Snacks: Cookie,
-};
+import { categoryIcon } from "@/components/icons";
 
 /** Photo placeholder: category color with the product initials and icon. */
 export function ProductThumb({ product, size = "md" }: { product: Pick<Product, "name" | "category">; size?: "sm" | "md" | "lg" }) {

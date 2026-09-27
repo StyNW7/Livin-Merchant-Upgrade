@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/utils/cn";
+import { useMounted } from "@/hooks/useCountUp";
 
 interface ProgressBarProps {
   value: number;
@@ -25,6 +26,7 @@ const heights = { xs: "h-1", sm: "h-1.5", md: "h-2.5" };
 
 export function ProgressBar({ value, max = 100, tone = "navy", size = "sm", className, label, marker }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
+  const mounted = useMounted();
   return (
     <div
       role="progressbar"
@@ -41,7 +43,7 @@ export function ProgressBar({ value, max = 100, tone = "navy", size = "sm", clas
     >
       <div
         className={cn("h-full rounded-full transition-[width] duration-700 ease-out", fills[tone])}
-        style={{ width: `${pct}%` }}
+        style={{ width: `${mounted ? pct : 0}%` }}
       />
       {marker !== undefined && (
         <span
@@ -69,6 +71,7 @@ export function ProgressRing({ value, size = 56, stroke = 6, tone = "#003A70", t
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, value));
+  const mounted = useMounted();
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }} role="img" aria-label={label ?? `${pct}%`}>
       <svg width={size} height={size} className="-rotate-90">
@@ -82,7 +85,7 @@ export function ProgressRing({ value, size = 56, stroke = 6, tone = "#003A70", t
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={c}
-          strokeDashoffset={c - (pct / 100) * c}
+          strokeDashoffset={c - ((mounted ? pct : 0) / 100) * c}
           style={{ transition: "stroke-dashoffset 800ms ease-out" }}
         />
       </svg>

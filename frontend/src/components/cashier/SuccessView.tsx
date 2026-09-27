@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, FileText, Plus, Printer, Share2, UserPlus, Users } from "lucide-react";
+import { Check, ChevronRight, FileText, Plus, Printer, Share2, TrendingUp, UserPlus, Users } from "lucide-react";
 import type { Transaction } from "@/types";
 import { Button } from "@/components/common/Button";
 import { BottomSheet } from "@/components/common/Overlay";
 import { DemoTag } from "@/components/common/StatusBadge";
+import { ProgressBar } from "@/components/common/ProgressBar";
 import { ReceiptView } from "./Receipt";
 import { useData, useSession, useUI } from "@/hooks/useApp";
+import { useGrowth, useTodayStats } from "@/hooks/useBusiness";
 import { METHOD_LABEL } from "@/data/analytics";
-import { formatRupiah } from "@/utils/format";
+import { TRANSACTION_MISSION } from "@/data/growth";
+import { formatCompactRupiah, formatRupiah } from "@/utils/format";
 
 /** Transaction success screen with receipt, print, share and customer actions. */
 export function SuccessView({ transaction: t, onNew }: { transaction: Transaction; onNew: () => void }) {
@@ -20,6 +23,10 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
   const [customerOpen, setCustomerOpen] = useState(false);
   const [printing, setPrinting] = useState(false);
   const [customerId, setCustomerId] = useState(t.customerId);
+  const today = useTodayStats(t.outletId);
+  const growth = useGrowth();
+  const goalBefore = Math.max(0, ((today.revenue - t.amount) / today.goal) * 100);
+  const goalAfter = today.goalProgress;
 
   const share = async () => {
     const text = `Receipt ${t.id} - ${formatRupiah(t.amount)} paid by ${METHOD_LABEL[t.method]}. Thank you!`;
@@ -88,6 +95,46 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
         </div>
       </div>
 
+      <section className="mt-4 overflow-hidden rounded-3xl bg-navy p-4 text-white shadow-float" aria-label="Business impact of this sale">
+        <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-gold">
+          <TrendingUp className="h-3.5 w-3.5" /> This sale moved your business forward
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-[11.5px] text-white/60">Today’s sales</p>
+            <p className="tabular text-[17px] font-extrabold">{formatCompactRupiah(today.revenue)}</p>
+            <p className="text-[11.5px] font-semibold text-emerald-300">+{formatCompactRupiah(t.amount)}</p>
+          </div>
+          <div>
+            <p className="text-[11.5px] text-white/60">Transactions today</p>
+            <p className="tabular text-[17px] font-extrabold">{today.count}</p>
+            <p className="text-[11.5px] font-semibold text-white/70">
+              {today.count >= TRANSACTION_MISSION.minDaily ? "Daily mission target met" : `${TRANSACTION_MISSION.minDaily - today.count} to daily target`}
+            </p>
+          </div>
+        </div>
+        <div className="mt-3">
+          <div className="flex items-center justify-between text-[11.5px]">
+            <span className="text-white/70">Daily revenue goal</span>
+            <span className="tabular font-bold">
+              {Math.floor(goalBefore)}% <span className="text-white/50">→</span> <span className="text-gold">{Math.floor(goalAfter)}%</span>
+            </span>
+          </div>
+          <ProgressBar value={goalAfter} tone="gold" size="sm" className="mt-1.5 bg-white/15" label="Daily goal progress" />
+        </div>
+        <button
+          type="button"
+          onClick={() => navigate("/growth")}
+          className="mt-3 flex w-full items-center justify-between rounded-2xl bg-white/10 px-3 py-2.5 text-left text-[12.5px] transition hover:bg-white/15 active:scale-[0.99]"
+        >
+          <span>
+            Growth Score <span className="font-extrabold text-gold">{growth.score}</span>
+            <span className="text-white/70"> · recorded sales build your Transaction Health</span>
+          </span>
+          <ChevronRight className="h-4 w-4 shrink-0 text-white/70" />
+        </button>
+      </section>
+
       <div className="mt-4 grid grid-cols-4 gap-2">
         {[
           { icon: Share2, label: "Share", onClick: share },
@@ -108,7 +155,7 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
         ))}
       </div>
 
-      <div className="mt-auto space-y-2.5 pt-8">
+      <div className="mt-auto space-y-2.5 pt-6">
         <Button block size="lg" leftIcon={<Plus className="h-4 w-4" />} onClick={onNew}>
           Start new transaction
         </Button>

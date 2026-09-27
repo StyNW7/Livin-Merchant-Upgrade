@@ -2,6 +2,7 @@ import { Check, Lock } from "lucide-react";
 import type { GrowthStage, GrowthStageId } from "@/types";
 import { growthStages } from "@/data/growth";
 import { cn } from "@/utils/cn";
+import { useCountUp, useMounted } from "@/hooks/useCountUp";
 
 /** Semicircular Growth Score gauge drawn in SVG so it renders crisply at any size. */
 export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth Score" }: { score: number; size?: number; tone?: "dark" | "light"; label?: string }) {
@@ -11,6 +12,8 @@ export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth S
   const cy = size / 2;
   const circumference = Math.PI * r;
   const pct = Math.max(0, Math.min(100, score)) / 100;
+  const mounted = useMounted();
+  const shown = Math.round(useCountUp(score, { duration: 1100 }));
   const arc = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
   const markers = growthStages.slice(1).map((s) => {
     const angle = Math.PI * (1 - s.min / 100);
@@ -33,8 +36,8 @@ export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth S
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={circumference}
-          strokeDashoffset={circumference * (1 - pct)}
-          style={{ transition: "stroke-dashoffset 900ms cubic-bezier(0.2,0.8,0.2,1)" }}
+          strokeDashoffset={circumference * (1 - (mounted ? pct : 0))}
+          style={{ transition: "stroke-dashoffset 1100ms cubic-bezier(0.2,0.8,0.2,1)" }}
         />
         {markers.map((m) => (
           <circle key={m.id} cx={m.x} cy={m.y} r={3} fill={tone === "dark" ? "#002245" : "#FFFFFF"} opacity={0.9} />
@@ -42,7 +45,7 @@ export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth S
       </svg>
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
         <p className={cn("tabular text-[46px] font-extrabold leading-none tracking-tight", tone === "dark" ? "text-white" : "text-ink")}>
-          {score}
+          {shown}
           <span className={cn("text-[18px] font-bold", tone === "dark" ? "text-white/60" : "text-ink-muted")}> / 100</span>
         </p>
       </div>

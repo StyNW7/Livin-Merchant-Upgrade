@@ -15,7 +15,7 @@ const FILTERS: Filter[] = ["All", "Active", "Completed", "Transaction", "Revenue
 export default function MissionsPage() {
   const growth = useGrowth();
   const { claimedMissions, claimMission } = useData();
-  const { toast } = useUI();
+  const { celebrate } = useUI();
   const [filter, setFilter] = useState<Filter>("All");
 
   const visible = growth.missions.filter((m) =>
@@ -55,8 +55,8 @@ export default function MissionsPage() {
                 defaultOpen={i === 0 && filter === "All"}
                 claimed={claimedMissions.includes(m.id)}
                 onClaim={() => {
+                  celebrate({ missionTitle: m.title, points: m.impactPoints, from: growth.score, to: Math.min(100, growth.score + m.impactPoints) });
                   claimMission(m.id);
-                  toast(`Mission claimed. +${m.impactPoints} Growth Score`);
                 }}
               />
             ))}

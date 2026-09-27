@@ -1,20 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  Bike,
-  Building,
   Camera,
-  Carrot,
-  Megaphone,
-  MoreHorizontal,
   Paperclip,
   Plus,
   Trash2,
-  Users,
   Wallet,
-  Wrench,
-  Zap,
-  type LucideIcon,
 } from "lucide-react";
 import type { Expense, ExpenseCategory } from "@/types";
 import { TopAppBar } from "@/components/layout/TopAppBar";
@@ -32,17 +23,7 @@ import { DEMO_TODAY } from "@/data/merchant";
 import { rangeStart } from "@/data/analytics";
 import { formatCompactRupiah, formatDate, formatRupiah, formatShortDate } from "@/utils/format";
 import { cn } from "@/utils/cn";
-
-export const expenseIcons: Record<ExpenseCategory, LucideIcon> = {
-  Rent: Building,
-  Ingredients: Carrot,
-  Salary: Users,
-  Utilities: Zap,
-  Marketing: Megaphone,
-  Delivery: Bike,
-  Equipment: Wrench,
-  Others: MoreHorizontal,
-};
+import { expenseIcons } from "@/components/icons";
 
 const METHODS: Expense["method"][] = ["Cash", "Transfer", "Debit", "Livin' by Mandiri"];
 

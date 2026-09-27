@@ -30,6 +30,7 @@ import { QuickAction } from "@/components/cards/QuickAction";
 import { TransactionItem } from "@/components/cards/TransactionItem";
 import { Sparkline } from "@/components/charts/Charts";
 import { useData, useSession, useUI } from "@/hooks/useApp";
+import { useCountUp } from "@/hooks/useCountUp";
 import { useAttention, useGrowth, useNotifications, useTodayStats } from "@/hooks/useBusiness";
 import { outlets } from "@/data/outlets";
 import { DEMO_TODAY } from "@/data/merchant";
@@ -56,6 +57,8 @@ export default function HomePage() {
   const [insightOpen, setInsightOpen] = useState(false);
   const outlet = outlets.find((o) => o.id === outletId)!;
   const up = today.change >= 0;
+  const revenueShown = Math.round(useCountUp(today.revenue, { duration: 1000 }));
+  const scoreShown = Math.round(useCountUp(growth.score, { duration: 1000 }));
   const hasSales = transactions.some((t) => t.date === DEMO_TODAY && t.type === "sale");
 
   return (
@@ -98,12 +101,10 @@ export default function HomePage() {
       <div className="space-y-6 px-5">
         {/* A. Hero business summary */}
         <section className="hero-navy relative overflow-hidden rounded-[28px] p-5 text-white shadow-float">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-[12px] font-semibold text-white/70">
-                {merchant.name} · Today, {formatDayDate(DEMO_TODAY)}
-              </p>
-              <p className="tabular mt-2 text-[32px] font-extrabold leading-none tracking-tight">{formatRupiah(today.revenue)}</p>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="truncate text-[12px] font-semibold text-white/70">Today’s sales · {formatDayDate(DEMO_TODAY)}</p>
+              <p className="tabular mt-2 text-[32px] font-extrabold leading-none tracking-tight">{formatRupiah(revenueShown)}</p>
               <p className={cn("mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-bold", up ? "bg-emerald-400/15 text-emerald-300" : "bg-red-400/15 text-red-300")}>
                 {up ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
                 {formatPercent(today.change, 1, true)} vs yesterday
@@ -130,7 +131,7 @@ export default function HomePage() {
         </section>
 
         {/* B. Quick actions */}
-        <section className="grid grid-cols-4 gap-2" aria-label="Quick actions">
+        <section className="-mx-2 grid grid-cols-4 gap-1" aria-label="Quick actions">
           <QuickAction icon={ShoppingCart} label="New Sale" to="/cashier" highlight />
           <QuickAction icon={QrCode} label="QR Payment" to="/qr-payment" />
           <QuickAction icon={WalletCards} label="Add Expense" to="/expenses?new=1" />
@@ -169,7 +170,7 @@ export default function HomePage() {
             <div>
               <p className="text-[12px] font-semibold text-ink-muted">Business Growth Score</p>
               <p className="tabular mt-0.5 text-[30px] font-extrabold leading-none text-ink">
-                {growth.score}
+                {scoreShown}
                 <span className="text-[15px] font-bold text-ink-muted"> / 100</span>
               </p>
             </div>

@@ -5,6 +5,7 @@ import { Modal, OverlayPortal } from "@/components/common/Overlay";
 import { Button } from "@/components/common/Button";
 import { PinSheet, DEFAULT_PIN } from "@/components/common/PinSheet";
 import { BusinessAssistant } from "@/components/assistant/BusinessAssistant";
+import { MissionCelebration, type Celebration } from "@/components/growth/MissionCelebration";
 import { useSession } from "@/hooks/useApp";
 import { readStorage } from "@/utils/storage";
 import { cn } from "@/utils/cn";
@@ -38,6 +39,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [confirmState, setConfirmState] = useState<ConfirmOptions | null>(null);
   const [pinRequest, setPinRequest] = useState<{ title: string; onSuccess: () => void } | null>(null);
   const [assistantOpen, setAssistantOpen] = useState(false);
+  const [celebration, setCelebration] = useState<Celebration | null>(null);
   const idRef = useRef(0);
 
   const toast = useCallback((message: string, tone: ToastTone = "success") => {
@@ -58,6 +60,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const confirm = useCallback((options: ConfirmOptions) => setConfirmState(options), []);
   const requirePin = useCallback((title: string, onSuccess: () => void) => setPinRequest({ title, onSuccess }), []);
   const openAssistant = useCallback(() => setAssistantOpen(true), []);
+  const celebrate = useCallback((c: Celebration) => setCelebration(c), []);
 
   const submitPin = useCallback(
     (pin: string) => {
@@ -72,8 +75,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<UIState>(
-    () => ({ toast, requireAccount, confirm, requirePin, openAssistant }),
-    [toast, requireAccount, confirm, requirePin, openAssistant],
+    () => ({ toast, requireAccount, confirm, requirePin, openAssistant, celebrate }),
+    [toast, requireAccount, confirm, requirePin, openAssistant, celebrate],
   );
 
   const leaveGuest = (to: string) => {
@@ -156,6 +159,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
       <PinSheet open={pinRequest !== null} title={pinRequest?.title ?? ""} onClose={() => setPinRequest(null)} onSubmit={submitPin} />
 
       <BusinessAssistant open={assistantOpen} onClose={() => setAssistantOpen(false)} />
+
+      <MissionCelebration celebration={celebration} onClose={() => setCelebration(null)} />
     </UIContext.Provider>
   );
 }

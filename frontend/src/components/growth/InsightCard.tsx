@@ -1,20 +1,11 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock3, CreditCard, PackageSearch, ShoppingBag, Store, TrendingDown, TrendingUp, Users, Wallet, type LucideIcon } from "lucide-react";
+import { ArrowRight, TrendingDown, TrendingUp } from "lucide-react";
 import type { BusinessInsight } from "@/types";
 import { SimpleBars, TrendLine } from "@/components/charts/Charts";
 import { CHART_NAVY } from "@/data/analytics";
 import { formatCompactRupiah } from "@/utils/format";
 import { cn } from "@/utils/cn";
-
-export const insightIcons: Record<BusinessInsight["category"], LucideIcon> = {
-  Revenue: Wallet,
-  Products: ShoppingBag,
-  Customers: Users,
-  Time: Clock3,
-  Outlet: Store,
-  Payments: CreditCard,
-  Operations: PackageSearch,
-};
+import { insightIcons } from "@/components/icons";
 
 const formatters = {
   rupiah: (v: number) => formatCompactRupiah(v),

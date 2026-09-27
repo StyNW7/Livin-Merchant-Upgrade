@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import type { Celebration } from "@/components/growth/MissionCelebration";
 import type {
   AppMode,
   CalendarEvent,
@@ -232,6 +233,8 @@ export interface UIState {
   /** Asks for the 6-digit transaction PIN before a sensitive action. */
   requirePin: (title: string, onSuccess: () => void) => void;
   openAssistant: () => void;
+  /** Celebrates a claimed Growth Mission with the score moving from `from` to `to`. */
+  celebrate: (celebration: Celebration) => void;
 }
 
 export const UIContext = createContext<UIState | null>(null);

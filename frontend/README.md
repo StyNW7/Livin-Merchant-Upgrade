@@ -19,8 +19,10 @@ On desktop the app renders inside a centered phone frame; on phones it fills the
 
 1. Welcome screen → **Explore as Guest** (or **Login with Mandiri**, any 6+ character password)
 2. **Home** — today's sales, attention items, growth snapshot, cashflow, daily goal
-3. **Cashier** — add products (sizes, add-ons), checkout with QRIS / cash / split payment
-4. **Growth** — Growth Score, stages, Next Best Actions, Missions, Insights
+3. **Cashier** — add products (sizes, add-ons), checkout with QRIS (on-screen code) / cash / split payment.
+   The success screen shows how the sale moved today's sales, the daily goal and the Growth Score.
+4. **Growth** — Growth Score, stages, Next Best Actions, Missions, Insights. Complete a mission
+   (e.g. *Learn → Cashflow Basics*) and claim it to see the score move.
 5. **Financing Readiness** → Financing Center
 6. **More** — operations, finance, growth and Mandiri modules
 

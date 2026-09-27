@@ -17,7 +17,8 @@ import {
 } from "recharts";
 import { CHART_MUTED, CHART_NAVY } from "@/data/analytics";
 import { formatAxis } from "@/utils/format";
-import { ChartTooltip, axisProps, gridProps } from "./ChartKit";
+import { ChartTooltip } from "./ChartKit";
+import { axisProps, gridProps } from "./chartProps";
 
 type Row = Record<string, string | number | null | undefined | boolean>;
 
@@ -36,10 +37,20 @@ export function Sparkline({
   fillOpacity?: number;
 }) {
   const id = useId().replace(/:/g, "");
+  const lastIndex = data.reduce<number>((last, row, i) => (row[dataKey] != null ? i : last), -1);
+  const renderDot = ({ cx, cy, index }: { cx?: number; cy?: number; index?: number }) =>
+    index === lastIndex && cx != null && cy != null ? (
+      <g key="now">
+        <circle cx={cx} cy={cy} r={8} fill={color} opacity={0.25} className="animate-pulse" />
+        <circle cx={cx} cy={cy} r={3.5} fill={color} stroke="#fff" strokeWidth={1.5} />
+      </g>
+    ) : (
+      <g key={`dot-${index}`} />
+    );
   return (
     <div style={{ height }} aria-hidden>
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 4, right: 2, bottom: 0, left: 2 }}>
+        <AreaChart data={data} margin={{ top: 10, right: 10, bottom: 2, left: 2 }}>
           <defs>
             <linearGradient id={`spark-${id}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor={color} stopOpacity={fillOpacity} />
@@ -53,7 +64,10 @@ export function Sparkline({
             strokeWidth={2}
             fill={`url(#spark-${id})`}
             connectNulls={false}
-            isAnimationActive={false}
+            dot={renderDot}
+            activeDot={false}
+            isAnimationActive
+            animationDuration={1100}
           />
         </AreaChart>
       </ResponsiveContainer>
