@@ -87,7 +87,7 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
           <MethodGrid value={method} onChange={setMethod} label={split ? "First payment" : "Payment method"} />
 
           <div className="rounded-2xl bg-surface px-3">
-            <Toggle checked={split} onChange={setSplit} label="Split payment" description="Pay with two methods" icon={<Split className="h-5 w-5 text-navy" />} />
+            <Toggle checked={split} onChange={setSplit} label="Split payment" description="Pay with two methods" icon={<Split className="h-5 w-5 text-navy-600" />} />
           </div>
 
           {split && (
@@ -137,13 +137,13 @@ export function CheckoutSheet({ open, onClose, onConfirm, processing }: Props) {
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-navy p-4 text-white">
-            <p className="text-[12px] text-white/70">Amount to charge</p>
+          <div className="rounded-2xl hero-navy overflow-hidden shadow-float p-4 text-white">
+            <p className="text-[12px] text-white/85">Amount to charge</p>
             <p className="tabular text-[28px] font-extrabold">{formatRupiah(total)}</p>
           </div>
           {qrisAmount > 0 && (
             <div className="flex flex-col items-center rounded-3xl border border-surface-line bg-white p-4 text-center">
-              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-navy">QRIS</p>
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-navy-600">QRIS</p>
               <div className="mt-2 rounded-2xl border border-surface-line p-2">
                 <QrCodeGraphic seed={`checkout-${total}-${qrisAmount}`} size={168} />
               </div>
@@ -213,7 +213,7 @@ function MethodGrid({ value, onChange, label, exclude }: { value: PaymentMethod;
                 active ? "border-navy bg-navy text-white shadow-float" : "border-surface-line bg-white text-ink-soft hover:border-navy-200",
               )}
             >
-              <Icon className={cn("h-5 w-5", active ? "text-gold" : "text-navy")} />
+              <Icon className={cn("h-5 w-5", active ? "text-white" : "text-navy-600")} />
               {METHOD_LABEL[m]}
             </button>
           );

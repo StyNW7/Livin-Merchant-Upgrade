@@ -79,7 +79,7 @@ export function FilePicker({ value, onChange, label, hint, accept, maxMb = 5, ca
           error ? "border-danger bg-danger-soft/40" : "border-navy-200",
         )}
       >
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-50 text-navy">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
           {camera ? <Camera className="h-5 w-5" /> : <Paperclip className="h-5 w-5" />}
         </span>
         <span className="min-w-0">

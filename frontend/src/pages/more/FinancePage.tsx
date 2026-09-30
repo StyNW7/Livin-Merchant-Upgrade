@@ -72,15 +72,15 @@ export default function FinancePage() {
       <TopAppBar title="Business Finance" subtitle={`${outletName} · last 30 days`} backTo="/more" />
       <PageBody>
         <section className="hero-navy rounded-[28px] p-5 text-white">
-          <p className="text-[12px] font-semibold text-white/70">Monthly Summary</p>
+          <p className="text-[12px] font-semibold text-white/85">Monthly Summary</p>
           <div className="mt-3 space-y-2.5">
-            <Line label="Revenue" value={month.revenue} icon={<ArrowDownLeft className="h-4 w-4 text-emerald-300" />} />
-            <Line label="Expenses" value={-month.expenses} icon={<ArrowUpRight className="h-4 w-4 text-red-300" />} />
+            <Line label="Revenue" value={month.revenue} icon={<ArrowDownLeft className="h-4 w-4 text-white" />} />
+            <Line label="Expenses" value={-month.expenses} icon={<ArrowUpRight className="h-4 w-4 text-white" />} />
             <div className="border-t border-white/15 pt-2.5">
-              <Line label="Estimated Gross Profit" value={month.profit} bold icon={<TrendingUp className="h-4 w-4 text-gold" />} />
+              <Line label="Estimated Gross Profit" value={month.profit} bold icon={<TrendingUp className="h-4 w-4 text-gold-200" />} />
             </div>
           </div>
-          <p className="mt-3 text-[12px] text-white/65">Based on recorded sales and expenses. Profit margin {formatPercent(margin, 0)}.</p>
+          <p className="mt-3 text-[12px] text-white/85">Based on recorded sales and expenses. Profit margin {formatPercent(margin, 0)}.</p>
         </section>
 
         <section className="grid grid-cols-2 gap-3">
@@ -149,11 +149,11 @@ export default function FinancePage() {
 function Line({ label, value, bold, icon }: { label: string; value: number; bold?: boolean; icon: ReactNode }) {
   return (
     <div className="flex items-center justify-between">
-      <span className={cn("flex items-center gap-2 text-[13.5px]", bold ? "font-bold text-white" : "text-white/80")}>
+      <span className={cn("flex min-w-0 items-center gap-2 text-[13.5px]", bold ? "font-bold text-white" : "text-white/90")}>
         {icon}
         {label}
       </span>
-      <span className={cn("tabular", bold ? "text-[20px] font-extrabold text-gold" : "text-[15px] font-bold")}>
+      <span className={cn("tabular", bold ? "whitespace-nowrap rounded-xl bg-gold px-2.5 py-0.5 text-[17px] font-extrabold text-navy-900 shadow-glow" : "whitespace-nowrap text-[15px] font-bold")}>
         {value < 0 ? "-" : ""}
         {formatRupiah(Math.abs(value))}
       </span>

@@ -85,7 +85,7 @@ export function CartSheet({ open, onClose, onCharge, onHold }: Props) {
                       </button>
                     </div>
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="tabular text-[13.5px] font-extrabold text-navy">{formatRupiah(line.unitPrice * line.qty)}</span>
+                      <span className="tabular text-[13.5px] font-extrabold text-navy-600">{formatRupiah(line.unitPrice * line.qty)}</span>
                       <Stepper value={line.qty} onChange={(v) => cart.setQty(line.key, v)} max={stockLeft(line.productId, line.key)} label={line.name} />
                     </div>
                   </div>

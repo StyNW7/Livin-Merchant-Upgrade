@@ -155,17 +155,17 @@ export default function TransactionsPage() {
         </ChipRow>
         <SearchInput value={query} onChange={setQuery} placeholder="Search invoice, amount or item" />
 
-        <section className="grid grid-cols-3 gap-2 rounded-2xl bg-navy p-3.5 text-white">
+        <section className="grid grid-cols-3 gap-2 rounded-2xl hero-navy overflow-hidden shadow-float p-3.5 text-white">
           <div>
-            <p className="text-[11px] text-white/60">Total Sales</p>
+            <p className="text-[11px] text-white/80">Total Sales</p>
             <p className="tabular text-[15px] font-extrabold">{formatCompactRupiah(totalSales)}</p>
           </div>
           <div>
-            <p className="text-[11px] text-white/60">Transactions</p>
+            <p className="text-[11px] text-white/80">Transactions</p>
             <p className="tabular text-[15px] font-extrabold">{formatCount(sales.length)}</p>
           </div>
           <div>
-            <p className="text-[11px] text-white/60">Average</p>
+            <p className="text-[11px] text-white/80">Average</p>
             <p className="tabular text-[15px] font-extrabold">{formatRupiah(sales.length ? Math.round(totalSales / sales.length) : 0)}</p>
           </div>
         </section>

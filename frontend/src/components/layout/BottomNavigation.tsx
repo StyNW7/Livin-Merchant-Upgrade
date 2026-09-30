@@ -14,7 +14,7 @@ export function BottomNavigation() {
   return (
     <nav
       aria-label="Primary"
-      className="pb-safe relative z-30 shrink-0 border-t border-surface-line bg-white/95 px-2 pt-1.5 shadow-nav backdrop-blur"
+      className="pb-safe relative z-30 shrink-0 rounded-t-[26px] border-t border-surface-line/80 bg-white/95 px-2 pt-2 shadow-nav backdrop-blur-xl"
     >
       <ul className="grid grid-cols-5">
         {ITEMS.map(({ to, label, icon: Icon, hero }) => (
@@ -23,8 +23,8 @@ export function BottomNavigation() {
               to={to}
               className={({ isActive }) =>
                 cn(
-                  "group flex min-h-[52px] w-full flex-col items-center justify-end gap-1 rounded-2xl pb-1 text-[11px] font-semibold transition-colors",
-                  isActive ? "text-navy" : "text-ink-faint hover:text-ink-soft",
+                  "group relative flex min-h-[54px] w-full flex-col items-center justify-end gap-1 rounded-2xl pb-1 text-[11px] font-semibold tracking-tight transition-colors",
+                  isActive ? "text-navy-600" : "text-ink-faint hover:text-ink-soft",
                 )
               }
             >
@@ -33,25 +33,28 @@ export function BottomNavigation() {
                   <>
                     <span
                       className={cn(
-                        "-mt-6 flex h-[52px] w-[52px] items-center justify-center rounded-[18px] border-4 border-white shadow-float transition-all duration-200 group-active:scale-90",
-                        isActive ? "bg-navy text-gold" : "bg-gold text-navy-900",
+                        "-mt-7 flex h-[56px] w-[56px] items-center justify-center rounded-full border-[5px] border-white transition-all duration-200 group-active:scale-90",
+                        isActive
+                          ? "bg-gradient-to-br from-navy-400 to-navy-600 text-white shadow-brand"
+                          : "bg-gradient-to-br from-gold-300 to-gold-500 text-navy-900 shadow-glow",
                       )}
                     >
-                      <Icon className="h-6 w-6" strokeWidth={2.4} />
+                      <Icon className="h-6 w-6" strokeWidth={2.5} />
                     </span>
-                    <span className={cn(isActive ? "text-navy" : "text-ink-soft")}>{label}</span>
+                    <span className={cn("font-bold", isActive ? "text-navy-600" : "text-ink-soft")}>{label}</span>
                   </>
                 ) : (
                   <>
                     <span
                       className={cn(
-                        "relative flex h-8 w-12 items-center justify-center rounded-full transition-all duration-200 group-active:scale-90",
-                        isActive && "bg-gold-100",
+                        "relative flex h-8 w-14 items-center justify-center rounded-full transition-all duration-200 group-active:scale-90",
+                        isActive ? "bg-navy-50" : "group-hover:bg-surface",
                       )}
                     >
                       <Icon className="h-[21px] w-[21px]" strokeWidth={isActive ? 2.4 : 2} />
+                      {isActive && <span className="absolute -top-2 h-1 w-6 rounded-full bg-gold" aria-hidden />}
                     </span>
-                    <span>{label}</span>
+                    <span className={cn(isActive && "font-bold")}>{label}</span>
                   </>
                 )
               }

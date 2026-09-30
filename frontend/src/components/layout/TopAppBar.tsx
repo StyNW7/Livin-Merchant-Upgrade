@@ -30,7 +30,7 @@ export function TopAppBar({ title, subtitle, backTo = "/more", hideBack, right, 
     <header
       className={cn(
         "sticky top-0 z-20 px-3 pb-2.5 pt-2",
-        tone === "light" ? "border-b border-surface-line/70 bg-surface/90 backdrop-blur-md" : "bg-navy text-white",
+        tone === "light" ? "border-b border-surface-line/70 bg-surface/85 backdrop-blur-xl" : "bg-gradient-to-br from-navy-400 to-navy-600 text-white",
         className,
       )}
     >
@@ -41,17 +41,17 @@ export function TopAppBar({ title, subtitle, backTo = "/more", hideBack, right, 
             onClick={goBack}
             aria-label="Go back"
             className={cn(
-              "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl transition active:scale-95",
-              tone === "light" ? "text-navy hover:bg-navy-50" : "text-white hover:bg-white/10",
+              "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl transition active:scale-95",
+              tone === "light" ? "border border-surface-line bg-white text-navy-600 shadow-soft hover:bg-navy-50" : "bg-white/20 text-white hover:bg-white/30",
             )}
           >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-5 w-5" strokeWidth={2.4} />
           </button>
         )}
-        <div className={cn("min-w-0 flex-1", hideBack && "pl-2")}>
-          <h1 className={cn("truncate text-[18px] font-bold tracking-tight", tone === "light" ? "text-ink" : "text-white")}>{title}</h1>
+        <div className={cn("min-w-0 flex-1 pl-1.5", hideBack && "pl-2")}>
+          <h1 className={cn("truncate text-[17.5px] font-extrabold tracking-tight", tone === "light" ? "text-ink" : "text-white")}>{title}</h1>
           {subtitle && (
-            <p className={cn("truncate text-[12px]", tone === "light" ? "text-ink-muted" : "text-white/70")}>{subtitle}</p>
+            <p className={cn("truncate text-[12px]", tone === "light" ? "text-ink-muted" : "text-white/85")}>{subtitle}</p>
           )}
         </div>
         {right && <div className="flex shrink-0 items-center gap-1.5">{right}</div>}
@@ -64,10 +64,10 @@ export function TopAppBar({ title, subtitle, backTo = "/more", hideBack, right, 
 /** Large title header used on the five primary tabs. */
 export function TabHeader({ title, subtitle, right }: { title: string; subtitle?: string; right?: ReactNode }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-transparent bg-surface/90 px-5 pb-3 pt-3 backdrop-blur-md">
+    <header className="sticky top-0 z-20 border-b border-surface-line/60 bg-surface/85 px-5 pb-3 pt-3 backdrop-blur-xl">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <h1 className="truncate text-[23px] font-extrabold tracking-tight text-ink">{title}</h1>
+          <h1 className="truncate text-[24px] font-extrabold tracking-tight text-ink">{title}</h1>
           {subtitle && <p className="truncate text-[13px] text-ink-muted">{subtitle}</p>}
         </div>
         {right && <div className="flex shrink-0 items-center gap-2">{right}</div>}

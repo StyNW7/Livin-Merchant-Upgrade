@@ -19,8 +19,8 @@ export function FilterChip({ label, active, onClick, icon, count, className }: F
       className={cn(
         "inline-flex h-9 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-[13px] font-semibold transition-all duration-150 active:scale-95",
         active
-          ? "border-navy bg-navy text-white shadow-[0_4px_12px_-4px_rgba(0,58,112,0.45)]"
-          : "border-surface-line bg-white text-ink-soft hover:border-navy-200 hover:text-navy",
+          ? "border-navy bg-navy text-white shadow-brand"
+          : "border-surface-line bg-white text-ink-soft shadow-soft hover:border-navy-200 hover:text-navy-600",
         className,
       )}
     >
@@ -57,7 +57,7 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
       aria-label={ariaLabel}
       className={cn(
         "flex rounded-2xl p-1",
-        tone === "light" ? "bg-navy-50/70" : "bg-white/10",
+        tone === "light" ? "bg-navy-50" : "bg-white/20",
         className,
       )}
     >
@@ -74,11 +74,11 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
               "h-9 flex-1 rounded-xl px-2 text-[13px] font-semibold transition-all duration-200",
               tone === "light"
                 ? active
-                  ? "bg-white text-navy shadow-card"
-                  : "text-ink-muted hover:text-navy"
+                  ? "bg-white text-navy-600 shadow-soft"
+                  : "text-ink-muted hover:text-navy-600"
                 : active
-                  ? "bg-white text-navy"
-                  : "text-white/75 hover:text-white",
+                  ? "bg-white text-navy-600 shadow-soft"
+                  : "text-white/90 hover:text-white",
             )}
           >
             {option.label}

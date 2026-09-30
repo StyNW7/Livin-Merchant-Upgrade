@@ -143,7 +143,7 @@ export default function QrPaymentPage() {
           <p className="tabular mt-1 text-center text-[36px] font-extrabold tracking-tight text-ink">{formatRupiah(amount)}</p>
           <div className="mt-3 flex justify-center gap-2">
             {[25_000, 50_000, 100_000].map((v) => (
-              <button key={v} type="button" onClick={() => setDigits(String(v))} className="rounded-full bg-navy-50 px-3 py-1.5 text-[12.5px] font-semibold text-navy">
+              <button key={v} type="button" onClick={() => setDigits(String(v))} className="rounded-full bg-navy-50 px-3 py-1.5 text-[12.5px] font-semibold text-navy-600">
                 {formatRupiah(v)}
               </button>
             ))}
@@ -177,7 +177,7 @@ export default function QrPaymentPage() {
         <div className="flex flex-col items-center px-6 pb-8 pt-6 text-center">
           <div className="card flex w-full flex-col items-center p-5">
             <p className="text-[12px] text-ink-muted">Scan to pay</p>
-            <p className="tabular text-[26px] font-extrabold text-navy">{formatRupiah(amount)}</p>
+            <p className="tabular text-[26px] font-extrabold text-navy-600">{formatRupiah(amount)}</p>
             <div className="my-4">
               <QrCodeGraphic seed={`dyn-${amount}-${outletName}`} size={210} />
             </div>

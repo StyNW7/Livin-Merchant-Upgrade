@@ -26,16 +26,16 @@ export default function SettlementPage() {
         {today && (
           <Link to={`/settlement/${today.id}`} className="hero-navy block rounded-[28px] p-5 text-white shadow-float">
             <div className="flex items-center justify-between">
-              <p className="text-[12.5px] font-semibold text-white/70">Today’s Settlement</p>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-400/15 px-2.5 py-1 text-[11.5px] font-bold text-emerald-300">
+              <p className="text-[12.5px] font-semibold text-white/85">Today’s Settlement</p>
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[11.5px] font-bold text-white">
                 <CheckCircle2 className="h-3.5 w-3.5" /> {today.status}
               </span>
             </div>
             <p className="tabular mt-2 text-[30px] font-extrabold">{formatRupiah(today.net)}</p>
-            <div className="mt-3 flex items-center gap-2 text-[12.5px] text-white/75">
-              <Building2 className="h-4 w-4 text-gold" /> Mandiri Business Account · {merchant.accountNumber}
+            <div className="mt-3 flex items-center gap-2 text-[12.5px] text-white/85">
+              <Building2 className="h-4 w-4 text-gold-200" /> Mandiri Business Account · {merchant.accountNumber}
             </div>
-            <p className="mt-1 text-[12px] text-white/60">
+            <p className="mt-1 text-[12px] text-white/80">
               Credited at {today.time} · sales of {formatShortDate(today.salesDate)} · {today.transactions} transactions
             </p>
           </Link>
@@ -73,7 +73,7 @@ export default function SettlementPage() {
           <div className="card divide-y divide-surface-line overflow-hidden">
             {history.slice(0, 30).map((s) => (
               <Link key={s.id} to={`/settlement/${s.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-surface/70">
-                <span className="flex h-10 w-10 flex-col items-center justify-center rounded-xl bg-navy-50 text-navy">
+                <span className="flex h-10 w-10 flex-col items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                   <span className="text-[13px] font-extrabold leading-none">{Number(s.date.slice(8))}</span>
                   <span className="text-[9.5px] font-semibold uppercase">{formatShortDate(s.date).split(" ")[1]}</span>
                 </span>

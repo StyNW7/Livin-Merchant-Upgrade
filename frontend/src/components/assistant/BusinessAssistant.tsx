@@ -110,7 +110,7 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
     <BottomSheet open onClose={onClose} title="Business Assistant" subtitle="Quick answers from your recorded business data">
       {thread.length === 0 && (
         <div className="mb-4 flex items-start gap-3 rounded-2xl bg-navy-50 p-4">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy text-gold">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy text-white">
             <Sparkles className="h-4 w-4" />
           </span>
           <p className="text-[13px] leading-relaxed text-ink-soft">
@@ -171,7 +171,7 @@ function AssistantContent({ onClose }: { onClose: () => void }) {
               type="button"
               onClick={() => ask(q)}
               disabled={thinking !== null}
-              className="disabled:opacity-60 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-navy-100 bg-white px-3.5 text-left text-[13px] font-semibold text-navy transition hover:border-navy-300 hover:bg-navy-50 active:scale-[0.98]"
+              className="disabled:opacity-60 inline-flex min-h-[40px] items-center gap-1.5 rounded-full border border-navy-100 bg-white px-3.5 text-left text-[13px] font-semibold text-navy-600 transition hover:border-navy-300 hover:bg-navy-50 active:scale-[0.98]"
             >
               <MessageSquareText className="h-3.5 w-3.5 shrink-0 text-sky-600" />
               {q}

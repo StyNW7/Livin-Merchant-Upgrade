@@ -44,7 +44,7 @@ export function Modal({ open, onClose, children, className, labelledBy }: ModalP
   return (
     <OverlayPortal>
       <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center p-5">
-        <div className="absolute inset-0 animate-fade-in bg-navy-950/50 backdrop-blur-[2px]" onClick={onClose} />
+        <div className="absolute inset-0 animate-fade-in bg-navy-950/40 backdrop-blur-[3px]" onClick={onClose} />
         <div
           ref={ref}
           role="dialog"
@@ -52,7 +52,7 @@ export function Modal({ open, onClose, children, className, labelledBy }: ModalP
           aria-labelledby={labelledBy}
           tabIndex={-1}
           className={cn(
-            "relative w-full max-w-[360px] animate-pop-in rounded-[28px] bg-white p-6 shadow-float focus:outline-none",
+            "relative w-full max-w-[360px] animate-pop-in rounded-[30px] bg-white p-6 shadow-float ring-1 ring-navy-100 focus:outline-none",
             className,
           )}
         >
@@ -80,7 +80,7 @@ export function BottomSheet({ open, onClose, title, subtitle, children, footer, 
   return (
     <OverlayPortal>
       <div className="pointer-events-auto absolute inset-0 z-50 flex flex-col justify-end">
-        <div className="absolute inset-0 animate-fade-in bg-navy-950/45 backdrop-blur-[1px]" onClick={onClose} />
+        <div className="absolute inset-0 animate-fade-in bg-navy-950/35 backdrop-blur-[2px]" onClick={onClose} />
         <div
           ref={ref}
           role="dialog"
@@ -88,17 +88,17 @@ export function BottomSheet({ open, onClose, title, subtitle, children, footer, 
           aria-label={title}
           tabIndex={-1}
           className={cn(
-            "relative flex max-h-[88%] animate-sheet-up flex-col rounded-t-[28px] bg-white shadow-float focus:outline-none",
+            "relative flex max-h-[88%] animate-sheet-up flex-col rounded-t-[30px] bg-white shadow-[0_-12px_40px_-12px_rgba(16,38,74,0.25)] focus:outline-none",
             className,
           )}
         >
           <div className="flex justify-center pb-1 pt-2.5">
-            <span className="h-1 w-10 rounded-full bg-navy-100" aria-hidden />
+            <span className="h-1.5 w-11 rounded-full bg-navy-100" aria-hidden />
           </div>
           {title && (
             <div className="flex items-start justify-between gap-3 px-5 pb-3 pt-1">
               <div className="min-w-0">
-                <h2 className="text-[17px] font-bold text-ink">{title}</h2>
+                <h2 className="text-[18px] font-extrabold tracking-tight text-ink">{title}</h2>
                 {subtitle && <p className="mt-0.5 text-[13px] text-ink-muted">{subtitle}</p>}
               </div>
               <button

@@ -53,7 +53,7 @@ export default function SecurityPage() {
           />
           <div className="px-4">
             <Toggle
-              icon={<Bell className="h-5 w-5 text-navy" />}
+              icon={<Bell className="h-5 w-5 text-navy-600" />}
               label="Notification Security"
               description="Alert me about logins and large refunds"
               checked={notifSecurity}
@@ -64,7 +64,7 @@ export default function SecurityPage() {
             />
           </div>
           <div className="px-4">
-            <Toggle label="Biometric login" description="Use fingerprint or face to log in" checked={biometric} onChange={setBiometric} icon={<Smartphone className="h-5 w-5 text-navy" />} />
+            <Toggle label="Biometric login" description="Use fingerprint or face to log in" checked={biometric} onChange={setBiometric} icon={<Smartphone className="h-5 w-5 text-navy-600" />} />
           </div>
         </ListGroup>
 
@@ -73,7 +73,7 @@ export default function SecurityPage() {
           <div className="card divide-y divide-surface-line">
             {devices.map((d) => (
               <div key={d.id} className="flex items-center gap-3 px-4 py-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">{d.current ? <Smartphone className="h-5 w-5" /> : <Laptop className="h-5 w-5" />}</span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">{d.current ? <Smartphone className="h-5 w-5" /> : <Laptop className="h-5 w-5" />}</span>
                 <div className="min-w-0 flex-1">
                   <p className="text-[14px] font-semibold text-ink">
                     {d.name} {d.current && <span className="text-[11px] font-bold text-success-dark">· This device</span>}

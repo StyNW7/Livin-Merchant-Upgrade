@@ -48,7 +48,7 @@ export default function PromotionDetailPage() {
         <section className="card p-4">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[18px] font-extrabold text-navy">{p.benefit}</p>
+              <p className="text-[18px] font-extrabold text-navy-600">{p.benefit}</p>
               <p className="text-[12.5px] text-ink-muted">
                 {p.period} · {p.hours}
               </p>

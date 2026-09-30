@@ -51,7 +51,7 @@ export default function SupportChatPage() {
         subtitle="Nadia · Livin Merchant Support"
         backTo="/help"
         right={
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-gold">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-white">
             <Headphones className="h-5 w-5" />
           </span>
         }
@@ -67,7 +67,7 @@ export default function SupportChatPage() {
               )}
             >
               {m.text}
-              <span className={cn("mt-1 block text-right text-[10.5px]", m.from === "me" ? "text-white/60" : "text-ink-faint")}>{m.time}</span>
+              <span className={cn("mt-1 block text-right text-[10.5px]", m.from === "me" ? "text-white/80" : "text-ink-faint")}>{m.time}</span>
             </div>
           </div>
         ))}
@@ -86,7 +86,7 @@ export default function SupportChatPage() {
       <div className="sticky bottom-0 border-t border-surface-line bg-white/95 px-3 pb-3 pt-2 backdrop-blur">
         <div className="no-scrollbar mb-2 flex gap-2 overflow-x-auto">
           {QUICK.map((q) => (
-            <button key={q} type="button" onClick={() => send(q)} className="shrink-0 rounded-full border border-navy-100 px-3 py-1.5 text-[12px] font-semibold text-navy hover:bg-navy-50">
+            <button key={q} type="button" onClick={() => send(q)} className="shrink-0 rounded-full border border-navy-100 px-3 py-1.5 text-[12px] font-semibold text-navy-600 hover:bg-navy-50">
               {q}
             </button>
           ))}
@@ -105,7 +105,7 @@ export default function SupportChatPage() {
             aria-label="Message"
             className="h-11 flex-1 rounded-2xl border border-surface-line bg-surface px-4 text-[14px] focus:border-sky-400"
           />
-          <button type="submit" disabled={!text.trim() || typing} aria-label="Send" className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy text-gold disabled:opacity-40">
+          <button type="submit" disabled={!text.trim() || typing} aria-label="Send" className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy text-white disabled:opacity-40">
             <SendHorizontal className="h-5 w-5" />
           </button>
         </form>

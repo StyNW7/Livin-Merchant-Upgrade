@@ -72,7 +72,7 @@ export default function OrdersPage() {
                 <button type="button" onClick={() => setOpenId(o.id)} className="block w-full text-left">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                         <Icon className="h-5 w-5" />
                       </span>
                       <div>
@@ -96,7 +96,7 @@ export default function OrdersPage() {
                     <span className="inline-flex items-center gap-1 text-[12px] text-ink-muted">
                       <Clock className="h-3.5 w-3.5" /> {o.createdAt}
                     </span>
-                    <span className="tabular text-[15px] font-extrabold text-navy">{formatRupiah(o.total)}</span>
+                    <span className="tabular text-[15px] font-extrabold text-navy-600">{formatRupiah(o.total)}</span>
                   </div>
                 </button>
                 {next && (

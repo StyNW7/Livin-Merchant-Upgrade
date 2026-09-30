@@ -56,11 +56,11 @@ export default function ProfilePage() {
               <span className="text-[19px] font-extrabold">{profile.strength}%</span>
             </ProgressRing>
             <div>
-              <p className="text-[12px] text-white/70">Business Profile Strength</p>
+              <p className="text-[12px] text-white/85">Business Profile Strength</p>
               <p className="text-[15px] font-bold">{profile.missing.length ? "Complete your profile to strengthen your Growth Score." : "Your profile is complete."}</p>
             </div>
           </div>
-          <p className="mt-3 text-[12.5px] leading-relaxed text-white/70">A more complete profile helps Livin Merchant understand your business better.</p>
+          <p className="mt-3 text-[12.5px] leading-relaxed text-white/85">A more complete profile helps Livin Merchant understand your business better.</p>
         </section>
 
         <section className="card p-4">

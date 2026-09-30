@@ -16,15 +16,15 @@ export default function OutlookPage() {
       <TopAppBar title="Business Outlook" subtitle="A lightweight look at the next 30 days" backTo="/growth" />
       <PageBody>
         <section className="hero-navy rounded-[28px] p-5 text-white">
-          <p className="flex items-center gap-1.5 text-[12px] font-semibold text-white/70">
-            <TrendingUp className="h-4 w-4 text-gold" /> Projected monthly revenue
+          <p className="flex items-center gap-1.5 text-[12px] font-semibold text-white/85">
+            <TrendingUp className="h-4 w-4 text-gold-200" /> Projected monthly revenue
           </p>
           <p className="tabular mt-2 text-[28px] font-extrabold">
             {formatCompactRupiah(o.rangeLow, 0)} – {formatCompactRupiah(o.rangeHigh, 0)}
           </p>
-          <p className="mt-1 text-[12.5px] text-white/70">Based on: recent transaction trend (last 14 days)</p>
+          <p className="mt-1 text-[12.5px] text-white/85">Based on: recent transaction trend (last 14 days)</p>
           <div className="mt-4 flex items-center gap-2">
-            <span className="text-[12px] text-white/70">Confidence</span>
+            <span className="text-[12px] text-white/85">Confidence</span>
             <StatusBadge status={o.confidence} tone={o.confidence === "High" ? "success" : o.confidence === "Moderate" ? "gold" : "warning"} icon={<Gauge className="h-3 w-3" />} />
           </div>
         </section>

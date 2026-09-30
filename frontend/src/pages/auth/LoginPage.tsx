@@ -49,21 +49,21 @@ export default function LoginPage() {
           type="button"
           onClick={() => navigate("/welcome")}
           aria-label="Back"
-          className="flex h-11 w-11 items-center justify-center rounded-2xl hover:bg-white/10"
+          className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/20 transition hover:bg-white/30 active:scale-95"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         <div className="mt-3 flex items-center gap-3 px-1">
-          <AppIcon size={48} className="shadow-float" />
+          <AppIcon size={52} className="shadow-float ring-2 ring-white/60" />
           <div>
             <h1 className="text-[22px] font-extrabold tracking-tight">Login with Mandiri</h1>
-            <p className="text-[13px] text-white/70">Use your Livin&apos; by Mandiri credentials</p>
+            <p className="text-[13px] text-white/85">Use your Livin&apos; by Mandiri credentials</p>
           </div>
         </div>
       </div>
 
       <form
-        className="-mt-6 flex flex-1 flex-col rounded-t-[28px] bg-white px-5 pb-8 pt-7"
+        className="relative -mt-6 flex flex-1 flex-col rounded-t-[30px] bg-white px-5 pb-8 pt-7"
         onSubmit={(e) => {
           e.preventDefault();
           submit();
@@ -71,14 +71,14 @@ export default function LoginPage() {
       >
         <label className="block">
           <span className="mb-1.5 block text-[13px] font-semibold text-ink-soft">User ID</span>
-          <div className="flex h-12 items-center gap-2 rounded-2xl border border-surface-line px-3.5 focus-within:border-sky-400 focus-within:ring-4 focus-within:ring-sky-100">
+          <div className="flex h-12 items-center gap-2 rounded-2xl border border-surface-line px-3.5 focus-within:border-navy-400 focus-within:ring-4 focus-within:ring-navy-100">
             <User className="h-[18px] w-[18px] text-ink-faint" />
             <input value={userId} onChange={(e) => setUserId(e.target.value)} autoComplete="username" className="h-full flex-1 bg-transparent text-[15px]" />
           </div>
         </label>
         <label className="mt-4 block">
           <span className="mb-1.5 block text-[13px] font-semibold text-ink-soft">Password</span>
-          <div className="flex h-12 items-center gap-2 rounded-2xl border border-surface-line px-3.5 focus-within:border-sky-400 focus-within:ring-4 focus-within:ring-sky-100">
+          <div className="flex h-12 items-center gap-2 rounded-2xl border border-surface-line px-3.5 focus-within:border-navy-400 focus-within:ring-4 focus-within:ring-navy-100">
             <Lock className="h-[18px] w-[18px] text-ink-faint" />
             <input
               type={show ? "text" : "password"}
@@ -102,7 +102,7 @@ export default function LoginPage() {
         </button>
 
         <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-2xl bg-surface p-3.5">
-          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 accent-[#003A70]" />
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-5 w-5 accent-[#5192F6]" />
           <span className="text-[12.5px] leading-relaxed text-ink-soft">
             I agree that my Livin Merchant transaction data is used to provide business insights and Growth Score.{" "}
             <button type="button" onClick={() => setPrivacyOpen(true)} className="font-semibold text-sky-600">

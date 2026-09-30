@@ -21,15 +21,15 @@ export default function WhyLivinPage() {
       <TopAppBar title="Why Livin Merchant?" backTo="/home" />
       <PageBody>
         <section className="hero-navy overflow-hidden rounded-3xl p-5 text-white">
-          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-gold">The upgrade</p>
+          <p className="inline-flex rounded-full bg-gold px-2.5 py-0.5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-navy-900">The upgrade</p>
           <h2 className="mt-2 text-[22px] font-extrabold leading-tight">Manage your business today. Grow it tomorrow.</h2>
           <div className="mt-5 grid grid-cols-2 gap-3 text-[12px]">
-            <div className="rounded-2xl bg-white/5 p-3">
-              <p className="font-bold text-white/60">Before</p>
-              <p className="mt-1.5 leading-relaxed text-white/80">POS + Payment + Report</p>
+            <div className="rounded-2xl bg-white/15 p-3">
+              <p className="font-bold text-white/90">Before</p>
+              <p className="mt-1.5 leading-relaxed text-white/90">POS + Payment + Report</p>
             </div>
-            <div className="rounded-2xl bg-white/10 p-3 ring-1 ring-gold/40">
-              <p className="font-bold text-gold">Now</p>
+            <div className="rounded-2xl bg-white/25 p-3 ring-2 ring-gold">
+              <p className="font-extrabold text-white">Now</p>
               <p className="mt-1.5 leading-relaxed">Operate, Transact, Understand, Improve, Grow, Finance</p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function WhyLivinPage() {
         <section className="grid grid-cols-2 gap-3">
           {PILLARS.map((p) => (
             <button key={p.title} type="button" onClick={() => navigate(p.to)} className="card pressable p-4 text-left">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                 <p.icon className="h-5 w-5" />
               </span>
               <p className="mt-3 text-[14.5px] font-bold text-ink">{p.title}</p>

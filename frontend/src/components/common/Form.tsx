@@ -155,7 +155,7 @@ export function Stepper({
       <button
         type="button"
         onClick={() => onChange(Math.max(min, value - 1))}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-lg font-bold text-navy shadow-card active:scale-90"
+        className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-lg font-bold text-navy-600 shadow-card active:scale-90"
         aria-label={`Decrease ${label}`}
       >
         <Minus className="h-4 w-4" />

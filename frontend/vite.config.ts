@@ -24,8 +24,10 @@ export default defineConfig({
         display: "standalone",
         display_override: ["standalone", "minimal-ui"],
         orientation: "portrait",
-        background_color: "#003A70",
-        theme_color: "#003A70",
+        background_color: "#5192F6",
+        theme_color: "#5192F6",
+        prefer_related_applications: false,
+        launch_handler: { client_mode: ["navigate-existing", "auto"] },
         lang: "en",
         dir: "ltr",
         categories: ["business", "finance", "productivity"],
@@ -35,6 +37,13 @@ export default defineConfig({
           { src: "/icons/maskable-192x192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
           { src: "/icons/maskable-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
         ],
+        // Richer install dialog on Android and desktop Chrome / Edge.
+        screenshots: [
+          { src: "/screenshots/home-narrow.png", sizes: "780x1688", type: "image/png", form_factor: "narrow", label: "Today at a glance" },
+          { src: "/screenshots/growth-narrow.png", sizes: "780x1688", type: "image/png", form_factor: "narrow", label: "Business Growth Score" },
+          { src: "/screenshots/cashier-narrow.png", sizes: "780x1688", type: "image/png", form_factor: "narrow", label: "Fast cashier" },
+          { src: "/screenshots/desktop-wide.png", sizes: "1440x900", type: "image/png", form_factor: "wide", label: "Livin Merchant on desktop" },
+        ],
         shortcuts: [
           { name: "New Sale", short_name: "Sale", description: "Open the cashier", url: "/cashier", icons: shortcutIcon },
           { name: "QR Payment", short_name: "QRIS", description: "Show a QRIS code", url: "/qr-payment", icons: shortcutIcon },
@@ -43,7 +52,10 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // Store screenshots are only for the install dialog; no need to cache them offline.
         globPatterns: ["**/*.{js,css,html,ico,png,jpg,svg,webmanifest}"],
+        globIgnores: ["screenshots/**"],
+        clientsClaim: true,
         navigateFallback: "/index.html",
         cleanupOutdatedCaches: true,
         runtimeCaching: [
@@ -64,9 +76,13 @@ export default defineConfig({
         ],
       },
       // Lets the install prompt work while running `npm run dev` too.
-      devOptions: { enabled: true, type: "module", navigateFallback: "index.html", suppressWarnings: true },
+      // "classic" works in every browser (module service workers are not supported everywhere).
+      devOptions: { enabled: true, type: "classic", navigateFallback: "index.html", suppressWarnings: true },
     }),
   ],
+  // `npm run dev -- --host` / `npm run preview -- --host` expose the app on the local network.
+  // Installing from another device still needs HTTPS (deploy, or use a tunnel such as ngrok).
+  preview: { port: 4173 },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

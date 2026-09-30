@@ -45,7 +45,7 @@ export function PinSheet({ open, title, subtitle, onClose, onSubmit, hint }: Pin
   return (
     <BottomSheet open={open} onClose={onClose} title={title} subtitle={subtitle ?? "Enter your 6-digit transaction PIN"}>
       <div className="flex flex-col items-center pb-2">
-        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-navy">
+        <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-navy-600">
           <ShieldCheck className="h-6 w-6" />
         </div>
         <div className={cn("my-4 flex gap-3", error && "animate-[pop-in_200ms]")} aria-live="polite">

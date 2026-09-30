@@ -104,19 +104,19 @@ export default function InventoryPage() {
 
       <div className="space-y-4 px-5 pb-8 pt-4">
         {tab === "low" && (
-          <section className="rounded-3xl bg-navy p-4 text-white">
+          <section className="rounded-3xl hero-navy overflow-hidden shadow-float p-4 text-white">
             <p className="flex items-center gap-2 text-[13px] font-bold">
-              <PackageCheck className="h-4 w-4 text-gold" /> Restock Recommendation
+              <PackageCheck className="h-4 w-4 text-gold-200" /> Restock Recommendation
             </p>
-            <p className="mt-1 text-[12.5px] leading-relaxed text-white/75">
+            <p className="mt-1 text-[12.5px] leading-relaxed text-white/85">
               Suggested quantities cover about one week of your recent usage. Stock availability is {Math.round(inv.availability)}%.
             </p>
             {bySupplier.map(([supplierId, rows]) => {
               const supplier = suppliers.find((s) => s.id === supplierId);
               const total = rows.reduce((s, r) => s + r.suggestedQty * (ingredients.find((i) => i.id === r.id)?.costPerUnit ?? 0), 0);
               return (
-                <div key={supplierId} className="mt-3 rounded-2xl bg-white/10 p-3">
-                  <p className="text-[12px] text-white/70">{supplier?.name}</p>
+                <div key={supplierId} className="mt-3 rounded-2xl bg-white/20 p-3">
+                  <p className="text-[12px] text-white/85">{supplier?.name}</p>
                   <ul className="mt-1 space-y-0.5 text-[13px]">
                     {rows.map((r) => (
                       <li key={r.id} className="flex justify-between">
@@ -239,7 +239,7 @@ export default function InventoryPage() {
                     type === m.type ? "border-navy bg-navy text-white" : "border-surface-line text-ink-soft",
                   )}
                 >
-                  <m.icon className={cn("h-5 w-5", type === m.type ? "text-gold" : "text-navy")} />
+                  <m.icon className={cn("h-5 w-5", type === m.type ? "text-white" : "text-navy-600")} />
                   {m.type}
                 </button>
               ))}

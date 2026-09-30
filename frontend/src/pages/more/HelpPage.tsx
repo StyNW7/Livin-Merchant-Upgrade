@@ -78,7 +78,7 @@ export default function HelpPage() {
               const Icon = categoryIcon[c];
               return (
                 <button key={c} type="button" onClick={() => setCategory(c)} className="card flex flex-col items-center gap-2 px-2 py-4 text-center transition hover:shadow-float">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                     <Icon className="h-5 w-5" />
                   </span>
                   <span className="text-[12px] font-semibold leading-tight text-ink-soft">{c}</span>
@@ -112,7 +112,7 @@ export default function HelpPage() {
         <section className="space-y-2">
           <h2 className="text-[16px] font-bold text-ink">Contact support</h2>
           <button type="button" onClick={() => navigate("/support-chat")} className="card flex w-full items-center gap-3 p-4 text-left transition hover:shadow-float">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy text-gold">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy text-white">
               <MessageCircle className="h-5 w-5" />
             </span>
             <span className="flex-1">
@@ -122,7 +122,7 @@ export default function HelpPage() {
             <ChevronRight className="h-5 w-5 text-ink-faint" />
           </button>
           <a href="tel:14000" className="card flex items-center gap-3 p-4 transition hover:shadow-float">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy-600">
               <Phone className="h-5 w-5" />
             </span>
             <span className="flex-1">
@@ -180,7 +180,7 @@ export default function HelpPage() {
             <ol className="space-y-3">
               {article.body.map((b, i) => (
                 <li key={i} className="flex gap-3 text-[14px] leading-relaxed text-ink-soft">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy-50 text-[12px] font-bold text-navy">{i + 1}</span>
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-navy-50 text-[12px] font-bold text-navy-600">{i + 1}</span>
                   {b}
                 </li>
               ))}

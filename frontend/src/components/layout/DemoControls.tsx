@@ -67,10 +67,10 @@ export function DemoControls() {
             ))}
           </div>
           <div className="mt-3 grid grid-cols-2 gap-1.5 text-[12px] font-semibold">
-            <button type="button" onClick={() => { loginAsMerchant(); navigate("/home"); }} className="rounded-xl bg-navy-50 py-2 text-navy">
+            <button type="button" onClick={() => { loginAsMerchant(); navigate("/home"); }} className="rounded-xl bg-navy-50 py-2 text-navy-600">
               Merchant
             </button>
-            <button type="button" onClick={() => { exploreAsGuest(); navigate("/home"); }} className="rounded-xl bg-navy-50 py-2 text-navy">
+            <button type="button" onClick={() => { exploreAsGuest(); navigate("/home"); }} className="rounded-xl bg-navy-50 py-2 text-navy-600">
               Guest
             </button>
             <button

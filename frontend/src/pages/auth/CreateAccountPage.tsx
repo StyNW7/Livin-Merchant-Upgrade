@@ -26,7 +26,7 @@ export default function CreateAccountPage() {
   return (
     <div className="flex flex-1 flex-col overflow-y-auto bg-surface">
       <header className="flex items-center gap-2 px-3 pt-2">
-        <button type="button" onClick={() => navigate(-1)} aria-label="Back" className="flex h-11 w-11 items-center justify-center rounded-2xl text-navy hover:bg-navy-50">
+        <button type="button" onClick={() => navigate(-1)} aria-label="Back" className="flex h-11 w-11 items-center justify-center rounded-2xl text-navy-600 hover:bg-navy-50">
           <ChevronLeft className="h-6 w-6" />
         </button>
         <h1 className="text-[18px] font-bold text-ink">Create Mandiri Account</h1>
@@ -40,7 +40,7 @@ export default function CreateAccountPage() {
           <ol className="relative mt-5 space-y-3">
             {STEPS.map((s, i) => (
               <li key={s.title} className="card flex gap-3 p-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy-50 text-navy">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy-50 text-navy-600">
                   <s.icon className="h-5 w-5" />
                 </span>
                 <div>
@@ -78,7 +78,7 @@ export default function CreateAccountPage() {
 
       {phase !== "info" && (
         <div className="flex flex-1 animate-screen-in flex-col items-center justify-center px-8 text-center">
-          <div className={cn("flex h-20 w-20 items-center justify-center rounded-full", phase === "done" ? "bg-success-soft text-success-dark" : "bg-navy-50 text-navy")}>
+          <div className={cn("flex h-20 w-20 items-center justify-center rounded-full", phase === "done" ? "bg-success-soft text-success-dark" : "bg-navy-50 text-navy-600")}>
             {phase === "done" ? <CheckCircle2 className="h-10 w-10" /> : <Loader2 className="h-10 w-10 animate-spin" />}
           </div>
           <h2 className="mt-6 text-[20px] font-extrabold text-ink">

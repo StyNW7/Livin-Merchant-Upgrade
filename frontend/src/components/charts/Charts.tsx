@@ -192,7 +192,7 @@ export function SimpleBars({
           <CartesianGrid {...gridProps} />
           <XAxis dataKey={xKey} {...axisProps} interval={0} tick={{ fontSize: 10.5, fill: "#6B7788" }} />
           <YAxis {...axisProps} width={44} tickFormatter={axisFormat} />
-          <Tooltip cursor={{ fill: "rgba(0,58,112,0.05)" }} content={(p) => <ChartTooltip {...p} format={format} />} />
+          <Tooltip cursor={{ fill: "rgba(81,146,246,0.05)" }} content={(p) => <ChartTooltip {...p} format={format} />} />
           <Bar dataKey={yKey} radius={[4, 4, 0, 0]} maxBarSize={32}>
             {data.map((row, i) => (
               <Cell key={i} fill={highlightKey ? (row[highlightKey] ? color : CHART_MUTED) : color} />
@@ -228,7 +228,7 @@ export function GroupedBars({
           <XAxis dataKey={xKey} {...axisProps} interval={0} />
           <YAxis {...axisProps} width={44} tickFormatter={formatAxis} />
           <Tooltip
-            cursor={{ fill: "rgba(0,58,112,0.05)" }}
+            cursor={{ fill: "rgba(81,146,246,0.05)" }}
             content={(p) => <ChartTooltip {...p} format={format} labels={Object.fromEntries(series.map((s) => [s.key, s.label]))} />}
           />
           {series.map((s) => (
@@ -269,7 +269,7 @@ export function RankBars({
             tick={{ fontSize: 11.5, fill: "#3B4A5C" }}
             tickFormatter={(v: string) => (v.length > 17 ? `${v.slice(0, 16)}…` : v)}
           />
-          <Tooltip cursor={{ fill: "rgba(0,58,112,0.05)" }} content={(p) => <ChartTooltip {...p} format={format} />} />
+          <Tooltip cursor={{ fill: "rgba(81,146,246,0.05)" }} content={(p) => <ChartTooltip {...p} format={format} />} />
           <Bar dataKey={valueKey} fill={color} radius={[0, 4, 4, 0]} maxBarSize={18} />
         </BarChart>
       </ResponsiveContainer>

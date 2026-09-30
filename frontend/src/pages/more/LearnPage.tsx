@@ -21,7 +21,7 @@ export default function LearnPage() {
           </ProgressRing>
           <div>
             <p className="text-[16px] font-extrabold">Business Learning Center</p>
-            <p className="text-[12.5px] leading-relaxed text-white/75">Each module takes under 10 minutes. Some lessons also complete Growth Missions.</p>
+            <p className="text-[12.5px] leading-relaxed text-white/85">Each module takes under 10 minutes. Some lessons also complete Growth Missions.</p>
           </div>
         </section>
 
@@ -31,8 +31,8 @@ export default function LearnPage() {
             const pct = Math.round((done / m.lessons.length) * 100);
             return (
               <Link key={m.id} to={`/learn/${m.id}`} className="card flex items-center gap-4 p-4 transition hover:shadow-float">
-                <ProgressRing value={pct} size={52} stroke={5} tone={pct === 100 ? "#12A36D" : "#003A70"}>
-                  {pct === 100 ? <CheckCircle2 className="h-5 w-5 text-success" /> : <BookOpen className="h-5 w-5 text-navy" />}
+                <ProgressRing value={pct} size={52} stroke={5} tone={pct === 100 ? "#12A36D" : "#5192F6"}>
+                  {pct === 100 ? <CheckCircle2 className="h-5 w-5 text-success" /> : <BookOpen className="h-5 w-5 text-navy-600" />}
                 </ProgressRing>
                 <div className="min-w-0 flex-1">
                   <p className="text-[15px] font-bold text-ink">{m.title}</p>

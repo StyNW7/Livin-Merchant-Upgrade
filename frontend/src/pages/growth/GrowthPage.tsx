@@ -60,8 +60,8 @@ export default function GrowthPage() {
         {/* Hero score */}
         <section className="hero-navy relative overflow-hidden rounded-[28px] px-5 pb-5 pt-5 text-white shadow-float">
           <div className="flex items-center justify-between">
-            <p className="text-[12.5px] font-semibold text-white/75">Business Growth Score</p>
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-[11.5px] font-bold">
+            <p className="text-[12.5px] font-semibold text-white/85">Business Growth Score</p>
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[11.5px] font-bold">
               <ArrowUpRight className={cn("h-3.5 w-3.5", delta < 0 && "rotate-90")} />
               {delta >= 0 ? "+" : ""}
               {delta} since last month
@@ -71,19 +71,19 @@ export default function GrowthPage() {
             <ScoreGauge score={growth.score} size={230} />
           </div>
           <div className="mt-2 flex flex-col items-center text-center">
-            <p className="text-[15px] font-bold text-gold">{growth.status}</p>
-            <p className="mt-2 max-w-[300px] text-[12.5px] leading-relaxed text-white/70">
+            <p className="mt-1 inline-flex rounded-full bg-gold px-3 py-1 text-[13px] font-extrabold text-navy-900 shadow-glow">{growth.status}</p>
+            <p className="mt-2 max-w-[300px] text-[12.5px] leading-relaxed text-white/85">
               Your score reflects transaction consistency, revenue stability, growth momentum and business activity.
             </p>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2 text-center">
-            <div className="rounded-2xl bg-white/10 px-3 py-2.5">
-              <p className="text-[11px] text-white/60">Growth Stage</p>
+            <div className="rounded-2xl bg-white/20 px-3 py-2.5">
+              <p className="text-[11px] text-white/80">Growth Stage</p>
               <p className="text-[16px] font-extrabold tracking-wide">{growth.stage.id}</p>
             </div>
-            <div className="rounded-2xl bg-white/10 px-3 py-2.5">
-              <p className="text-[11px] text-white/60">Next Stage</p>
-              <p className="text-[16px] font-extrabold tracking-wide text-gold">{growth.nextStage?.id ?? "Top stage"}</p>
+            <div className="rounded-2xl bg-white/20 px-3 py-2.5">
+              <p className="text-[11px] text-white/80">Next Stage</p>
+              <p className="text-[16px] font-extrabold tracking-wide text-white">{growth.nextStage?.id ?? "Top stage"}</p>
             </div>
           </div>
           <Button block variant="accent" className="mt-4" onClick={() => navigate("/growth/score")} rightIcon={<ChevronRight className="h-4 w-4" />}>
@@ -110,7 +110,7 @@ export default function GrowthPage() {
           <div className="card divide-y divide-surface-line overflow-hidden">
             {actions.map((a, i) => (
               <Link key={a.id} to={a.to} className="flex gap-3 px-4 py-3.5 hover:bg-surface/70">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-[13px] font-extrabold text-gold">{i + 1}</span>
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy text-[13px] font-extrabold text-white">{i + 1}</span>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-2">
                     <span className="text-[14px] font-bold text-ink">{a.title}</span>
@@ -158,7 +158,7 @@ export default function GrowthPage() {
               return (
                 <Link key={ins.id} to={`/growth/insights#${ins.id}`} className="card w-[240px] shrink-0 snap-start p-4 transition hover:shadow-float">
                   <div className="flex items-center justify-between">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-50 text-navy">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                       <Icon className="h-[18px] w-[18px]" />
                     </span>
                     <span className="text-[11px] font-bold uppercase tracking-wide text-ink-muted">{ins.category}</span>

@@ -84,7 +84,7 @@ export const metricDefinitions: { id: string; label: string; description: string
 export const missionCategoryMeta: Record<MissionCategory, { color: string; bg: string }> = {
   Transaction: { color: "#255BB3", bg: "#EEF5FF" },
   Revenue: { color: "#0B7A51", bg: "#E6F6EF" },
-  Profile: { color: "#003A70", bg: "#EEF3F9" },
+  Profile: { color: "#5192F6", bg: "#F0F6FF" },
   Customer: { color: "#6D4FC9", bg: "#F1EDFD" },
   Operations: { color: "#9A6200", bg: "#FFF4DE" },
   Learning: { color: "#7A4B1E", bg: "#F3E9DD" },

@@ -42,9 +42,9 @@ export default function PromotionsPage() {
       />
       <PageBody>
         <section className="hero-navy rounded-[28px] p-5 text-white">
-          <p className="text-[12px] text-white/70">Active campaigns</p>
+          <p className="text-[12px] text-white/85">Active campaigns</p>
           <p className="text-[28px] font-extrabold">{active.length}</p>
-          <p className="text-[12.5px] text-white/75">Generated {formatCompactRupiah(revenue)} in revenue so far</p>
+          <p className="text-[12.5px] text-white/85">Generated {formatCompactRupiah(revenue)} in revenue so far</p>
         </section>
 
         <section>
@@ -79,7 +79,7 @@ export default function PromotionsPage() {
                       <p className="text-[12px] text-ink-muted">
                         {p.period} · {p.hours}
                       </p>
-                      <p className="mt-1 text-[13px] font-semibold text-navy">{p.benefit}</p>
+                      <p className="mt-1 text-[13px] font-semibold text-navy-600">{p.benefit}</p>
                     </div>
                     <StatusBadge status={p.status} tone={p.status === "Active" ? "success" : p.status === "Scheduled" ? "info" : p.status === "Paused" ? "warning" : "neutral"} />
                   </div>

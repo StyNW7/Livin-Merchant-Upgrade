@@ -123,7 +123,7 @@ export default function SearchPage() {
   return (
     <>
       <header className="sticky top-0 z-20 flex items-center gap-1.5 border-b border-surface-line/70 bg-surface/90 px-3 py-2.5 backdrop-blur-md">
-        <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-navy hover:bg-navy-50">
+        <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-navy-600 hover:bg-navy-50">
           <ChevronLeft className="h-6 w-6" />
         </button>
         <div ref={wrapRef} className="flex-1">
@@ -156,7 +156,7 @@ export default function SearchPage() {
               <h2 className="mb-2 text-[13px] font-bold text-ink">Try searching for</h2>
               <div className="flex flex-wrap gap-2">
                 {SUGGESTIONS.map((s) => (
-                  <button key={s} type="button" onClick={() => setQuery(s)} className="rounded-full bg-navy-50 px-3 py-2 text-[13px] font-semibold text-navy hover:bg-navy-100">
+                  <button key={s} type="button" onClick={() => setQuery(s)} className="rounded-full bg-navy-50 px-3 py-2 text-[13px] font-semibold text-navy-600 hover:bg-navy-100">
                     {s}
                   </button>
                 ))}

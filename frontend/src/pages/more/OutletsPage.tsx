@@ -56,18 +56,18 @@ export default function OutletsPage() {
         {view === "consolidated" ? (
           <>
             <section className="hero-navy rounded-[28px] p-5 text-white">
-              <p className="text-[12px] text-white/70">All outlets · last 30 days</p>
+              <p className="text-[12px] text-white/85">All outlets · last 30 days</p>
               <p className="tabular mt-1 text-[28px] font-extrabold">{formatRupiah(total.revenue)}</p>
-              <p className="mt-1 inline-flex items-center gap-1 text-[12.5px] font-semibold text-emerald-300">
+              <p className="mt-1 inline-flex items-center gap-1 text-[12.5px] font-bold text-white">
                 <ArrowUpRight className="h-4 w-4" /> {formatPercent(totalGrowth, 1, true)} vs previous 30 days
               </p>
-              <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/10 pt-3">
+              <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/20 pt-3">
                 <div>
-                  <p className="text-[11.5px] text-white/60">Transactions</p>
+                  <p className="text-[11.5px] text-white/80">Transactions</p>
                   <p className="text-[17px] font-extrabold">{formatCount(total.count)}</p>
                 </div>
                 <div>
-                  <p className="text-[11.5px] text-white/60">Average order</p>
+                  <p className="text-[11.5px] text-white/80">Average order</p>
                   <p className="text-[17px] font-extrabold">{formatRupiah(Math.round(total.revenue / (total.count || 1)))}</p>
                 </div>
               </div>
@@ -107,7 +107,7 @@ export default function OutletsPage() {
           return (
             <section key={s.outlet.id} className={cn("card p-4", active && "ring-2 ring-navy/15")}>
               <div className="flex items-start gap-3">
-                <span className={cn("flex h-11 w-11 items-center justify-center rounded-2xl", i === 0 ? "bg-gold text-navy-900" : "bg-navy-50 text-navy")}>
+                <span className={cn("flex h-11 w-11 items-center justify-center rounded-2xl", i === 0 ? "bg-gold text-navy-900" : "bg-navy-50 text-navy-600")}>
                   {i === 0 ? <Medal className="h-5 w-5" /> : <Store className="h-5 w-5" />}
                 </span>
                 <div className="min-w-0 flex-1">

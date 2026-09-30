@@ -19,7 +19,7 @@ export default function ProgramsPage() {
       <TopAppBar title="Program Center" subtitle="Livin’ Merchant programs" />
       <PageBody>
         <p className="flex gap-2 rounded-2xl bg-navy-50 px-4 py-3 text-[12px] leading-relaxed text-ink-soft">
-          <Info className="mt-0.5 h-4 w-4 shrink-0 text-navy" />
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-navy-600" />
           {PROGRAM_NOTE}
         </p>
         {SECTIONS.map((section) => {

@@ -53,7 +53,7 @@ export function ProductTile({ product: p, qtyInCart, favorite, onAdd, onToggleFa
         </div>
         <p className="mt-2 line-clamp-2 min-h-[36px] text-[13.5px] font-bold leading-tight text-ink">{p.name}</p>
         <div className="mt-1 flex items-center justify-between gap-1">
-          <p className="tabular text-[13px] font-extrabold text-navy">{formatRupiah(p.price)}</p>
+          <p className="tabular text-[13px] font-extrabold text-navy-600">{formatRupiah(p.price)}</p>
           <span
             className={cn(
               "rounded-full px-1.5 py-0.5 text-[10px] font-bold",

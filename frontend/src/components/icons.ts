@@ -39,7 +39,7 @@ export const notificationMeta: Record<NotificationCategory, { icon: LucideIcon; 
   Urgent: { icon: AlertOctagon, tone: "bg-danger-soft text-danger-dark" },
   Growth: { icon: TrendingUp, tone: "bg-gold-50 text-gold-700" },
   Finance: { icon: Wallet, tone: "bg-sky-50 text-sky-700" },
-  Operations: { icon: Wrench, tone: "bg-navy-50 text-navy" },
+  Operations: { icon: Wrench, tone: "bg-navy-50 text-navy-600" },
   Campaign: { icon: Megaphone, tone: "bg-[#F1EDFD] text-[#6D4FC9]" },
   System: { icon: Settings2, tone: "bg-surface text-ink-soft" },
 };

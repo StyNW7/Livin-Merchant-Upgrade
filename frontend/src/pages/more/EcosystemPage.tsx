@@ -64,14 +64,14 @@ export default function EcosystemPage() {
         <section className="hero-navy rounded-[28px] p-5 text-white">
           <img src="/Images/livin-logo.png" alt="livin' by mandiri" className="h-10 w-auto" />
           <p className="mt-4 text-[15px] font-bold">One ecosystem for your business and banking.</p>
-          <p className="mt-1 text-[12.5px] leading-relaxed text-white/75">Livin Merchant works alongside your Mandiri accounts, financing discovery and loyalty benefits.</p>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-white/85">Livin Merchant works alongside your Mandiri accounts, financing discovery and loyalty benefits.</p>
         </section>
 
         <div className="space-y-3">
           {CARDS.map((c) => (
             <article key={c.id} className="card p-4">
               <div className="flex items-start gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy-600">
                   <c.icon className="h-5 w-5" />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -96,7 +96,7 @@ export default function EcosystemPage() {
               <p className="text-[12.5px] text-ink-soft">Access eligible loyalty benefits.</p>
             </div>
           </div>
-          <p className="tabular mt-4 text-[26px] font-extrabold text-navy">{points.toLocaleString("id-ID")} poin</p>
+          <p className="tabular mt-4 text-[26px] font-extrabold text-navy-600">{points.toLocaleString("id-ID")} poin</p>
           <p className="text-[12px] text-ink-muted">{isGuest ? "Log in to see your points." : `Worth about ${formatRupiah(points)} in eligible benefits`}</p>
           <Button block className="mt-4" onClick={() => requireAccount("Livin'poin") && setSheet("points")}>
             How to earn and use points
@@ -119,7 +119,7 @@ export default function EcosystemPage() {
 
       <BottomSheet open={sheet === "points"} onClose={() => setSheet(null)} title="Livin’poin" subtitle={`${points.toLocaleString("id-ID")} poin available`}>
         <div className="flex items-start gap-3 rounded-2xl bg-navy-50 p-4">
-          <Target className="mt-0.5 h-5 w-5 shrink-0 text-navy" />
+          <Target className="mt-0.5 h-5 w-5 shrink-0 text-navy-600" />
           <p className="text-[13px] leading-relaxed text-ink-soft">
             You earn <span className="font-bold text-ink">{POINTS_PER_MISSION} poin</span> for every completed Growth Mission.
             {" "}{growth.completedMissions} of {growth.missions.length} missions completed so far.

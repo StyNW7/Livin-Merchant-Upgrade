@@ -42,16 +42,16 @@ export default function FinancingDetailPage() {
       <PageBody>
         <section className="hero-navy rounded-[28px] p-5 text-white">
           <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-gold">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold text-navy-900">
               <Icon className="h-6 w-6" />
             </span>
             <StatusBadge status={product.matchLevel} tone="gold" hideIcon />
           </div>
-          <p className="mt-4 text-[12px] text-white/70">Estimated Potential Financing</p>
+          <p className="mt-4 text-[12px] text-white/85">Estimated Potential Financing</p>
           <p className="tabular text-[26px] font-extrabold">
             {formatCompactRupiah(product.rangeMin, 0)} – {formatCompactRupiah(product.rangeMax, 0)}
           </p>
-          <p className="mt-1 text-[12px] text-white/70">Indicative range · Tenor {product.tenor}</p>
+          <p className="mt-1 text-[12px] text-white/85">Indicative range · Tenor {product.tenor}</p>
         </section>
 
         <section className="card p-4">
@@ -79,7 +79,7 @@ export default function FinancingDetailPage() {
 
         <section className="card p-4">
           <h2 className="flex items-center gap-2 text-[15px] font-bold text-ink">
-            <FileCheck2 className="h-4 w-4 text-navy" /> Preliminary requirements
+            <FileCheck2 className="h-4 w-4 text-navy-600" /> Preliminary requirements
           </h2>
           <ul className="mt-3 space-y-2">
             {product.requirements.map((r) => (
@@ -148,7 +148,7 @@ export default function FinancingDetailPage() {
             This is a request to be contacted, not a loan application. Potentially eligible merchants are reviewed individually. {FINANCING_DISCLAIMER_FULL}
           </p>
           <label className="flex items-start gap-3">
-            <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-1 h-5 w-5 accent-[#003A70]" />
+            <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-1 h-5 w-5 accent-[#5192F6]" />
             <span>I agree to share this information with Bank Mandiri for this purpose.</span>
           </label>
         </div>

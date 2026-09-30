@@ -28,7 +28,7 @@ export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth S
             <stop offset="100%" stopColor="#FFB600" />
           </linearGradient>
         </defs>
-        <path d={arc} fill="none" stroke={tone === "dark" ? "rgba(255,255,255,0.14)" : "#EEF3F9"} strokeWidth={stroke} strokeLinecap="round" />
+        <path d={arc} fill="none" stroke={tone === "dark" ? "rgba(255,255,255,0.28)" : "#F0F6FF"} strokeWidth={stroke} strokeLinecap="round" />
         <path
           d={arc}
           fill="none"
@@ -40,13 +40,13 @@ export function ScoreGauge({ score, size = 220, tone = "dark", label = "Growth S
           style={{ transition: "stroke-dashoffset 1100ms cubic-bezier(0.2,0.8,0.2,1)" }}
         />
         {markers.map((m) => (
-          <circle key={m.id} cx={m.x} cy={m.y} r={3} fill={tone === "dark" ? "#002245" : "#FFFFFF"} opacity={0.9} />
+          <circle key={m.id} cx={m.x} cy={m.y} r={3} fill={tone === "dark" ? "#10264A" : "#FFFFFF"} opacity={0.9} />
         ))}
       </svg>
       <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
         <p className={cn("tabular text-[46px] font-extrabold leading-none tracking-tight", tone === "dark" ? "text-white" : "text-ink")}>
           {shown}
-          <span className={cn("text-[18px] font-bold", tone === "dark" ? "text-white/60" : "text-ink-muted")}> / 100</span>
+          <span className={cn("text-[18px] font-bold", tone === "dark" ? "text-white/80" : "text-ink-muted")}> / 100</span>
         </p>
       </div>
     </div>
@@ -76,7 +76,7 @@ export function GrowthStageStepper({
               <span
                 className={cn(
                   "absolute right-1/2 top-[17px] h-[3px] w-full -translate-y-1/2 rounded-full",
-                  i <= currentIndex ? "bg-gold" : tone === "dark" ? "bg-white/15" : "bg-navy-100",
+                  i <= currentIndex ? "bg-gold" : tone === "dark" ? "bg-white/30" : "bg-navy-100",
                 )}
                 aria-hidden
               />
@@ -88,8 +88,8 @@ export function GrowthStageStepper({
               className={cn(
                 "relative z-10 flex h-[34px] w-[34px] items-center justify-center rounded-full border-2 transition-transform active:scale-90",
                 state === "done" && "border-gold bg-gold text-navy-900",
-                state === "active" && "border-gold bg-navy text-gold ring-4 ring-gold/25",
-                state === "locked" && (tone === "dark" ? "border-white/20 bg-navy-900 text-white/50" : "border-navy-100 bg-white text-ink-faint"),
+                state === "active" && "border-gold bg-white text-navy-600 ring-4 ring-gold/30",
+                state === "locked" && (tone === "dark" ? "border-white/40 bg-white/15 text-white" : "border-navy-100 bg-white text-ink-faint"),
                 selected === stage.id && "scale-110",
               )}
             >
@@ -98,12 +98,12 @@ export function GrowthStageStepper({
             <span
               className={cn(
                 "mt-1.5 text-[11px] font-extrabold tracking-wide",
-                tone === "dark" ? (state === "locked" ? "text-white/45" : "text-white") : state === "locked" ? "text-ink-faint" : "text-navy",
+                tone === "dark" ? (state === "locked" ? "text-white/75" : "text-white") : state === "locked" ? "text-ink-faint" : "text-navy-600",
               )}
             >
               {stage.id}
             </span>
-            <span className={cn("text-[10px]", tone === "dark" ? "text-white/55" : "text-ink-muted")}>
+            <span className={cn("text-[10px]", tone === "dark" ? "text-white/80" : "text-ink-muted")}>
               {state === "done" ? "Completed" : state === "active" ? "Current" : "Locked"}
             </span>
           </li>

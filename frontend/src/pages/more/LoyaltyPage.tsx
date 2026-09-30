@@ -35,8 +35,8 @@ export default function LoyaltyPage() {
       />
       <PageBody>
         <section className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-navy p-4 text-white">
-            <p className="text-[11.5px] text-white/65">Active members</p>
+          <div className="rounded-2xl hero-navy overflow-hidden shadow-float p-4 text-white">
+            <p className="text-[11.5px] text-white/85">Active members</p>
             <p className="text-[22px] font-extrabold">{members}</p>
           </div>
           <div className="card p-4">
@@ -131,7 +131,7 @@ export default function LoyaltyPage() {
                   onClick={() => setForm({ ...form, type: t.type, rule: t.rule, reward: t.reward })}
                   className={cn("flex w-full items-center gap-3 rounded-2xl border p-3 text-left", form.type === t.type ? "border-navy bg-navy-50" : "border-surface-line")}
                 >
-                  <t.icon className="h-5 w-5 text-navy" />
+                  <t.icon className="h-5 w-5 text-navy-600" />
                   <span>
                     <span className="block text-[14px] font-bold text-ink">{t.type}</span>
                     <span className="block text-[12px] text-ink-muted">{t.hint}</span>

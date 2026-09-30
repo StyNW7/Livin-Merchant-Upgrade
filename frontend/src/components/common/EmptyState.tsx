@@ -23,7 +23,7 @@ export function EmptyState({ icon: Icon, title, message, action, className }: Em
           <path d="M48 16 76 32v32L48 80 20 64V32z" fill="#FFFFFF" stroke="#FFE499" strokeWidth="1.5" />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <Icon className="h-9 w-9 text-navy" strokeWidth={1.6} />
+          <Icon className="h-9 w-9 text-navy-600" strokeWidth={1.6} />
         </div>
         <span className="absolute -right-1 top-3 h-3 w-3 rounded-full bg-gold" aria-hidden />
         <span className="absolute -left-0.5 bottom-5 h-2 w-2 rounded-full bg-sky" aria-hidden />

@@ -193,7 +193,7 @@ export default function EmployeesPage() {
 
             <section>
               <p className="mb-1 flex items-center gap-1.5 text-[13px] font-bold text-ink">
-                <ShieldCheck className="h-4 w-4 text-navy" /> Permission settings
+                <ShieldCheck className="h-4 w-4 text-navy-600" /> Permission settings
               </p>
               <div className="rounded-2xl bg-surface px-3">
                 {ALL_PERMISSIONS.map((perm) => (

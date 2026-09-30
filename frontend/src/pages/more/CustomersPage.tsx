@@ -61,7 +61,7 @@ export default function CustomersPage() {
         </section>
 
         <p className="flex items-start gap-2 rounded-2xl bg-navy-50 px-3.5 py-3 text-[12px] leading-relaxed text-ink-soft">
-          <Lock className="mt-0.5 h-4 w-4 shrink-0 text-navy" />
+          <Lock className="mt-0.5 h-4 w-4 shrink-0 text-navy-600" />
           Customers are recognized by anonymized codes from QRIS and card payments. Names, phone numbers and bank details are never shown.
         </p>
 
@@ -71,7 +71,7 @@ export default function CustomersPage() {
           <div className="card divide-y divide-surface-line overflow-hidden">
             {visible.map((c) => (
               <button key={c.id} type="button" onClick={() => setOpenId(c.id)} className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface/70">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-50 text-navy">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-50 text-navy-600">
                   <UserRound className="h-5 w-5" />
                 </span>
                 <span className="min-w-0 flex-1">

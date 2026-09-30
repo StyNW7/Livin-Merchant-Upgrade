@@ -136,7 +136,7 @@ export default function MorePage() {
             <Search className="h-[18px] w-[18px]" /> Search features, products, help...
           </button>
           <button type="button" onClick={openAssistant} className="flex h-12 items-center gap-1.5 rounded-2xl bg-navy px-3.5 text-[13px] font-semibold text-white shadow-float" aria-label="Business Assistant">
-            <Sparkles className="h-4 w-4 text-gold" /> Assistant
+            <Sparkles className="h-4 w-4 text-gold-200" /> Assistant
           </button>
         </div>
 
@@ -149,7 +149,7 @@ export default function MorePage() {
             <AppIcon size={48} className="ring-2 ring-white/20" />
             <span className="min-w-0 flex-1">
               <span className="block text-[15px] font-bold">Get the Livin Merchant app</span>
-              <span className="block text-[12.5px] text-white/75">Faster access from your home screen, even offline</span>
+              <span className="block text-[12.5px] text-white/85">Faster access from your home screen, even offline</span>
             </span>
             <span className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-gold px-3 text-[13px] font-bold text-navy-900">
               <Download className="h-4 w-4" /> Install
@@ -163,7 +163,7 @@ export default function MorePage() {
             <div className="card grid grid-cols-4 gap-y-4 px-2 py-4">
               {g.items.map((item) => (
                 <Link key={item.label} to={item.to} className="group flex flex-col items-center gap-1.5 rounded-2xl px-1 text-center">
-                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-navy transition group-hover:bg-navy group-hover:text-gold group-active:scale-90">
+                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-50 text-navy-600 transition group-hover:bg-navy group-hover:text-white group-active:scale-90">
                     <item.icon className="h-[22px] w-[22px]" />
                     {!!item.badge && (
                       <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1 text-[10.5px] font-bold text-white ring-2 ring-white">

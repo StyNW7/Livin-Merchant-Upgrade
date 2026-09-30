@@ -25,10 +25,10 @@ const toastIcons = {
 };
 
 const toastTones = {
-  success: "text-success",
-  info: "text-sky-400",
-  warning: "text-gold",
-  error: "text-danger",
+  success: "bg-success-soft text-success",
+  info: "bg-navy-50 text-navy-600",
+  warning: "bg-gold-100 text-gold-700",
+  error: "bg-danger-soft text-danger",
 };
 
 export function UIProvider({ children }: { children: ReactNode }) {
@@ -115,10 +115,12 @@ export function UIProvider({ children }: { children: ReactNode }) {
               <div
                 key={t.id}
                 role="status"
-                className="pointer-events-auto flex w-full max-w-[360px] animate-toast-in items-center gap-2.5 rounded-2xl bg-navy-950/95 px-4 py-3 text-[13px] font-medium text-white shadow-float backdrop-blur"
+                className="pointer-events-auto flex w-full max-w-[360px] animate-toast-in items-center gap-3 rounded-2xl border border-surface-line bg-white/95 py-2.5 pl-2.5 pr-4 text-[13px] font-semibold text-ink shadow-float backdrop-blur"
               >
-                <Icon className={cn("h-[18px] w-[18px] shrink-0", toastTones[t.tone])} />
-                <span className="min-w-0 flex-1">{t.message}</span>
+                <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-xl", toastTones[t.tone])}>
+                  <Icon className="h-[18px] w-[18px]" />
+                </span>
+                <span className="min-w-0 flex-1 leading-snug">{t.message}</span>
               </div>
             );
           })}
@@ -126,7 +128,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
       </OverlayPortal>
 
       <Modal open={gate !== null} onClose={() => setGate(null)} labelledBy="gate-title">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-50 text-navy">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-50 text-navy-600">
           <Lock className="h-6 w-6" />
         </div>
         <h2 id="gate-title" className="text-xl font-bold text-ink">

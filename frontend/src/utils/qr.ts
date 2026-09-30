@@ -61,7 +61,7 @@ export async function downloadQrPoster({ seed, outlet, merchantId }: { seed: str
   if (!ctx) throw new Error("Canvas not supported");
   const font = '"Plus Jakarta Sans", system-ui, sans-serif';
 
-  ctx.fillStyle = "#003A70";
+  ctx.fillStyle = "#5192F6";
   ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = "#FFB600";
   ctx.fillRect(0, H - 24, W, 24);
@@ -82,7 +82,7 @@ export async function downloadQrPoster({ seed, outlet, merchantId }: { seed: str
   roundRect(ctx, cardX, cardY, cardW, cardH, 48);
   ctx.fill();
 
-  ctx.fillStyle = "#003A70";
+  ctx.fillStyle = "#5192F6";
   ctx.font = `800 44px ${font}`;
   ctx.fillText("QRIS", W / 2, cardY + 90);
 

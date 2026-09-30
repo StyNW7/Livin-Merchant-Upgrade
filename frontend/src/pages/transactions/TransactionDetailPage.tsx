@@ -97,7 +97,7 @@ export default function TransactionDetailPage() {
           <span
             className={cn(
               "flex h-14 w-14 items-center justify-center rounded-2xl",
-              t.type === "refund" ? "bg-danger-soft text-danger-dark" : t.type === "settlement" ? "bg-success-soft text-success-dark" : "bg-navy text-gold",
+              t.type === "refund" ? "bg-danger-soft text-danger-dark" : t.type === "settlement" ? "bg-success-soft text-success-dark" : "bg-navy text-white",
             )}
           >
             {t.type === "refund" ? <RotateCcw className="h-6 w-6" /> : <Icon className="h-6 w-6" />}

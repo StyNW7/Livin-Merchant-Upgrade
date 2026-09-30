@@ -44,7 +44,7 @@ export default function SuppliersPage() {
             <Link key={s.id} to={`/suppliers/${s.id}`} className="card block p-4 transition hover:shadow-float">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-navy-50 text-navy-600">
                     <Truck className="h-5 w-5" />
                   </span>
                   <div>
@@ -77,7 +77,7 @@ export default function SuppliersPage() {
                   <StatusBadge status={po.status} tone={poTone[po.status]} />
                 </div>
                 <p className="mt-2 text-[12.5px] text-ink-soft">{po.lines.map((l) => `${l.name} ${l.qty}${l.unit}`).join(", ")}</p>
-                <p className="tabular mt-2 text-right text-[15px] font-extrabold text-navy">{formatRupiah(po.total)}</p>
+                <p className="tabular mt-2 text-right text-[15px] font-extrabold text-navy-600">{formatRupiah(po.total)}</p>
               </Link>
             );
           })

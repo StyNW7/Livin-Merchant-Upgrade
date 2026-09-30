@@ -16,6 +16,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/common/Button";
+import { InstallBanner, InstallChip } from "@/components/pwa/InstallPrompt";
 import { AppIcon } from "@/components/common/Brand";
 import { ProgressBar } from "@/components/common/ProgressBar";
 import { useSession } from "@/hooks/useApp";
@@ -83,14 +84,17 @@ export default function OnboardingPage() {
           <div className="flex items-center justify-between px-5 pt-4">
             <div className="flex items-center gap-2">
               <AppIcon size={30} />
-              <span className="text-[14px] font-bold text-navy">Livin Merchant</span>
+              <span className="text-[14px] font-bold text-navy-600">Livin Merchant</span>
             </div>
-            <button type="button" onClick={() => go(SLIDES.length)} className="rounded-full px-3 py-2 text-[13px] font-semibold text-ink-muted hover:bg-surface">
-              Skip
-            </button>
+            <div className="flex items-center gap-1">
+              <InstallChip />
+              <button type="button" onClick={() => go(SLIDES.length)} className="rounded-full px-3 py-2 text-[13px] font-semibold text-ink-muted hover:bg-surface">
+                Skip
+              </button>
+            </div>
           </div>
           <div key={index} className="flex flex-1 animate-screen-in flex-col px-6">
-            <div className="relative mt-4 flex h-[300px] items-center justify-center overflow-hidden rounded-[32px] bg-navy-50/70">
+            <div className="relative mt-4 flex h-[300px] items-center justify-center overflow-hidden rounded-[32px] brand-soft">
               <div className="dot-grid absolute inset-0 opacity-60" aria-hidden />
               {SLIDES[index].visual}
             </div>
@@ -128,26 +132,26 @@ function FinalScreen({ onLogin, onGuest, onCreate, onBack }: { onLogin: () => vo
       <div className="hero-navy relative overflow-hidden px-6 pb-10 pt-8 text-white">
         <div className="dot-grid absolute inset-0 opacity-25" aria-hidden />
         <div className="relative">
-          <AppIcon size={60} className="shadow-float" />
+          <AppIcon size={64} className="animate-float shadow-float ring-2 ring-white/60" />
           <h1 className="mt-6 text-[27px] font-extrabold leading-tight tracking-tight">
             More than a transaction tool.
             <br />
-            <span className="text-gold">A growth companion.</span>
+            <span className="rounded-lg bg-gold px-1.5 text-navy-900 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">A growth companion.</span>
           </h1>
-          <p className="mt-3 max-w-[300px] text-[14px] leading-relaxed text-white/75">
+          <p className="mt-3 max-w-[300px] text-[14px] leading-relaxed text-white/85">
             Every transaction helps Livin Merchant understand your business better.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {["Transact", "Understand", "Improve", "Grow", "Finance"].map((s, i) => (
-              <span key={s} className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 text-[11.5px] font-semibold">
-                {i > 0 && <ArrowRight className="h-3 w-3 text-gold" />}
+              <span key={s} className="inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[11.5px] font-semibold">
+                {i > 0 && <ArrowRight className="h-3 w-3 text-gold-200" />}
                 {s}
               </span>
             ))}
           </div>
         </div>
       </div>
-      <div className="-mt-5 flex flex-1 flex-col rounded-t-[28px] bg-white px-6 pb-8 pt-7">
+      <div className="relative -mt-5 flex flex-1 flex-col rounded-t-[30px] bg-white px-6 pb-8 pt-7">
         <div className="space-y-3">
           <Button block size="lg" onClick={onLogin} leftIcon={<LogIn className="h-4 w-4" />}>
             Login with Mandiri
@@ -157,6 +161,7 @@ function FinalScreen({ onLogin, onGuest, onCreate, onBack }: { onLogin: () => vo
           </Button>
         </div>
         <p className="mt-3 text-center text-[12.5px] text-ink-muted">See how Livin Merchant runs a business before you sign up. No account needed.</p>
+        <InstallBanner className="mt-5" />
         <button type="button" onClick={onCreate} className="mx-auto mt-5 text-[13.5px] font-semibold text-sky-600 hover:underline">
           Create Mandiri Account
         </button>
@@ -190,7 +195,7 @@ function ManageVisual() {
         <div className="mt-2 rounded-lg bg-navy py-1.5 text-center text-[11px] font-bold text-white">Charge Rp 81.000</div>
       </Float>
       <Float className="right-5 top-16 flex items-center gap-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy text-gold">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy text-white">
           <QrCode className="h-5 w-5" />
         </span>
         <div>
@@ -200,7 +205,7 @@ function ManageVisual() {
       </Float>
       <Float className="bottom-8 left-10 right-8 flex items-center justify-around">
         {[ShoppingCart, QrCode, Boxes, ReceiptText].map((Icon, i) => (
-          <span key={i} className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">
+          <span key={i} className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
             <Icon className="h-5 w-5" />
           </span>
         ))}
@@ -216,13 +221,13 @@ function UnderstandVisual() {
         <p className="text-[10px] font-semibold text-ink-muted">Revenue this month</p>
         <p className="text-[18px] font-extrabold text-ink">Rp 48.75M</p>
         <svg viewBox="0 0 200 50" className="mt-1 h-12 w-full" aria-hidden>
-          <path d="M0 42 C 30 38, 40 30, 60 32 S 100 20, 120 24 S 160 10, 200 6" fill="none" stroke="#003A70" strokeWidth="2.5" />
-          <path d="M0 42 C 30 38, 40 30, 60 32 S 100 20, 120 24 S 160 10, 200 6 V50 H0Z" fill="#003A70" opacity="0.08" />
+          <path d="M0 42 C 30 38, 40 30, 60 32 S 100 20, 120 24 S 160 10, 200 6" fill="none" stroke="#5192F6" strokeWidth="2.5" />
+          <path d="M0 42 C 30 38, 40 30, 60 32 S 100 20, 120 24 S 160 10, 200 6 V50 H0Z" fill="#5192F6" opacity="0.08" />
         </svg>
       </Float>
       <Float className="bottom-7 left-6 w-[150px]">
         <p className="text-[10px] font-semibold text-ink-muted">Growth Score</p>
-        <p className="text-[22px] font-extrabold text-navy">
+        <p className="text-[22px] font-extrabold text-navy-600">
           78<span className="text-[12px] text-ink-muted"> / 100</span>
         </p>
         <ProgressBar value={78} tone="gold" />
@@ -254,7 +259,7 @@ function GrowVisual() {
       </Float>
       <Float className="left-8 top-[120px] flex items-center gap-2">
         {["BUILD", "GROW", "SCALE"].map((s, i) => (
-          <span key={s} className={cn("rounded-full px-2 py-1 text-[10px] font-extrabold", i === 1 ? "bg-navy text-gold" : i === 0 ? "bg-gold text-navy" : "bg-surface text-ink-faint")}>
+          <span key={s} className={cn("rounded-full px-2 py-1 text-[10px] font-extrabold", i === 1 ? "bg-navy text-white" : i === 0 ? "bg-gold text-navy-600" : "bg-surface text-ink-faint")}>
             {s}
           </span>
         ))}
@@ -268,7 +273,7 @@ function GrowVisual() {
         <p className="text-[10.5px] font-semibold text-gold-700">Almost Ready</p>
       </Float>
       <Float className="bottom-10 left-6 flex h-12 w-12 items-center justify-center p-0">
-        <BarChart3 className="h-5 w-5 text-navy" />
+        <BarChart3 className="h-5 w-5 text-navy-600" />
       </Float>
     </div>
   );

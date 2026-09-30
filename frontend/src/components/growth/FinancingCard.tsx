@@ -21,7 +21,7 @@ export function FinancingCard({ product: p, readiness, featured }: { product: Fi
     >
       <div className="p-4">
         <div className="flex items-start gap-3">
-          <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl", featured ? "bg-white/10 text-gold" : "bg-navy-50 text-navy")}>
+          <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl", featured ? "bg-gold text-navy-900" : "bg-navy-50 text-navy-600")}>
             <Icon className="h-5 w-5" />
           </span>
           <div className="min-w-0 flex-1">
@@ -33,20 +33,20 @@ export function FinancingCard({ product: p, readiness, featured }: { product: Fi
                 hideIcon
               />
             </div>
-            <p className={cn("text-[12.5px]", featured ? "text-white/70" : "text-ink-muted")}>{p.tagline}</p>
+            <p className={cn("text-[12.5px]", featured ? "text-white/85" : "text-ink-muted")}>{p.tagline}</p>
           </div>
         </div>
         <div className="mt-4 flex items-end justify-between gap-3">
           <div>
-            <p className={cn("text-[11px] font-medium", featured ? "text-white/60" : "text-ink-muted")}>Estimated range</p>
+            <p className={cn("text-[11px] font-medium", featured ? "text-white/80" : "text-ink-muted")}>Estimated range</p>
             <p className={cn("tabular text-[17px] font-extrabold", featured ? "text-white" : "text-ink")}>
               {formatCompactRupiah(p.rangeMin, 0)} – {formatCompactRupiah(p.rangeMax, 0)}
             </p>
           </div>
-          <ChevronRight className={cn("h-5 w-5", featured ? "text-white/60" : "text-ink-faint")} />
+          <ChevronRight className={cn("h-5 w-5", featured ? "text-white/80" : "text-ink-faint")} />
         </div>
         <div className="mt-3">
-          <div className={cn("mb-1 flex justify-between text-[11.5px]", featured ? "text-white/70" : "text-ink-muted")}>
+          <div className={cn("mb-1 flex justify-between text-[11.5px]", featured ? "text-white/85" : "text-ink-muted")}>
             <span>Readiness</span>
             <span className="font-bold">{shownReadiness}%</span>
           </div>

@@ -42,7 +42,7 @@ export default function MissionsPage() {
           </div>
           <div className="rounded-2xl bg-navy-50 px-3 py-2 text-center">
             <p className="text-[11px] text-ink-muted">Ready to claim</p>
-            <p className="text-[20px] font-extrabold text-navy">{growth.claimable.length}</p>
+            <p className="text-[20px] font-extrabold text-navy-600">{growth.claimable.length}</p>
           </div>
         </section>
 

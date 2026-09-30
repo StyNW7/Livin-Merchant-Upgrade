@@ -22,7 +22,7 @@ export function LivinWordmark({ className, tone = "light" }: { className?: strin
       <span
         className={cn(
           "-mt-0.5 text-[13px] font-bold uppercase tracking-[0.32em]",
-          tone === "light" ? "text-white" : "text-navy",
+          tone === "light" ? "text-white" : "text-navy-600",
         )}
       >
         Merchant
@@ -46,7 +46,7 @@ export function Avatar({
     gold: "bg-gold text-navy-900",
     navy: "bg-navy text-white",
     sky: "bg-sky-100 text-sky-700",
-    soft: "bg-navy-50 text-navy",
+    soft: "bg-navy-50 text-navy-600",
   };
   return (
     <span

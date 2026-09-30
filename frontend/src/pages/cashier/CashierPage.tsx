@@ -181,16 +181,16 @@ export default function CashierPage() {
           <button
             type="button"
             onClick={() => setCartOpen(true)}
-            className="flex w-full animate-toast-in items-center gap-3 rounded-2xl bg-navy px-4 py-3 text-white shadow-float active:scale-[0.99]"
+            className="flex w-full animate-toast-in items-center gap-3 rounded-2xl bg-gradient-to-r from-navy-400 via-navy to-navy-700 px-4 py-3 text-white shadow-float active:scale-[0.99]"
           >
-            <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
-              <ShoppingBag className="h-5 w-5 text-gold" />
-              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[11px] font-extrabold text-navy-900">
+            <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
+              <ShoppingBag className="h-5 w-5 text-white" />
+              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[11px] font-extrabold text-navy-900 ring-2 ring-navy">
                 {cart.count}
               </span>
             </span>
             <span className="flex-1 text-left">
-              <span className="block text-[12px] text-white/70">View cart</span>
+              <span className="block text-[12px] text-white/85">View cart</span>
               <span className="tabular block text-[16px] font-extrabold">{formatRupiah(cart.total)}</span>
             </span>
             <span className="inline-flex items-center gap-1 rounded-xl bg-gold px-3 py-2 text-[13px] font-bold text-navy-900">
@@ -235,7 +235,7 @@ export default function CashierPage() {
                       {o.channel} · {o.lines.reduce((s, l) => s + l.qty, 0)} items · held at {o.heldAt}
                     </p>
                   </div>
-                  <p className="tabular text-[14px] font-extrabold text-navy">{formatRupiah(o.total)}</p>
+                  <p className="tabular text-[14px] font-extrabold text-navy-600">{formatRupiah(o.total)}</p>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   <Button

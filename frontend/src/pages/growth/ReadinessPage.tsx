@@ -28,9 +28,9 @@ export default function ReadinessPage() {
               <span className="tabular text-[26px] font-extrabold">{growth.readiness}%</span>
             </ProgressRing>
             <div>
-              <p className="text-[12px] text-white/70">Readiness status</p>
-              <p className="text-[21px] font-extrabold text-gold">{growth.readinessStatus}</p>
-              <p className="mt-1 text-[12.5px] leading-relaxed text-white/75">
+              <p className="text-[12px] text-white/85">Readiness status</p>
+              <p className="mt-1 inline-flex rounded-full bg-gold px-3 py-1 text-[16px] font-extrabold text-navy-900 shadow-glow">{growth.readinessStatus}</p>
+              <p className="mt-1 text-[12.5px] leading-relaxed text-white/85">
                 {growth.readiness >= 85
                   ? "Your business profile looks ready to explore financing options."
                   : growth.readiness >= 70

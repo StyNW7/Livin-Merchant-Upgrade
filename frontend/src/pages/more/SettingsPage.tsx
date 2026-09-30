@@ -34,7 +34,7 @@ export default function SettingsPage() {
           <ListRow icon={Globe} title="Language" subtitle="English" chevron={false} />
           <div className="px-4">
             <Toggle
-              icon={<Vibrate className="h-5 w-5 text-navy" />}
+              icon={<Vibrate className="h-5 w-5 text-navy-600" />}
               label="Haptic feedback"
               description="Vibrate when adding items and completing payments"
               checked={settings.haptics}
@@ -47,7 +47,7 @@ export default function SettingsPage() {
         <ListGroup title="Cashier and receipts">
           <div className="px-4">
             <Toggle
-              icon={<Printer className="h-5 w-5 text-navy" />}
+              icon={<Printer className="h-5 w-5 text-navy-600" />}
               label="Print receipt automatically"
               description="Sends the receipt to the outlet printer after every payment"
               checked={settings.autoPrint}

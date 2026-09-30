@@ -56,7 +56,7 @@ export default function DevicesPage() {
                 }}
                 className="card p-4 text-left transition hover:shadow-float"
               >
-                <span className={cn("flex h-11 w-11 items-center justify-center rounded-2xl", ok ? "bg-navy-50 text-navy" : "bg-danger-soft text-danger-dark")}>
+                <span className={cn("flex h-11 w-11 items-center justify-center rounded-2xl", ok ? "bg-navy-50 text-navy-600" : "bg-danger-soft text-danger-dark")}>
                   <Icon className="h-5 w-5" />
                 </span>
                 <p className="mt-3 text-[14px] font-bold text-ink">{d.name}</p>
@@ -85,7 +85,7 @@ export default function DevicesPage() {
             </div>
             <section>
               <p className="mb-2 flex items-center gap-1.5 text-[13px] font-bold text-ink">
-                <Wrench className="h-4 w-4 text-navy" /> Troubleshooting
+                <Wrench className="h-4 w-4 text-navy-600" /> Troubleshooting
               </p>
               <ol className="space-y-2.5">
                 {steps.map((s, i) => {
@@ -93,7 +93,7 @@ export default function DevicesPage() {
                   const running = step === i;
                   return (
                     <li key={s} className="flex items-center gap-3 text-[13.5px]">
-                      {done ? <CheckCircle2 className="h-5 w-5 text-success" /> : running ? <Loader2 className="h-5 w-5 animate-spin text-navy" /> : <Circle className="h-5 w-5 text-ink-faint" />}
+                      {done ? <CheckCircle2 className="h-5 w-5 text-success" /> : running ? <Loader2 className="h-5 w-5 animate-spin text-navy-600" /> : <Circle className="h-5 w-5 text-ink-faint" />}
                       <span className={done ? "text-ink" : "text-ink-soft"}>{s}</span>
                     </li>
                   );

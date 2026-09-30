@@ -59,7 +59,7 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
           </span>
         </div>
         <h1 className="mt-6 text-[20px] font-extrabold text-ink">Payment successful</h1>
-        <p className="tabular mt-3 text-[34px] font-extrabold tracking-tight text-navy">{formatRupiah(t.amount)}</p>
+        <p className="tabular mt-3 text-[34px] font-extrabold tracking-tight text-navy-600">{formatRupiah(t.amount)}</p>
         <p className="mt-1 text-[13px] text-ink-muted">
           {(t.payments ?? [{ method: t.method, amount: t.amount }]).map((p) => METHOD_LABEL[p.method]).join(" + ")} · {t.time}
         </p>
@@ -84,29 +84,29 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
         </div>
       </div>
 
-      <section className="mt-4 overflow-hidden rounded-3xl bg-navy p-4 text-white shadow-float" aria-label="Business impact of this sale">
-        <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-gold">
+      <section className="mt-4 rounded-3xl hero-navy overflow-hidden p-4 text-white shadow-float" aria-label="Business impact of this sale">
+        <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-white/90">
           <TrendingUp className="h-3.5 w-3.5" /> This sale moved your business forward
         </p>
         <div className="mt-3 grid grid-cols-2 gap-3">
           <div>
-            <p className="text-[11.5px] text-white/60">Today’s sales</p>
+            <p className="text-[11.5px] text-white/80">Today’s sales</p>
             <p className="tabular text-[17px] font-extrabold">{formatCompactRupiah(today.revenue)}</p>
-            <p className="text-[11.5px] font-semibold text-emerald-300">+{formatCompactRupiah(t.amount)}</p>
+            <p className="text-[11.5px] font-bold text-white">+{formatCompactRupiah(t.amount)}</p>
           </div>
           <div>
-            <p className="text-[11.5px] text-white/60">Transactions today</p>
+            <p className="text-[11.5px] text-white/80">Transactions today</p>
             <p className="tabular text-[17px] font-extrabold">{today.count}</p>
-            <p className="text-[11.5px] font-semibold text-white/70">
+            <p className="text-[11.5px] font-semibold text-white/85">
               {today.count >= TRANSACTION_MISSION.minDaily ? "Daily mission target met" : `${TRANSACTION_MISSION.minDaily - today.count} to daily target`}
             </p>
           </div>
         </div>
         <div className="mt-3">
           <div className="flex items-center justify-between text-[11.5px]">
-            <span className="text-white/70">Daily revenue goal</span>
+            <span className="text-white/85">Daily revenue goal</span>
             <span className="tabular font-bold">
-              {Math.floor(goalBefore)}% <span className="text-white/50">→</span> <span className="text-gold">{Math.floor(goalAfter)}%</span>
+              {Math.floor(goalBefore)}% <span className="text-white/80">→</span> <span className="rounded-md bg-gold px-1.5 text-navy-900">{Math.floor(goalAfter)}%</span>
             </span>
           </div>
           <ProgressBar value={goalAfter} tone="gold" size="sm" className="mt-1.5 bg-white/15" label="Daily goal progress" />
@@ -114,13 +114,13 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
         <button
           type="button"
           onClick={() => navigate("/growth")}
-          className="mt-3 flex w-full items-center justify-between rounded-2xl bg-white/10 px-3 py-2.5 text-left text-[12.5px] transition hover:bg-white/15 active:scale-[0.99]"
+          className="mt-3 flex w-full items-center justify-between rounded-2xl bg-white/20 px-3 py-2.5 text-left text-[12.5px] transition hover:bg-white/15 active:scale-[0.99]"
         >
           <span>
-            Growth Score <span className="font-extrabold text-gold">{growth.score}</span>
-            <span className="text-white/70"> · recorded sales build your Transaction Health</span>
+            Growth Score <span className="rounded-md bg-gold px-1.5 font-extrabold text-navy-900">{growth.score}</span>
+            <span className="text-white/85"> · recorded sales build your Transaction Health</span>
           </span>
-          <ChevronRight className="h-4 w-4 shrink-0 text-white/70" />
+          <ChevronRight className="h-4 w-4 shrink-0 text-white/85" />
         </button>
       </section>
 
@@ -138,7 +138,7 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
             disabled={a.label === "Printing"}
             className="flex flex-col items-center gap-1.5 rounded-2xl border border-surface-line bg-white py-3 text-[12px] font-semibold text-ink-soft transition hover:bg-surface active:scale-95"
           >
-            <a.icon className="h-5 w-5 text-navy" />
+            <a.icon className="h-5 w-5 text-navy-600" />
             {a.label}
           </button>
         ))}
@@ -186,7 +186,7 @@ export function SuccessView({ transaction: t, onNew }: { transaction: Transactio
                   {c.segment} · {c.visits} visits
                 </span>
               </span>
-              {customerId === c.id && <Check className="h-5 w-5 text-navy" />}
+              {customerId === c.id && <Check className="h-5 w-5 text-navy-600" />}
             </button>
           ))}
         </div>

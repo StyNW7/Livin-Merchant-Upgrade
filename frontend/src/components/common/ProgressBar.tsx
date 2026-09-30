@@ -67,7 +67,7 @@ interface RingProps {
 }
 
 /** Small circular progress for cards and list rows. */
-export function ProgressRing({ value, size = 56, stroke = 6, tone = "#003A70", track = "#EEF3F9", children, label }: RingProps) {
+export function ProgressRing({ value, size = 56, stroke = 6, tone = "#5192F6", track = "#F0F6FF", children, label }: RingProps) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, value));

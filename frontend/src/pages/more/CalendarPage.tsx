@@ -14,7 +14,7 @@ import { cn } from "@/utils/cn";
 
 const CATEGORY_TONE: Record<CalendarEvent["category"], string> = {
   Finance: "bg-sky-50 text-sky-700",
-  Operations: "bg-navy-50 text-navy",
+  Operations: "bg-navy-50 text-navy-600",
   Campaign: "bg-[#F1EDFD] text-[#6D4FC9]",
   Staff: "bg-success-soft text-success-dark",
   Growth: "bg-gold-50 text-gold-800",
@@ -63,7 +63,7 @@ export default function CalendarPage() {
                   active ? "border-navy bg-navy text-white" : d === DEMO_TODAY ? "border-gold bg-gold-50" : "border-surface-line bg-white",
                 )}
               >
-                <span className={cn("text-[11px] font-semibold", active ? "text-white/70" : "text-ink-muted")}>{dayName(d)}</span>
+                <span className={cn("text-[11px] font-semibold", active ? "text-white/85" : "text-ink-muted")}>{dayName(d)}</span>
                 <span className="text-[17px] font-extrabold">{parseISODate(d).getDate()}</span>
                 <span className={cn("mt-0.5 h-1.5 w-1.5 rounded-full", count ? (active ? "bg-gold" : "bg-navy") : "bg-transparent")} />
               </button>

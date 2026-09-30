@@ -11,10 +11,10 @@ export const RANGE_DAYS: Record<RangeKey, number> = { "7d": 7, "30d": 30, "90d":
  * Chart palette derived from the Mandiri brand and validated for color-vision deficiency.
  * Order is fixed: an entity keeps its color regardless of rank.
  */
-export const CHART_COLORS = ["#2B5E9C", "#E8A200", "#5192F6", "#0E9F8E", "#8B6FE0"] as const;
-export const CHART_NAVY = "#003A70";
+export const CHART_COLORS = ["#5192F6", "#F2A900", "#0EA5A0", "#8B6FE0", "#F47C5A"] as const;
+export const CHART_NAVY = "#5192F6";
 export const CHART_GOLD = "#FFB600";
-export const CHART_MUTED = "#C9D3DF";
+export const CHART_MUTED = "#C7D8F2";
 
 export const PAYMENT_METHODS: PaymentMethod[] = ["QRIS", "Debit", "Credit", "Cash", "Transfer", "Other"];
 

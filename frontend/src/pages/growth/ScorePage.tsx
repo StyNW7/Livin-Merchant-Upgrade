@@ -30,7 +30,7 @@ export default function ScorePage() {
       <PageBody>
         <section className="card px-4 pb-4 pt-5">
           <ScoreGauge score={growth.score} tone="light" size={220} />
-          <p className="mt-2 text-center text-[14px] font-bold text-navy">{growth.status}</p>
+          <p className="mt-2 text-center text-[14px] font-bold text-navy-600">{growth.status}</p>
           <div className="mt-4">
             <GrowthStageStepper current={growth.stage.id} />
           </div>
@@ -123,7 +123,7 @@ export default function ScorePage() {
         <section id="requirements" className="card p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-[15px] font-bold text-ink">To reach {growth.nextStage?.id ?? "the next stage"}</h2>
-            <span className="rounded-full bg-navy px-2.5 py-1 text-[12px] font-extrabold text-gold">
+            <span className="rounded-full bg-navy px-2.5 py-1 text-[12px] font-extrabold text-white">
               {met} / {growth.requirements.length}
             </span>
           </div>

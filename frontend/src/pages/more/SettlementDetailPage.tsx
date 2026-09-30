@@ -56,7 +56,7 @@ export default function SettlementDetailPage() {
 
         <section className="card p-4">
           <h2 className="flex items-center gap-2 text-[15px] font-bold text-ink">
-            <Scale className="h-4 w-4 text-navy" /> Transaction reconciliation
+            <Scale className="h-4 w-4 text-navy-600" /> Transaction reconciliation
           </h2>
           <p className="mt-1 text-[12.5px] text-ink-muted">Recorded non-cash sales compared with the settled amount, per outlet.</p>
           <div className="mt-3 space-y-3">

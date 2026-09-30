@@ -42,17 +42,17 @@ function Content({ celebration: c, onClose }: { celebration: Celebration; onClos
             <Trophy className="h-8 w-8" />
           </span>
         </span>
-        <p className="mt-4 text-[12px] font-bold uppercase tracking-wide text-gold">Mission completed</p>
+        <p className="mt-4 inline-block rounded-full bg-gold px-3 py-1 text-[11.5px] font-extrabold uppercase tracking-wide text-navy-900">Mission completed</p>
         <h2 id="celebration-title" className="mt-1 text-[17px] font-extrabold leading-snug">
           {c.missionTitle}
         </h2>
         <div className="mt-5 flex items-end justify-center gap-3">
-          <span className="tabular text-[20px] font-bold text-white/50 line-through decoration-white/30">{c.from}</span>
-          <ArrowRight className="mb-2 h-4 w-4 text-white/60" />
+          <span className="tabular text-[20px] font-bold text-white/80 line-through decoration-white/30">{c.from}</span>
+          <ArrowRight className="mb-2 h-4 w-4 text-white/80" />
           <span className="tabular text-[52px] font-extrabold leading-none">{score}</span>
-          <span className="mb-1.5 rounded-full bg-emerald-400/20 px-2 py-0.5 text-[12px] font-extrabold text-emerald-300">+{c.points}</span>
+          <span className="mb-1.5 rounded-full bg-white/25 px-2 py-0.5 text-[12px] font-extrabold text-white">+{c.points}</span>
         </div>
-        <p className="mt-1 text-[12px] text-white/70">Business Growth Score</p>
+        <p className="mt-1 text-[12px] text-white/85">Business Growth Score</p>
       </div>
       <div className="p-5">
         {stageUp ? (
@@ -63,7 +63,7 @@ function Content({ celebration: c, onClose }: { celebration: Celebration; onClos
         ) : next ? (
           <div>
             <div className="flex justify-between text-[12px]">
-              <span className="font-bold text-navy">{after.id}</span>
+              <span className="font-bold text-navy-600">{after.id}</span>
               <span className="text-ink-muted">
                 {next.min - c.to} points to <span className="font-bold text-ink">{next.id}</span>
               </span>

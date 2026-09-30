@@ -30,7 +30,7 @@ export function TransactionItem({ transaction: t, compact, showDate }: { transac
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
           t.type === "refund" && "bg-danger-soft text-danger-dark",
           t.type === "settlement" && "bg-success-soft text-success-dark",
-          t.type === "sale" && (t.method === "QRIS" ? "bg-navy text-gold" : "bg-navy-50 text-navy"),
+          t.type === "sale" && (t.method === "QRIS" ? "bg-navy text-white" : "bg-navy-50 text-navy-600"),
         )}
       >
         <Icon className="h-[18px] w-[18px]" />

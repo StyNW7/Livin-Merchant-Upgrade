@@ -18,7 +18,7 @@ interface ListRowProps {
 }
 
 const iconTones = {
-  navy: "bg-navy-50 text-navy",
+  navy: "bg-navy-50 text-navy-600",
   gold: "bg-gold-50 text-gold-700",
   sky: "bg-sky-50 text-sky-600",
   success: "bg-success-soft text-success-dark",

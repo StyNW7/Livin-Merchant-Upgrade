@@ -23,8 +23,8 @@ export function MetricCard({ label, value, icon: Icon, change, changeLabel, hint
       className={cn(
         "rounded-2xl p-3.5",
         tone === "white" && "border border-surface-line bg-white shadow-card",
-        tone === "navy" && "bg-navy text-white",
-        tone === "soft" && "bg-navy-50",
+        tone === "navy" && "hero-navy overflow-hidden text-white shadow-float",
+        tone === "soft" && "brand-soft border border-navy-100",
         className,
       )}
     >
@@ -32,14 +32,14 @@ export function MetricCard({ label, value, icon: Icon, change, changeLabel, hint
         {Icon && (
           <span
             className={cn(
-              "flex h-7 w-7 items-center justify-center rounded-lg",
-              tone === "navy" ? "bg-white/10 text-gold" : "bg-navy-50 text-navy",
+              "flex h-8 w-8 items-center justify-center rounded-xl",
+              tone === "navy" ? "bg-gold text-navy-900" : "bg-navy-50 text-navy-600",
             )}
           >
             <Icon className="h-3.5 w-3.5" />
           </span>
         )}
-        <p className={cn("text-[12px] font-medium", tone === "navy" ? "text-white/70" : "text-ink-muted")}>{label}</p>
+        <p className={cn("text-[12px] font-medium", tone === "navy" ? "text-white/85" : "text-ink-muted")}>{label}</p>
       </div>
       <p className={cn("tabular mt-2 text-[19px] font-extrabold tracking-tight", tone === "navy" ? "text-white" : "text-ink")}>{value}</p>
       {change !== undefined && (
@@ -47,7 +47,7 @@ export function MetricCard({ label, value, icon: Icon, change, changeLabel, hint
           className={cn(
             "mt-0.5 inline-flex items-center gap-0.5 text-[11.5px] font-semibold",
             positive ? "text-success-dark" : "text-danger-dark",
-            tone === "navy" && (positive ? "text-emerald-300" : "text-red-300"),
+            tone === "navy" && "text-white",
           )}
         >
           {positive ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
@@ -55,7 +55,7 @@ export function MetricCard({ label, value, icon: Icon, change, changeLabel, hint
           {change.toFixed(1)}% {changeLabel}
         </p>
       )}
-      {hint && <p className={cn("mt-0.5 text-[11.5px]", tone === "navy" ? "text-white/60" : "text-ink-muted")}>{hint}</p>}
+      {hint && <p className={cn("mt-0.5 text-[11.5px]", tone === "navy" ? "text-white/80" : "text-ink-muted")}>{hint}</p>}
       {footer}
     </div>
   );

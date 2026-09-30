@@ -76,8 +76,8 @@ export default function ExpensesPage() {
 
       <div className="space-y-4 px-5 pb-8 pt-4">
         <section className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-navy p-4 text-white">
-            <p className="text-[11.5px] text-white/65">Last 30 days</p>
+          <div className="rounded-2xl hero-navy overflow-hidden shadow-float p-4 text-white">
+            <p className="text-[11.5px] text-white/85">Last 30 days</p>
             <p className="tabular text-[20px] font-extrabold">{formatCompactRupiah(total)}</p>
           </div>
           <div className="card p-4">
@@ -102,7 +102,7 @@ export default function ExpensesPage() {
               const Icon = expenseIcons[e.category];
               return (
                 <button key={e.id} type="button" onClick={() => setDetail(e)} className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface/70">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 text-navy-600">
                     <Icon className="h-[18px] w-[18px]" />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -166,7 +166,7 @@ export default function ExpensesPage() {
                     aria-pressed={active}
                     className={cn("flex flex-col items-center gap-1 rounded-2xl border py-2.5 text-[11px] font-semibold", active ? "border-navy bg-navy text-white" : "border-surface-line text-ink-soft")}
                   >
-                    <Icon className={cn("h-[18px] w-[18px]", active ? "text-gold" : "text-navy")} />
+                    <Icon className={cn("h-[18px] w-[18px]", active ? "text-white" : "text-navy-600")} />
                     {c}
                   </button>
                 );

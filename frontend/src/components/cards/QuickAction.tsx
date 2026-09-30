@@ -15,13 +15,15 @@ export function QuickAction({ icon: Icon, label, to, onClick, highlight }: Quick
     <>
       <span
         className={cn(
-          "flex h-[52px] w-[52px] items-center justify-center rounded-[18px] transition-all duration-150 group-hover:-translate-y-0.5 group-active:scale-90",
-          highlight ? "bg-gold text-navy-900 shadow-glow" : "border border-surface-line bg-white text-navy shadow-card",
+          "flex h-[56px] w-[56px] items-center justify-center rounded-[20px] transition-all duration-200 group-hover:-translate-y-0.5 group-active:scale-90",
+          highlight
+            ? "bg-gradient-to-br from-gold-300 to-gold-500 text-navy-900 shadow-glow"
+            : "border border-navy-100 bg-gradient-to-br from-white to-navy-50 text-navy-600 shadow-soft group-hover:shadow-card",
         )}
       >
-        <Icon className="h-[22px] w-[22px]" strokeWidth={2.1} />
+        <Icon className="h-[23px] w-[23px]" strokeWidth={2.2} />
       </span>
-      <span className="w-full text-center text-[12px] font-semibold leading-tight tracking-tight text-ink-soft">{label}</span>
+      <span className="w-full text-center text-[12px] font-bold leading-tight tracking-tight text-ink-soft">{label}</span>
     </>
   );
   const className = "group flex min-w-0 flex-col items-center gap-1.5 rounded-2xl py-1 outline-none";
