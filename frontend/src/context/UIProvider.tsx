@@ -64,6 +64,9 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const haptic = useCallback(
     (pattern: number | number[] = 12) => {
       if (!settings.haptics) return;
+      // Browsers block vibration until the user has interacted with the page.
+      const activation = (navigator as Navigator & { userActivation?: { hasBeenActive: boolean } }).userActivation;
+      if (activation && !activation.hasBeenActive) return;
       try {
         navigator.vibrate?.(pattern);
       } catch {
